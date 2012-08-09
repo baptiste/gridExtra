@@ -50,3 +50,6 @@ function (pic, x=0.5, y=0.5, scale=1, raster=FALSE, angle = NULL, ...)
   
 }
 
+if (getRversion() >= "2.15.1") 
+  utils::globalVariables(c("channel"))
+

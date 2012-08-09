@@ -5,11 +5,11 @@ Title: functions in Grid graphics
 Type: Package
 Author: Baptiste Auguie
 Description: misc. high-level Grid functions
-Version: 0.9
+Version: 0.9.1
 URL: http://code.google.com/p/gridextra/
-Date: 2011-01-06
+Date: 2012-09-08
 Depends:
-    R(>= 2.4.0),
+    R(>= 2.5.0),
     grid
 Suggests:
     RGraphics,
