@@ -89,10 +89,11 @@ arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
       
       ##  select current grob
       cl <- class(grobs[[ii.table]])
-      ct <- if("grob" %in% cl) "grob" else cl
+      ct <- if("grob" %in% unlist(cl)) "grob" else
+      if("ggplot" %in% unlist(cl)) "ggplot" else cl
+      
       g.tmp <- switch(ct,
                       ggplot = ggplotGrob(grobs[[ii.table]]),
-##                       trellis = grid.grabExpr(print(grobs[[ii.table]])),
                       trellis = latticeGrob(grobs[[ii.table]]),
                       grob = grobs[[ii.table]], 
                       stop("input must be grobs!"))
