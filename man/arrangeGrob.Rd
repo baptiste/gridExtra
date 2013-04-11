@@ -31,7 +31,7 @@
   \item{clip}{logical: clip every object to its viewport}
 }
 \value{
-  return a frame grob; side-effect (plotting) if plot=T
+  return a frame grob
 }
 \description{
   arrange ggplot2, lattice, and grobs on a page

@@ -9,7 +9,7 @@
 ##' @param left string, or grob (requires a well-defined width, see example)
 ##' @param as.table logical: bottom-left to top-right or top-left to bottom-right
 ##' @param clip logical: clip every object to its viewport
-##' @return return a frame grob; side-effect (plotting) if plot=T
+##' @return return a frame grob
 ##' @export
 ##' 
 ##' @examples
@@ -133,8 +133,10 @@ grid.arrange <- function(..., as.table=FALSE, clip=TRUE,
                     main=NULL, sub=NULL, left=NULL, legend=NULL,
 					newpage=TRUE){
     if(newpage) grid.newpage()
-    grid.draw(arrangeGrob(...,as.table=as.table, clip=clip,
-	                    main=main, sub=sub, left=left, legend=legend))
+    g <- arrangeGrob(...,as.table=as.table, clip=clip,
+                     main=main, sub=sub, left=left, legend=legend)
+    grid.draw(g)
+    invisible(g)
 }
 
 ##' @export
