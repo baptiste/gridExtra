@@ -16,7 +16,7 @@ before_install:
   - ./travis-tool.sh bootstrap
 
 install:
-  - ./travis-tool.sh install_r testthat knitr
+  - ./travis-tool.sh install_r testthat knitr    RGraphics    pixmap    EBImage    ggplot2    lattice
 
 script: 
   - ./travis-tool.sh run_tests
