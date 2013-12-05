@@ -21,6 +21,7 @@
 ##' require(lattice)
 ##' grid.arrange(qplot(1:10), xyplot(1:10~1:10),
 ##' tableGrob(head(iris)), nrow=2, as.table=TRUE, main="test main",
+##' left = rectGrob(width=unit(1,"line)),
 ##' sub=textGrob("test sub", gp=gpar(font=2)))
 ##' }
 arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
