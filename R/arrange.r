@@ -12,6 +12,7 @@
 ##' @return return a frame grob
 ##' @export
 ##' 
+##' @importFrom ggplot2 ggplotGrob
 ##' @examples
 ##' \dontrun{
 ##' require(ggplot2)
@@ -94,7 +95,7 @@ arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
       if("ggplot" %in% unlist(cl)) "ggplot" else cl
       
       g.tmp <- switch(ct,
-                      ggplot = ggplotGrob(grobs[[ii.table]]),
+                      ggplot = ggplot2::ggplotGrob(grobs[[ii.table]]),
                       trellis = latticeGrob(grobs[[ii.table]]),
                       grob = grobs[[ii.table]], 
                       stop("input must be grobs!"))
