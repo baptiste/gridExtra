@@ -6,7 +6,8 @@ Type: Package
 Author: Baptiste Auguie
 Description: misc. high-level Grid functions
 Version: 0.9.1
-URL: http://code.google.com/p/gridextra/
+URL: https://github.com/baptiste/gridextra
+DOI: http://dx.doi.org/10.5281/zenodo.11422
 Date: 2012-09-08
 Depends:
     R(>= 2.5.0),
