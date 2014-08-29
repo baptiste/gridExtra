@@ -9,6 +9,7 @@
 ##' @param left string, or grob (requires a well-defined width, see example)
 ##' @param as.table logical: bottom-left to top-right or top-left to bottom-right
 ##' @param clip logical: clip every object to its viewport
+##' @param vp viewport
 ##' @return return a frame grob
 ##' @export
 ##' 
@@ -26,7 +27,7 @@
 ##' }
 arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
                         main=NULL, sub=NULL, left=NULL,
-                        legend=NULL) {
+                        legend=NULL, vp=NULL) {
 
   
   if(is.null(main)) main <- nullGrob()
@@ -44,7 +45,7 @@ arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
   dots <- list(...)
   
   params <- c("nrow", "ncol", "widths", "heights",
-              "default.units", "respect", "just" )
+              "default.units", "respect", "just", "vp")
  ## names(formals(grid.layout))
   layout.call <- intersect(names(dots), params)
   params.layout <- dots[layout.call]
@@ -126,16 +127,16 @@ arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
   af <- placeGrob(af, legend, row=2, col=3)
   
  
-  invisible(gTree(children=gList(af), cl=arrange.class))
+  invisible(gTree(children=gList(af), cl=arrange.class, vp=vp))
 }
 
 ##' @export
 grid.arrange <- function(..., as.table=FALSE, clip=TRUE,
-                    main=NULL, sub=NULL, left=NULL, legend=NULL,
+                    main=NULL, sub=NULL, left=NULL, legend=NULL, vp=NULL,
 					newpage=TRUE){
     if(newpage) grid.newpage()
     g <- arrangeGrob(...,as.table=as.table, clip=clip,
-                     main=main, sub=sub, left=left, legend=legend)
+                     main=main, sub=sub, left=left, legend=legend,vp=vp)
     grid.draw(g)
     invisible(g)
 }

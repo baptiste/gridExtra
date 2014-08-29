@@ -17,7 +17,6 @@
 ##' set.seed(1234)
 ##' grid.newpage()
 ##' grid.arcText()
-
 arcTextGrob <- function(x=unit(0.5, "npc"), y=unit(0.5, "npc"),
                         labels=LETTERS,
                         links=sample(seq_along(labels), 50, replace = TRUE),
