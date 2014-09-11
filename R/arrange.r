@@ -79,8 +79,11 @@ arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
   ## if a ggplot is present, make the grob derive from the ggplot class
   classes <- lapply(grobs, class)
   inherit.ggplot <- any("ggplot" %in% unlist(classes))
-  if(inherit.ggplot) arrange.class <- c(arrange.class, "ggplot")
-  
+  if(inherit.ggplot) {
+    stopifnot(require(ggplot2)) # ggplotGrob would be missing
+    arrange.class <- c(arrange.class, "ggplot")
+  }
+ 
   ii.p <- 1
   for(ii.row in seq(1, nrow)){
     ii.table.row <- ii.row 
