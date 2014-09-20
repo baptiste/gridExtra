@@ -80,7 +80,7 @@ arrangeGrob <- function(..., as.table=FALSE, clip=TRUE,
   classes <- lapply(grobs, class)
   inherit.ggplot <- any("ggplot" %in% unlist(classes))
   if(inherit.ggplot) {
-    stopifnot(require(ggplot2)) # ggplotGrob would be missing
+    stopifnot(requireNamespace("ggplot2", quietly = TRUE)) 
     arrange.class <- c(arrange.class, "ggplot")
   }
  
