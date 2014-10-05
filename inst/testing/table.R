@@ -1,5 +1,3 @@
-library(ggplot2)
-library(lattice)
 library(gridExtra)
 
 d <- head(iris[,1:3])
@@ -7,7 +5,7 @@ d <- head(iris[,1:3])
 # d[1,2] <- "this\nis\ntall"
 # colnames(d) <- c("alpha*integral(xdx,a,infinity)", 
 #                  "this text\nis high", 'alpha/beta')
-a <- tableGrob(d)
+# a <- tableGrob(d)
 grid.newpage()
-grid.draw(a)
+grid.table(d)
 

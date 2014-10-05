@@ -3,8 +3,8 @@
 \alias{tableGrob}
 \title{Graphical display of a textual table.}
 \usage{
-tableGrob(d, rows = rownames(d), cols = colnames(d), parse = FALSE,
-  fg.par = NULL, bg.par = NULL, ...)
+tableGrob(d, rows = rownames(d), cols = colnames(d),
+  theme = ttheme_default(), ...)
 }
 \arguments{
   \item{d}{data.frame or matrix}

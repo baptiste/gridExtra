@@ -11,8 +11,8 @@ gtable_table <- function(d, widths, heights,
   nr <- nrow(label_matrix)
   n <- nc*nr
   
-  fg.par <- lapply(fg.par, rep, length.out = n)
-  bg.par <- lapply(bg.par, rep, length.out = n)
+  fg.par <- lapply(fg.par, rep, length.out = n, each = nc)
+  bg.par <- lapply(bg.par, rep, length.out = n, each = nc)
   
   fg.param <- data.frame(fg.par, label = as.vector(label_matrix), 
                          stringsAsFactors=FALSE)
@@ -117,25 +117,92 @@ cell_background <- function(...){
 #' grid.draw(g)
 #' }
 tableGrob <- function(d, rows=rownames(d), cols=colnames(d), 
-                      parse=FALSE, fg.par = NULL, bg.par = NULL,
+                      theme = ttheme_default(),
                       ...){
   
-  if(is.null(bg.par)){
-    fill <- rep(c("grey95","grey90"), each=ncol(d), length.out=ncol(d)*nrow(d))
-    bg.par <- list(fill=fill, col=NA)
+  g <- gtable_table(d, 
+                    fg.par = theme$core$fg.par, 
+                    bg.par = theme$core$bg.par, 
+                    parse=theme$core$parse, 
+                    padding=theme$core$padding)
+  
+  if(!is.null(cols)){
+    gc <- gtable_table(t(cols), 
+                       fg.par = theme$colhead$fg.par, 
+                       bg.par = theme$colhead$bg.par, 
+                       parse=theme$colhead$parse, 
+                       padding=theme$colhead$padding)
+    g <- rbind(gc, g)
   }
-  if(is.null(fg.par)){
-    fg.par <- list(col="black")
+  if(!is.null(rows)){
+    if(!is.null(cols)) # need to add dummy cell
+      rows <- c("", rows)
+    gr <- gtable_table(rows, 
+                       fg.par = theme$rowhead$fg.par, 
+                       bg.par = theme$rowhead$bg.par, 
+                       parse=theme$rowhead$parse, 
+                       padding=theme$rowhead$padding)
+    g <- cbind(gr, g)
   }
   
-  g <- gtable_table(d, fg.par = fg.par, bg.par = bg.par, parse=parse)
-  colhead <- gtable_table(t(colnames(d)), parse=parse,  
-                          padding = unit(c(4, 6), "mm"),
-                          fg.par=list(fontface="bold"), 
-                          bg.par=list(fill="grey80", col="white"))
-  rowhead <- gtable_table(c("", rownames(d)), parse=FALSE, 
-                          fg.par=list(fontface="italic"))
-  g <- rbind(colhead, g)
-  g <- cbind(rowhead, g)
   g
 }
+
+
+##' @export
+grid.table <- function(...)
+  grid.draw(tableGrob(...))
+
+
+##' @export
+ttheme_default <- function(...){
+  
+  core <- list(bg.par = list(fill = c("grey95","grey90"), lwd=1.5, col="white"),
+               fg.par = list(col="black"),
+               parse = FALSE, padding = unit(c(4, 4), "mm"))
+  
+  colhead <- list(bg.par = list(fill = c("grey80"), lwd=1.5, col="white"),
+               fg.par = list(fontface="bold"),
+               parse = FALSE, padding = unit(c(4, 6), "mm"))
+  
+  rowhead <- list(bg.par = list(fill = NA, col=NA),
+                  fg.par = list(fontface="italic"),
+                  parse = FALSE, padding = unit(c(4, 4), "mm"))
+  
+  default <- list(
+    core = core,
+    colhead = colhead,
+    rowhead= rowhead
+    )
+  
+  modifyList(default, list(...))
+  
+}
+
+
+##' @export
+ttheme_minimal <- function(...){
+  
+  core <- list(bg.par = list(fill = NA, col=NA),
+               fg.par = list(col="black"),
+               parse = FALSE, padding = unit(c(4, 4), "mm"))
+  
+  colhead <- list(bg.par = list(fill = NA, lwd=1.5, col=NA),
+                  fg.par = list(fontface="bold"),
+                  parse = FALSE, padding = unit(c(4, 6), "mm"))
+  
+  rowhead <- list(bg.par = list(fill = NA, col=NA),
+                  fg.par = list(fontface="italic"),
+                  parse = FALSE, padding = unit(c(4, 4), "mm"))
+  
+  default <- list(
+    core = core,
+    colhead = colhead,
+    rowhead= rowhead
+  )
+  
+  modifyList(default, list(...))
+  
+}
+
+
