@@ -45,7 +45,7 @@
 barbedGrob <- function(x = stats::runif(10), y = stats::runif(10), 
                        size = unit(sample(1:4, 10, replace=TRUE), "char"), 
                        pch = 21, arrow=NULL,
-                       space=1, only.lines=FALSE, 
+                       space=0.5, only.lines=FALSE, 
                        gp = gpar(), 
                        name=NULL, default.units = "npc", vp = NULL){
 

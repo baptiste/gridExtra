@@ -6,7 +6,7 @@
 \usage{
 barbedGrob(x = stats::runif(10), y = stats::runif(10),
   size = unit(sample(1:4, 10, replace = TRUE), "char"), pch = 21,
-  arrow = NULL, space = 1, only.lines = FALSE, gp = gpar(),
+  arrow = NULL, space = 0.5, only.lines = FALSE, gp = gpar(),
   name = NULL, default.units = "npc", vp = NULL)
 }
 \arguments{
@@ -67,38 +67,10 @@ grid.points(x, y, pch=3)
 \seealso{
 \code{grid.segments}, \code{grid.points}
 
-Other grob userlevel: \code{\link{arcTextGrob}},
-  \code{\link{grid.arcText}};
-  \code{\link{arrangeTableGrobs}},
-  \code{\link{drawDetails.table}},
-  \code{\link{grid.table}},
-  \code{\link{heightDetails.table}},
-  \code{\link{makeTableGrobs}}, \code{\link{tableGrob}},
-  \code{\link{widthDetails.table}};
-  \code{\link{borderGrob}}, \code{\link{grid.border}};
-  \code{\link{colorstripGrob}},
-  \code{\link{grid.colorstrip}};
-  \code{\link{drawDetails.pattern}},
-  \code{\link{grid.pattern}},
-  \code{\link{heightDetails.pattern}},
-  \code{\link{patternGrob}},
-  \code{\link{segments.pattern}},
-  \code{\link{widthDetails.pattern}};
-  \code{\link{drawDetails.rpattern}},
-  \code{\link{grid.rpattern}},
-  \code{\link{heightDetails.rpattern}},
-  \code{\link{rpatternGrob}}, \code{\link{tile.motif}},
-  \code{\link{widthDetails.rpattern}};
-  \code{\link{drawDetails.virtual}},
-  \code{\link{grobHeight.virtual}},
-  \code{\link{grobWidth.virtual}},
-  \code{\link{heightDetails.virtual}},
-  \code{\link{is.zero}}, \code{\link{virtualGrob}},
-  \code{\link{widthDetails.virtual}};
-  \code{\link{ebimageGrob}}; \code{\link{ellipseGrob}},
-  \code{\link{grid.ellipse}}; \code{\link{grid.ngon}},
+Other grob userlevel: \code{\link{borderGrob}},
+  \code{\link{grid.border}}; \code{\link{ellipseGrob}},
+  \code{\link{grid.ellipse}}, \code{\link{grid.ngon}},
   \code{\link{ngonGrob}}; \code{\link{grid.stext}},
-  \code{\link{stextGrob}}; \code{\link{interleaven}};
-  \code{\link{pixmapGrob}}
+  \code{\link{stextGrob}}
 }
 

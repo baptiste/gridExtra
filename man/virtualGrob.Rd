@@ -22,9 +22,7 @@ virtualGrob
 zero grob borrowed from ggplot2
 }
 \seealso{
-Other grob userlevel: \code{\link{arcTextGrob}},
-  \code{\link{grid.arcText}};
-  \code{\link{arrangeTableGrobs}},
+Other grob userlevel: \code{\link{arrangeTableGrobs}},
   \code{\link{drawDetails.table}},
   \code{\link{grid.table}},
   \code{\link{heightDetails.table}},
@@ -32,24 +30,10 @@ Other grob userlevel: \code{\link{arcTextGrob}},
   \code{\link{widthDetails.table}};
   \code{\link{barbedGrob}}, \code{\link{grid.barbed}};
   \code{\link{borderGrob}}, \code{\link{grid.border}};
-  \code{\link{colorstripGrob}},
-  \code{\link{grid.colorstrip}};
-  \code{\link{drawDetails.pattern}},
-  \code{\link{grid.pattern}},
-  \code{\link{heightDetails.pattern}},
-  \code{\link{patternGrob}},
-  \code{\link{segments.pattern}},
-  \code{\link{widthDetails.pattern}};
-  \code{\link{drawDetails.rpattern}},
-  \code{\link{grid.rpattern}},
-  \code{\link{heightDetails.rpattern}},
-  \code{\link{rpatternGrob}}, \code{\link{tile.motif}},
-  \code{\link{widthDetails.rpattern}};
-  \code{\link{ebimageGrob}}; \code{\link{ellipseGrob}},
-  \code{\link{grid.ellipse}}; \code{\link{grid.ngon}},
-  \code{\link{ngonGrob}}; \code{\link{grid.stext}},
-  \code{\link{stextGrob}}; \code{\link{interleaven}};
-  \code{\link{pixmapGrob}}
+  \code{\link{ellipseGrob}}, \code{\link{grid.ellipse}},
+  \code{\link{grid.ngon}}, \code{\link{ngonGrob}};
+  \code{\link{grid.stext}}, \code{\link{stextGrob}};
+  \code{\link{interleaven}}
 }
 \keyword{datasets}
 

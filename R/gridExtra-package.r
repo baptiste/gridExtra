@@ -1,13 +1,12 @@
-##' functions for Grid graphics
+##' Misc. high-level functions for grid graphics
 ##' 
 ##' @name gridExtra-package
 ##' @aliases gridExtra
 ##' @docType package
-##' @import grid
-##' @title misc. high-level functions for Grid graphics
+##' @title Misc. high-level functions for grid graphics
 ##' @author baptiste Auguie \email{baptiste.auguie@@gmail.com}
 ##' @references
-##' R Graphics by Paul Murrell, ggplot2 source code
+##' R Graphics by Paul Murrell (Chapman & Hall/CRC, August 2005)
 ##' @keywords packagelibrary
 ##' @seealso \code{\link{Grid}}
 ##' 

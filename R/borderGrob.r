@@ -34,7 +34,8 @@ borderGrob <- function(type=1, colour="white", vp=NULL, ...){
   ys <- c(0, 0, 1, 1)
   ye <- c(0, 1, 1, 0)
  
- cols <- as.matrix(do.call(expand.grid, rep(list(c(NA,colour)), 4)))[c(1,2,3,5,9,4,7,13,10,6,11,8,15,14,12,16), ]
+ cols <- as.matrix(do.call(expand.grid, rep(list(c(NA,colour)), 4)))[
+   c(1,2,3,5,9,4,7,13,10,6,11,8,15,14,12,16), ]
   
 segmentsGrob(xs, ys, xe, ye, gp=gpar(col=cols[type, ], ...), vp=vp)
   

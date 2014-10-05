@@ -2,3 +2,5 @@
 .git
 .RS_Store
 .travis.yml
+^.*\.Rproj$
+^\.Rproj\.user$
