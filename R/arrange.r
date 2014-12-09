@@ -13,6 +13,7 @@
 ##' @return return a frame grob
 ##' @export
 ##' 
+##' @importFrom ggplot2 ggplotGrob
 ##' @examples
 ##' \dontrun{
 ##' require(ggplot2)
