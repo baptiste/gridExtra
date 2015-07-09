@@ -18,14 +18,14 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                       theme = ttheme_default(),
                       ...){
   
-  g <- gtable_table(d,
+  g <- gtable_table(d, name="core",
                     fg.par = theme$core$fg.par, 
                     bg.par = theme$core$bg.par, 
                     parse=theme$core$parse, 
                     padding=theme$core$padding, ...)
   
   if(!is.null(cols)){
-    gc <- gtable_table(t(cols), 
+    gc <- gtable_table(t(cols), name="colhead",
                        fg.par = theme$colhead$fg.par, 
                        bg.par = theme$colhead$bg.par, 
                        parse=theme$colhead$parse, 
@@ -35,7 +35,7 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
   if(!is.null(rows)){
     if(!is.null(cols)) # need to add dummy cell
       rows <- c("", rows)
-    gr <- gtable_table(rows, 
+    gr <- gtable_table(rows, name="rowhead",
                        fg.par = theme$rowhead$fg.par, 
                        bg.par = theme$rowhead$bg.par, 
                        parse=theme$rowhead$parse, 
@@ -153,13 +153,14 @@ gtable_table <- function(d, widths, heights,
     heights <- row_heights(label_grobs) + padding[2]
   
   ## place labels in a gtable
-  g <- gtable_matrix(name, grobs=label_grobs, 
+  g <- gtable_matrix(paste0(name, "-fg"), grobs=label_grobs, 
                      widths = widths, 
                      heights = heights, vp=vp)
   
   ## add the background
   g <- gtable_add_grob(g, backgrounds, t=rep(seq_len(nr), each=nc), 
-                       l=rep(seq_len(nc), nr), z=0, name="fill")
+                       l=rep(seq_len(nc), nr), z=0, 
+                       name=paste0(name, "-bg"))
   
   g
 }

@@ -1,62 +1,74 @@
-Arranging multiple grobs on a page
-===================================
+Diplaying tables as grid graphics
+=================================
 <!-- 
 %\VignetteEngine{knitr::rmarkdown}
 %\VignetteIndexEntry{tableGrob}
 -->
-The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
 
-In this example we mix a few grobs and plots
+```{r setup, echo=FALSE, results='hide'}
+library(knitr)
+opts_chunk$set(message=FALSE, fig.width=4, fig.height=4)
+```
+
+Tabular data is usually formatted outside the graphics device, e.g via LaTeX, or html tables. However, in some cases it may be convenient to display *small* tables alongside graphics. A couple of packages offer this possibility with base graphics (`plotrix`, `gmisc`); the `gridExtra` provides the pair of `tableGrob/grid.table` functions for this purpose. Note that the tables are quite inefficient, each cell containing two individual grobs.
+
 ```{r basic}
 library(gridExtra)
 library(grid)
-library(ggplot2)
-library(lattice)
-p <- qplot(1,1)
-p2 <- xyplot(1~1)
-r <- rectGrob(gp=gpar(fill="grey90"))
-t <- textGrob("text")
-grid.arrange(t, p, p2, r, ncol=2)
+d <- head(iris[,1:3])
+grid.table(d)
 ```
+
+The spacing of each row/column is automatic, and will adjust to bigger cell contents. Plotmath notation may be used, with the `parse=TRUE` argument. Note that this is applied to individual strings of text, and reverts to standard text if parsing fails (this is useful when mixing multiline text with plotmath in different cells).
 
 ```{r annotations}
-gs <- lapply(1:9, function(ii) 
-  grobTree(rectGrob(gp=gpar(fill=ii, alpha=0.5)), textGrob(ii)))
-grid.arrange(grobs=gs, ncol=4, 
-               top="top label", bottom="bottom\nlabel", 
-               left="left label", right="right label")
-grid.rect(gp=gpar(fill=NA))
+d[2,3] <- "this is very wwwwwide"
+d[1,2] <- "this\nis\ntall"
+colnames(d) <- c("alpha*integral(xdx,a,infinity)", 
+                 "this text\nis high", 'alpha/beta')
+
+tt <- ttheme_default(colhead=list(parse=TRUE))
+grid.table(d, theme=tt)
+
 ```
 
-We can also provide more complex layouts,
+The formatting is controlled by *themes*, which are nested lists of graphical parameters. See `ttheme_default` and `ttheme_minimal` for two built-in examples. Changing a few parameters at a time amounts to modifying the list with the new values.
 
-```{r layout}
-lay <- rbind(c(1,1,1,2,3),
-             c(1,1,1,4,5),
-             c(6,7,8,9,9))
-grid.arrange(grobs = gs, layout_matrix = lay)
+```{r theme, fig.width=8}
+tt1 <- ttheme_default()
+tt2 <- ttheme_minimal()
+tt3 <- ttheme_minimal(core=list(bg.par = list(fill = blues9, col=NA)), colhead=list(fg.par=list(col="navyblue")))
+grid.arrange(
+tableGrob(iris[1:4, 1:2], theme=tt1),
+tableGrob(iris[1:4, 1:2], theme=tt2),
+tableGrob(iris[1:4, 1:2], theme=tt3),
+nrow=1)
 ```
 
-The `grid.arrange()` function draws on the device; for more complex layouts, we may want to store the gtable and combine it with other objects, e.g. forming nested layouts. To this end, use `arrangeGrob()`,
+Being based on `gtable`, the table can be further processed. In particular, we may edit the cell sizes to align with other content on the page.
 
-```{r grob}
-g1 <- arrangeGrob(r,r,r,r)
-g2 <- arrangeGrob(grobs = gs, layout_matrix = lay)
-grid.arrange(g1, g2, ncol=2)
+```{r sizes, fig.width=8}
+g <- g2 <- tableGrob(iris[1:4, 1:3], cols = NULL, rows=NULL)
+g2$widths <- unit(rep(1/ncol(g2), ncol(g2)), "npc")
+grid.arrange(rectGrob(), rectGrob(), nrow=1)
+grid.arrange(g, g2, nrow=1, newpage = FALSE)
 ```
 
-Finally, we may want to place grobs on multiple pages; the `marrangeGrob()` function provides a convenient interface for this, also compatible with `ggsave()`.
+We may also access individual cells, e.g. to highlight a value.
 
 
-```{r marrange}
-pl <- lapply(1:11, function(.x) 
-             qplot(1:10, rnorm(10), main=paste("plot",.x)))
-ml <- marrangeGrob(pl, nrow=2, ncol=2)
-## interactive use; open new devices
-ml
-## non-interactive use, multipage pdf
-## ggsave("multipage.pdf", ml)
+```{r highlight}
+g <- tableGrob(iris[1:4, 1:3])
+find_cell <- function(table, row, col, name="core-fg"){
+  l <- table$layout
+  which(l$t==row & l$l==col & l$name == name)
+}
+  
+ind <- find_cell(g, 3, 2, "core-fg")
+ind2 <- find_cell(g, 3, 2, "core-bg")
+g$grobs[ind][[1]][["gp"]] <- gpar(fontsize=15, fontface="bold")
+g$grobs[ind2][[1]][["gp"]] <- gpar(fill="darkolivegreen1")
+grid.draw(g)
 ```
-
 
 
