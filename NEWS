@@ -1,3 +1,11 @@
+
+gridExtra 2.0.0 (2015-07-08) 
+----------------------------------------
+
+* removed all messy functions
+
+* grid.arrange is now based on gtable and requires grobs
+
 gridExtra 1.0.0 (2014-10-05) 
 ----------------------------------------
 

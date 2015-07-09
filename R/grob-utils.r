@@ -1,3 +1,14 @@
+latticeGrob <- function(p, ...){
+  grob(p=p, ..., cl="lattice")
+}
+
+#' @export
+drawDetails.lattice <- function(x, recording=FALSE){
+  stopifnot(requireNamespace("lattice", quietly = TRUE)) 
+  plot(x$p, newpage=FALSE)
+}
+
+
 row_heights <- function(m){
   do.call(unit.c, apply(m, 1, function(l)
     max(do.call(unit.c, lapply(l, grobHeight)))))
@@ -23,23 +34,7 @@ insert.unit <- function (x, values, after = length(x)) {
   }
 }
 
-#' Row and column binding for gtables.
-#'
-#' @param ... gtables to combine (\code{x} and \code{y})
-#' @param size How should the widths (for rbind) and the heights (for cbind)
-#'   be combined across the gtables: take values from \code{first},
-#'   or \code{last} gtable, or compute the \code{min} or \code{max} values.
-#'   Defaults to \code{max}.
-#' @param z A numeric vector indicating the relative z values of each gtable.
-#'   The z values of each object in the resulting gtable will be modified
-#'   to fit this order. If \code{NULL}, then the z values of obects within
-#'   each gtable will not be modified.
-#' @name bind
-NULL
 
-#' @rdname bind
-#' @method rbind gtable
-#' @export
 rbind.gtable <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
@@ -74,9 +69,6 @@ rbind_gtable <- function(x, y, size = "max") {
   x
 }
 
-#' @rdname bind
-#' @method cbind gtable
-#' @export
 cbind.gtable <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {

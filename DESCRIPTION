@@ -3,19 +3,16 @@ Authors@R: person("Baptiste", "Auguie",
     email = "baptiste.auguie@gmail.com",
     role = c("aut", "cre"))
 License: GPL (>= 2)
-Title: functions in Grid graphics
+Title: Miscellaneous functions for "grid" graphics.
 Type: Package
-Description: Miscellaneous functions for grid graphics
-Version: 1.0
+Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables. Earlier versions of the package contained more experimental graphical objects (grobs), that have now been removed.
+Version: 2.0.0
 URL: https://github.com/baptiste/gridextra
 DOI: http://dx.doi.org/10.5281/zenodo.11422
-Roxygen: list(wrap = FALSE)
-Date: 2014-10-05
 Imports:
-    gtable
-Depends:
+    gtable, 
     grid
-Suggests:
-    RGraphics,
-    ggplot2,
+Suggests: 
+    ggplot2, 
     lattice
+   

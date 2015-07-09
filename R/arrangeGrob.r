@@ -1,8 +1,8 @@
-##' arrange ggplot2, lattice, and grobs on a page
+##' arrange grobs on a page
 ##'
 ##' @aliases grid.arrange arrangeGrob
 ##' @title arrangeGrob
-##' @param ...  plots of class ggplot2,  trellis, or grobs, and valid arguments to grid.layout
+##' @param ...  grobs, and valid arguments to grid.layout
 ##' @param grobs list of grobs
 ##' @param top string, or grob (requires a well-defined height, see example)
 ##' @param bottom string, or grob (requires a well-defined height, see example)
@@ -13,6 +13,7 @@
 ##' @param vp viewport
 ##' @return return a gTree wrapping a gtable
 ##' @import gtable
+##' @import grid
 ##' @export
 ##' 
 ##' @examples
@@ -29,7 +30,7 @@
 ##' }
 arrangeGrob <- function(..., grobs=list(...), 
                         layout_matrix, 
-                        vp=NULL, name = "table",
+                        vp=NULL, name = "arrange",
                         as.table=TRUE, respect = FALSE,
                         nrow=NULL, ncol=NULL, 
                         widths = NULL, heights = NULL,
@@ -193,13 +194,19 @@ marrangeGrob <- function(grobs, ncol, nrow, perpage, ...,
     pl[[g]] <- do.call(arrangeGrob, c(grobs[groups[[g]]], params))
   }
   
-  class(pl) <- c("arrangelist", "ggplot", class(pl))
+  class(pl) <- c("arrangelist", class(pl))
   pl
 
 }
 
 ##' @export
+grid.draw.arrangelist = function(x, ...) lapply(x, function(.x) {
+  if(dev.interactive()) dev.new() else grid.newpage()
+  grid.draw(.x)
+}, ...)
+
+##' @export
 print.arrangelist = function(x, ...) lapply(x, function(.x) {
-  if(dev.interactive() && (names(dev.cur()) != "RStudioGD")) dev.new() else grid.newpage()
+  if(dev.interactive()) dev.new() else grid.newpage()
   grid.draw(.x)
 }, ...)
