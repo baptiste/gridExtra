@@ -1,37 +1,18 @@
 Package: gridExtra
-Maintainer: baptiste <baptiste.auguie@gmail.com>
+Authors@R: person("Baptiste", "Auguie",
+    email = "baptiste.auguie@gmail.com",
+    role = c("aut", "cre"))
 License: GPL (>= 2)
-Title: functions in Grid graphics
+Title: Miscellaneous functions for "grid" graphics.
 Type: Package
-Author: Baptiste Auguie
-Description: misc. high-level Grid functions
-Version: 0.9.1
+Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables. Earlier versions of the package contained more experimental graphical objects (grobs), that have now been removed.
+Version: 2.0.0
 URL: https://github.com/baptiste/gridextra
 DOI: http://dx.doi.org/10.5281/zenodo.11422
-Date: 2012-09-08
-Depends:
-    R(>= 2.5.0),
+Imports:
+    gtable, 
     grid
-Suggests:
-    RGraphics,
-    pixmap,
-    EBImage,
-    ggplot2,
+Suggests: 
+    ggplot2, 
     lattice
-Collate:
-    'arcText.r'
-    'arrange.r'
-    'barbedGrob.r'
-    'borderGrob.r'
-    'colorstripGrob.r'
-    'ebimage.r'
-    'ellipseGrob.r'
-    'gridExtra-package.r'
-    'grob-utils.r'
-    'polygon.regular.r'
-    'ngonGrob.r'
-    'patternGrob.r'
-    'pixmap.r'
-    'rpattern.r'
-    'stextGrob.r'
-    'tableGrob.r'
+   

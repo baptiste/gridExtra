@@ -1,12 +1,3 @@
-KNOWN BUGS
-
-* patternGrob ignores the linetype argument except for the first object drawn
-
-ENHANCEMENTS
-
-* tableGrob cannot be edited at low level (earlier versions could, but are incompatible with on-the-fly drawDetails method)
-
-* rewrite tableGrob using gtable
 
 NEW FEATURES
 

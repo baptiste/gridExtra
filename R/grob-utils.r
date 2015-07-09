@@ -1,76 +1,104 @@
-##' zero grob borrowed from ggplot2
-##'
-##' @aliases virtualGrob grobHeight.virtual grobWidth.virtual drawDetails.virtual is.zero widthDetails.virtual heightDetails.virtual
-##' @title virtualGrob
-##' @export
-##' @family grob userlevel
-
-virtualGrob <- grob(cl = "virtual", name = "NULL")
-##' @export
-widthDetails.virtual <-function(x) unit(0, "cm")
-##' @export
-heightDetails.virtual <- function(x) unit(0, "cm")
-##' @export
-grobWidth.virtual <- function(x) unit(0, "cm")
-##' @export
-grobHeight.virtual <- function(x) unit(0, "cm")
-##' @export
-drawDetails.virtual <- function(x, recording) {}
-
-##' mix two vectors
-##'
-##' @aliases interleaven
-##' @title interleaven
-##' @param x vector
-##' @param y vector
-##' @param n integer  
-##' @return a vector
-##' @seealso \code{rep}, \code{ggplot2:interleave}
-##' @family grob userlevel
-##' @export
-##' 
-##' @examples
-##' interleaven(replicate(3, rectGrob(), simplify=FALSE), replicate(12, virtualGrob, simplify=FALSE), 4)
-
-interleaven <- function(x = letters[1:3], y=1:12, n=4){
-ord <- as.vector(rbind(seq_along(x), matrix(length(x)+seq_along(y), nrow=n, byrow=FALSE)))
-c(x, y)[ord]
- }
-
-##' calculates the max of a list of units arranged in a matrix
-##'
-##' @aliases rowMax.units colMax.units 
-##' @title rowMax.units
-##' @param u list of units
-##' @param nrow nrow
-##' @return a vector of units
-##' @export
-##' @seealso \code{unit.c}, \code{unit} 
-
-rowMax.units <- function(u, nrow){ # rowMax with a fake matrix of units
-  matrix.indices <- matrix(seq_along(u), nrow=nrow)
-  do.call(unit.c, lapply(seq(1, nrow), function(ii) {
-   max(u[matrix.indices[ii, ]])
-  }))
+latticeGrob <- function(p, ...){
+  grob(p=p, ..., cl="lattice")
 }
 
-##' @export
-colMax.units <- function(u, ncol){ # colMax with a fake matrix of units
-  matrix.indices <- matrix(seq_along(u), ncol=ncol)
-  do.call(unit.c, lapply(seq(1, ncol), function(ii) {
-   max(u[matrix.indices[, ii]])
-  }))
+#' @export
+drawDetails.lattice <- function(x, recording=FALSE){
+  stopifnot(requireNamespace("lattice", quietly = TRUE)) 
+  plot(x$p, newpage=FALSE)
 }
 
 
-##' expand a list of arguments to full length (and misc. undocumented functions)
-##'
-##' @title expand.arguments
-##' @aliases expand.arguments updatelist textii rectii pchlist
-##' @param ... arguments
-##' @return ...
-expand.arguments <- function(...){
-  dotList <- list(...)
-  max.length <- max(sapply(dotList, length))
-  lapply(dotList, rep, length=max.length)
+row_heights <- function(m){
+  do.call(unit.c, apply(m, 1, function(l)
+    max(do.call(unit.c, lapply(l, grobHeight)))))
+}
+
+col_widths <- function(m){
+  do.call(unit.c, apply(m, 2, function(l)
+    max(do.call(unit.c, lapply(l, grobWidth)))))
+}
+
+
+insert.unit <- function (x, values, after = length(x)) {
+  lengx <- length(x)
+  if (lengx == 0) return(values)
+  if (length(values) == 0) return(x)
+  
+  if (after <= 0) {
+    unit.c(values, x)
+  } else if (after >= lengx) {
+    unit.c(x, values)
+  } else {
+    unit.c(x[1L:after], values, x[(after + 1L):lengx])
+  }
+}
+
+
+rbind.gtable <- function(..., size = "max", z = NULL) {
+  gtables <- list(...)
+  if (!is.null(z)) {
+    gtables <- z_arrange_gtables(gtables, z)
+  }
+  Reduce(function(x, y) rbind_gtable(x, y, size = size), gtables)
+}
+
+rbind_gtable <- function(x, y, size = "max") {
+  stopifnot(ncol(x) == ncol(y))
+  if (nrow(x) == 0) return(y)
+  if (nrow(y) == 0) return(x)
+  
+  y$layout$t <- y$layout$t + nrow(x)
+  y$layout$b <- y$layout$b + nrow(x)
+  x$layout <- rbind(x$layout, y$layout)
+  
+  x$heights <- insert.unit(x$heights, y$heights)
+  x$rownames <- c(x$rownames, y$rownames)
+  
+  size <- match.arg(size, c("first", "last", 
+                            "max", "min"))
+  x$widths <- switch(size,
+                     first = x$widths,
+                     last = y$widths,
+                     min = unit.pmin(x$widths, y$widths),
+                     max = unit.pmax(x$widths, y$widths)
+  )
+  
+  x$grobs <- append(x$grobs, y$grobs)
+  
+  x
+}
+
+cbind.gtable <- function(..., size = "max", z = NULL) {
+  gtables <- list(...)
+  if (!is.null(z)) {
+    gtables <- z_arrange_gtables(gtables, z)
+  }
+  Reduce(function(x, y) cbind_gtable(x, y, size = size), gtables)
+}
+
+cbind_gtable <- function(x, y, size = "max") {
+  stopifnot(nrow(x) == nrow(y))
+  if (ncol(x) == 0) return(y)
+  if (ncol(y) == 0) return(x)
+  
+  y$layout$l <- y$layout$l + ncol(x)
+  y$layout$r <- y$layout$r + ncol(x)
+  x$layout <- rbind(x$layout, y$layout)
+  
+  x$widths <- insert.unit(x$widths, y$widths)
+  x$colnames <- c(x$colnames, y$colnames)
+  
+  size <- match.arg(size, c("first", "last", 
+                            "max", "min"))
+  
+  x$heights <- switch(size,
+                      first = x$heights,
+                      last = y$heights,
+                      min = unit.pmin(x$heights, y$heights),
+                      max = unit.pmax(x$heights, y$heights))
+  
+  x$grobs <- append(x$grobs, y$grobs)
+  
+  x
 }
