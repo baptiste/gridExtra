@@ -2,3 +2,7 @@
 .Rhistory
 .Rproj.user
 *.Rproj
+
+vignettes/*.html
+vignettes/*.r
+vignettes/arrangeGrob.html
