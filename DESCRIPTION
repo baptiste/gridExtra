@@ -15,4 +15,8 @@ Imports:
 Suggests: 
     ggplot2, 
     lattice
-   
+Collate:   
+  grob-utils.r
+  arrangeGrob.r
+  gridExtra-package.r
+  tableGrob.r
