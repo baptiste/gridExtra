@@ -119,7 +119,7 @@ arrangeGrob <- function(..., grobs=list(...),
     gt <- gtable_add_grob(gt, textGrob(bottom), t=nrow(gt), l=1, r=ncol(gt))
   }
   if(is.grob(bottom)){
-    gt <- gtable_add_rows(gt, widths=grobHeight(bottom), -1)
+    gt <- gtable_add_rows(gt, heights=grobHeight(bottom), -1)
     gt <- gtable_add_grob(gt, bottom, t=nrow(gt), l=1, r=ncol(gt))
   }
   if(is.character(left)){

@@ -3,7 +3,7 @@ Authors@R: person("Baptiste", "Auguie",
     email = "baptiste.auguie@gmail.com",
     role = c("aut", "cre"))
 License: GPL (>= 2)
-Title: Miscellaneous functions for "grid" graphics.
+Title: Miscellaneous functions for "grid" graphics
 Type: Package
 Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables. Earlier versions of the package contained more experimental graphical objects (grobs), that have now been removed.
 Version: 2.0.0

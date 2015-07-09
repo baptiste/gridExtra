@@ -34,6 +34,28 @@ insert.unit <- function (x, values, after = length(x)) {
   }
 }
 
+z_normalise <- function (x, i = 1) 
+{
+  x$layout$z <- rank(x$layout$z, ties.method = "first") + i - 
+    1
+  x
+}
+
+z_arrange_gtables <- function (gtables, z) 
+{
+  if (length(gtables) != length(z)) {
+    stop("'gtables' and 'z' must be the same length")
+  }
+  zmax <- 0
+  for (i in order(z)) {
+    if (nrow(gtables[[i]]$layout) > 0) {
+      gtables[[i]] <- z_normalise(gtables[[i]], zmax + 
+                                    1)
+      zmax <- max(gtables[[i]]$layout$z)
+    }
+  }
+  gtables
+}
 
 rbind.gtable <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
