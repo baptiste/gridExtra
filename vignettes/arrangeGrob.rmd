@@ -1,0 +1,62 @@
+Arranging multiple grobs on a page
+===================================
+<!-- 
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{arrangeGrob}
+-->
+The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
+
+In this example we mix a few grobs and plots
+```{r basic}
+library(gridExtra)
+library(grid)
+library(ggplot2)
+library(lattice)
+p <- qplot(1,1)
+p2 <- xyplot(1~1)
+r <- rectGrob(gp=gpar(fill="grey90"))
+t <- textGrob("text")
+grid.arrange(t, p, p2, r, ncol=2)
+```
+
+```{r annotations}
+gs <- lapply(1:9, function(ii) 
+  grobTree(rectGrob(gp=gpar(fill=ii, alpha=0.5)), textGrob(ii)))
+grid.arrange(grobs=gs, ncol=4, 
+               top="top label", bottom="bottom\nlabel", 
+               left="left label", right="right label")
+grid.rect(gp=gpar(fill=NA))
+```
+
+We can also provide more complex layouts,
+
+```{r layout}
+lay <- rbind(c(1,1,1,2,3),
+             c(1,1,1,4,5),
+             c(6,7,8,9,9))
+grid.arrange(grobs = gs, layout_matrix = lay)
+```
+
+The `grid.arrange()` function draws on the device; for more complex layouts, we may want to store the gtable and combine it with other objects, e.g. forming nested layouts. To this end, use `arrangeGrob()`,
+
+```{r grob}
+g1 <- arrangeGrob(r,r,r,r)
+g2 <- arrangeGrob(grobs = gs, layout_matrix = lay)
+grid.arrange(g1, g2, ncol=2)
+```
+
+Finally, we may want to place grobs on multiple pages; the `marrangeGrob()` function provides a convenient interface for this, also compatible with `ggsave()`.
+
+
+```{r marrange}
+pl <- lapply(1:11, function(.x) 
+             qplot(1:10, rnorm(10), main=paste("plot",.x)))
+ml <- marrangeGrob(pl, nrow=2, ncol=2)
+## interactive use; open new devices
+ml
+## non-interactive use, multipage pdf
+## ggsave("multipage.pdf", ml)
+```
+
+
+

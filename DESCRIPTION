@@ -5,16 +5,18 @@ Authors@R: person("Baptiste", "Auguie",
 License: GPL (>= 2)
 Title: Miscellaneous functions for "grid" graphics
 Type: Package
-Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables. Earlier versions of the package contained more experimental graphical objects (grobs), that have now been removed.
+Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
 Version: 2.0.0
 URL: https://github.com/baptiste/gridextra
 DOI: http://dx.doi.org/10.5281/zenodo.11422
+VignetteBuilder: knitr
 Imports:
     gtable, 
     grid
 Suggests: 
     ggplot2, 
-    lattice
+    lattice,
+    knitr
 Collate:   
   grob-utils.r
   arrangeGrob.r
