@@ -113,7 +113,7 @@ arrangeGrob <- function(..., grobs=list(...),
     top <- textGrob(top)
   }
   if(is.grob(top)){
-    h <- unit.pmax(grobHeight(top), unit(1,"line"))
+    h <- grobHeight(top) + unit(0.5,"line")
     gt <- gtable_add_rows(gt, heights=h, 0)
     gt <- gtable_add_grob(gt, top, t=1, l=1, r=ncol(gt), z=Inf,
                           clip = "off")
@@ -122,7 +122,7 @@ arrangeGrob <- function(..., grobs=list(...),
     bottom <- textGrob(bottom)
   }
   if(is.grob(bottom)){
-    h <- unit.pmax(grobHeight(bottom), unit(1,"line"))
+    h <- grobHeight(bottom) + unit(0.5,"line")
     gt <- gtable_add_rows(gt, heights = h, -1)
     gt <- gtable_add_grob(gt, bottom, 
                           t=nrow(gt), l=1, r=ncol(gt), z=Inf,
@@ -132,7 +132,7 @@ arrangeGrob <- function(..., grobs=list(...),
     left <- textGrob(left, rot = 90)
   }
   if(is.grob(left)){
-    w <- unit.pmax(grobWidth(left), unit(1,"line"))
+    w <- grobWidth(left) + unit(0.5,"line")
     gt <- gtable_add_cols(gt, widths=w, 0)
     gt <- gtable_add_grob(gt, left, t=1, b=nrow(gt), 
                           l=1, r=1, z=Inf,
@@ -142,7 +142,7 @@ arrangeGrob <- function(..., grobs=list(...),
     right <- textGrob(right, rot = -90)
   }
   if(is.grob(right)){
-    w <- unit.pmax(grobWidth(right), unit(1,"line"))
+    w <- grobWidth(right) + unit(0.5,"line")
     gt <- gtable_add_cols(gt, widths=w, -1)
     gt <- gtable_add_grob(gt, right, 
                           t=1, b=nrow(gt), 

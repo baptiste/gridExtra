@@ -4,6 +4,12 @@ Arranging multiple grobs on a page
 %\VignetteEngine{knitr::rmarkdown}
 %\VignetteIndexEntry{arrangeGrob}
 -->
+
+```{r setup, echo=FALSE, results='hide'}
+library(knitr)
+opts_chunk$set(message=FALSE, fig.width=4, fig.height=4)
+```
+
 The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
 
 In this example we mix a few grobs and plots
@@ -40,7 +46,7 @@ grid.arrange(grobs = gs, layout_matrix = lay)
 The `grid.arrange()` function draws on the device; for more complex layouts, we may want to store the gtable and combine it with other objects, e.g. forming nested layouts. To this end, use `arrangeGrob()`,
 
 ```{r grob}
-g1 <- arrangeGrob(r,r,r,r)
+g1 <- arrangeGrob(grobs = gs, layout_matrix = t(lay))
 g2 <- arrangeGrob(grobs = gs, layout_matrix = lay)
 grid.arrange(g1, g2, ncol=2)
 ```
