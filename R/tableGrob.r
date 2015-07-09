@@ -1,12 +1,11 @@
 #' Graphical display of a textual table.
 #'
 #' @param d data.frame or matrix
-#' @param widths optional vector to specify column widths
-#' @param heights optional vector to specify row heights
-#' @param fg.par control parameters for text grobs
-#' @param bg.par control parameters for rect grobs
-#' @param padding unit of length 2
-#' @importFrom plyr mlply
+#' @param rows optional vector to specify row names
+#' @param cols optional vector to specify column names
+#' @param theme list of theme parameters
+#' @param ... further arguments to control the gtable
+#' @return a gtable
 #' @export
 #' @examples
 #' \donttest{
@@ -19,11 +18,11 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                       theme = ttheme_default(),
                       ...){
   
-  g <- gtable_table(d, 
+  g <- gtable_table(d,
                     fg.par = theme$core$fg.par, 
                     bg.par = theme$core$bg.par, 
                     parse=theme$core$parse, 
-                    padding=theme$core$padding)
+                    padding=theme$core$padding, ...)
   
   if(!is.null(cols)){
     gc <- gtable_table(t(cols), 
@@ -47,14 +46,16 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
   g
 }
 
-
-#' @import grid 
+#' @describeIn tableGrob
+#' @inheritParams tableGrob
 #' @export
 grid.table <- function(...)
   grid.draw(tableGrob(...))
 
 
 
+#' @describeIn tableGrob
+#' @inheritParams tableGrob
 ##' @export
 ttheme_default <- function(...){
   
@@ -81,6 +82,8 @@ ttheme_default <- function(...){
 }
 
 
+#' @describeIn tableGrob
+#' @inheritParams tableGrob
 ##' @export
 ttheme_minimal <- function(...){
   
@@ -129,8 +132,16 @@ gtable_table <- function(d, widths, heights,
   bg.param <- data.frame(bg.par, id = seq_len(n),
                          stringsAsFactors=FALSE)
   
-  labels <- plyr::mlply(fg.param, cell_content, parse = parse)
-  backgrounds <- plyr::mlply(bg.param, cell_background)
+  # labels <- plyr::mlply(fg.param, cell_content, parse = parse)
+  # backgrounds <- plyr::mlply(bg.param, cell_background)
+  labels <- do.call(mapply, c(fg.param, 
+                              list(MoreArgs = list(parse=parse), 
+                                   FUN = cell_content, 
+                                   SIMPLIFY=FALSE)))
+  backgrounds <- do.call(mapply, c(bg.param, 
+                                   list(MoreArgs = list(parse=parse), 
+                                        FUN = cell_background, 
+                                        SIMPLIFY=FALSE)))
   
   label_grobs <- matrix(labels, ncol = nc)
   

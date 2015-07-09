@@ -5,10 +5,16 @@
 \alias{print.arrangelist}
 \title{marrangeGrob}
 \usage{
-marrangeGrob(grobs, ncol, nrow, perpage, ..., top = quote(paste("page", g,
-  "of", pages)))
+marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
+  pages)))
 }
 \arguments{
+\item{grobs}{list of grobs}
+
+\item{ncol}{number of columns per page}
+
+\item{nrow}{number of rows per page}
+
 \item{...}{args to \link{arrangeGrob}}
 
 \item{top}{see \link{arrangeGrob}}
@@ -26,7 +32,7 @@ devices such as pdf call grid.newpage() between the drawings.
 }
 \examples{
 \dontrun{
-require(ggplot2)
+library(ggplot2)
 pl <- lapply(1:11, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
 ml <- marrangeGrob(pl, nrow=2, ncol=2, 4)
 ## interactive use; open new devices

@@ -9,6 +9,8 @@ arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
   name = "arrange", as.table = TRUE, respect = FALSE, nrow = NULL,
   ncol = NULL, widths = NULL, heights = NULL, top = NULL,
   bottom = NULL, left = NULL, right = NULL)
+
+grid.arrange(..., newpage = TRUE)
 }
 \arguments{
 \item{...}{grobs, and valid arguments to grid.layout}
@@ -19,33 +21,42 @@ arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
 
 \item{vp}{viewport}
 
+\item{name}{argument of gtable}
+
 \item{as.table}{logical: bottom-left to top-right or top-left to bottom-right}
 
-\item{top}{string, or grob (requires a well-defined height, see example)}
+\item{respect}{argument of gtable}
 
-\item{bottom}{string, or grob (requires a well-defined height, see example)}
+\item{nrow}{argument of gtable}
 
-\item{left}{string, or grob (requires a well-defined width, see example)}
+\item{ncol}{argument of gtable}
 
-\item{right}{string, or grob (requires a well-defined width, see example)}
+\item{widths}{argument of gtable}
+
+\item{heights}{argument of gtable}
+
+\item{top}{optional string, or grob}
+
+\item{bottom}{optional string, or grob}
+
+\item{left}{optional string, or grob}
+
+\item{right}{optional string, or grob}
+
+\item{newpage}{open a new page}
 }
 \value{
-return a gTree wrapping a gtable
+return a gtable
 }
 \description{
-arrange grobs on a page
+Arrange multiple grobs on a page
 }
+\section{Functions}{
+\itemize{
+\item \code{grid.arrange}: 
+}}
 \examples{
-\dontrun{
-require(ggplot2)
-plots = lapply(1:5, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
-require(gridExtra)
-do.call(grid.arrange,  plots)
-require(lattice)
-grid.arrange(qplot(1:10), xyplot(1:10~1:10),
-tableGrob(head(iris)), nrow=2, as.table=TRUE, main="test main",
-left = rectGrob(width=unit(1,"line)),
-sub=textGrob("test sub", gp=gpar(font=2)))
-}
+library(grid)
+grid.arrange(rectGrob(), rectGrob())
 }
 

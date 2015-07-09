@@ -1,4 +1,5 @@
 library(gridExtra)
+library(grid)
 
 d <- head(iris[,1:3])
 d[2,3] <- "this is very wwwwwide"

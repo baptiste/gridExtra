@@ -1,33 +1,31 @@
-##' arrange grobs on a page
+##' Arrange multiple grobs on a page
 ##'
 ##' @aliases grid.arrange arrangeGrob
 ##' @title arrangeGrob
+##'
 ##' @param ...  grobs, and valid arguments to grid.layout
 ##' @param grobs list of grobs
-##' @param top string, or grob (requires a well-defined height, see example)
-##' @param bottom string, or grob (requires a well-defined height, see example)
-##' @param left string, or grob (requires a well-defined width, see example)
-##' @param right string, or grob (requires a well-defined width, see example)
+##' @param top optional string, or grob
+##' @param bottom optional string, or grob
+##' @param left optional string, or grob
+##' @param right optional string, or grob
 ##' @param as.table logical: bottom-left to top-right or top-left to bottom-right
 ##' @param layout_matrix optional layout
+##' @param name argument of gtable
+##' @param respect argument of gtable
+##' @param nrow argument of gtable
+##' @param ncol argument of gtable
+##' @param widths argument of gtable
+##' @param heights argument of gtable
 ##' @param vp viewport
-##' @return return a gTree wrapping a gtable
+##' @return return a gtable
 ##' @import gtable
 ##' @import grid
 ##' @export
 ##' 
 ##' @examples
-##' \dontrun{
-##' require(ggplot2)
-##' plots = lapply(1:5, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
-##' require(gridExtra)
-##' do.call(grid.arrange,  plots)
-##' require(lattice)
-##' grid.arrange(qplot(1:10), xyplot(1:10~1:10),
-##' tableGrob(head(iris)), nrow=2, as.table=TRUE, main="test main",
-##' left = rectGrob(width=unit(1,"line)),
-##' sub=textGrob("test sub", gp=gpar(font=2)))
-##' }
+##' library(grid)
+##' grid.arrange(rectGrob(), rectGrob())
 arrangeGrob <- function(..., grobs=list(...), 
                         layout_matrix, 
                         vp=NULL, name = "arrange",
@@ -95,7 +93,8 @@ arrangeGrob <- function(..., grobs=list(...),
   if(is.null(heights)) heights <- unit(rep(1,nrow), "null")
   
   ## build the gtable, similar steps to gtable_matrix
-  gt <- gtable(name=name, respect = respect,
+  gt <- gtable(name=name, 
+               respect = respect,
                heights = heights, 
                widths = widths, 
                vp=vp)
@@ -145,6 +144,9 @@ arrangeGrob <- function(..., grobs=list(...),
   gt
 }
 
+##' @describeIn arrangeGrob
+##' @param newpage open a new page
+##' @inheritParams arrangeGrob
 ##' @export
 grid.arrange <- function(..., newpage=TRUE){
     if(newpage) grid.newpage()
@@ -160,15 +162,18 @@ grid.arrange <- function(..., newpage=TRUE){
 ##' devices such as pdf call grid.newpage() between the drawings.
 ##' @title marrangeGrob
 ##' @aliases marrangeGrob print.arrangelist
+##'
 ##' @param ... args to \link{arrangeGrob}
+##' @param grobs list of grobs
+##' @param ncol number of columns per page
+##' @param nrow number of rows per page
 ##' @param top see \link{arrangeGrob}
 ##' @return list of class arrangelist
 ##' @author baptiste Auguie
 ##' @export
-##' @family user
 ##' @examples
 ##' \dontrun{ 
-##' require(ggplot2)
+##' library(ggplot2)
 ##' pl <- lapply(1:11, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
 ##' ml <- marrangeGrob(pl, nrow=2, ncol=2, 4)
 ##' ## interactive use; open new devices
@@ -176,8 +181,8 @@ grid.arrange <- function(..., newpage=TRUE){
 ##' ## non-interactive use, multipage pdf
 ##' ggsave("multipage.pdf", ml)
 ##' }
-marrangeGrob <- function(grobs, ncol, nrow, perpage, ...,
-                         top=quote(paste("page", g, "of", pages))){
+marrangeGrob <- function(grobs, ncol, nrow, ...,
+                         top = quote(paste("page", g, "of", pages))){
    
   n <- length(grobs)
   nlay <- nrow*ncol
@@ -190,7 +195,8 @@ marrangeGrob <- function(grobs, ncol, nrow, perpage, ...,
   
   for(page in seq_along(groups)){
     g <- page
-    params <- modifyList(list(...), list(top=eval(top), nrow=nrow, ncol=ncol))
+    params <- modifyList(list(...), list(top=eval(top), 
+                                         nrow=nrow, ncol=ncol))
     pl[[g]] <- do.call(arrangeGrob, c(grobs[groups[[g]]], params))
   }
   
