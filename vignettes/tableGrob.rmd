@@ -7,7 +7,7 @@ Diplaying tables as grid graphics
 
 ```{r setup, echo=FALSE, results='hide'}
 library(knitr)
-opts_chunk$set(message=FALSE, fig.width=4, fig.height=4)
+opts_chunk$set(message=FALSE, fig.width=4, fig.height=2)
 ```
 
 Tabular data is usually formatted outside the graphics device, e.g via LaTeX, or html tables. However, in some cases it may be convenient to display *small* tables alongside graphics. A couple of packages offer this possibility with base graphics (`plotrix`, `gmisc`); the `gridExtra` provides the pair of `tableGrob/grid.table` functions for this purpose. Note that the tables are quite inefficient, each cell containing two individual grobs.
