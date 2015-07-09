@@ -1,44 +1,62 @@
-Fast calculation of the Voigt lineshape via the Faddeeva function
-=================================================================
+Arranging multiple grobs on a page
+===================================
 <!-- 
 %\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{voigt}
+%\VignetteIndexEntry{tableGrob}
 -->
-The Voigt lineshape is important in many fields of spectroscopy, yet the direct approach of numerical convolution between a Lorentzian and a Gaussian can be too slow. With the `RcppFaddeeva` package we leverage in `R` the elegant `c++` routines provided by Steve G. Johnson for the calculation of the closely related Faddeeva function, with seamless bindings provided by `Rcpp`. 
+The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
 
-## Voigt profile, obtained from `Faddeeva_w`
-
-In this example we compare the Gaussian, Lorentzian, and Voigt lineshapes for a peak centred at 200.
-```{r plot}
-library(RcppFaddeeva)
-x <- seq(-1000, 1000)
-x0 <- 200
-l <- Lorentz(x, x0, 30)
-g <- Gauss(x, x0, 100)
-N <- length(x)
-c <- convolve(Gauss(x, 0, 100), 
-              rev(Lorentz(x, x0, 30)), type="o")[seq(N/2, length=N)]
-v <- Voigt(x, x0, 100, 30)
-matplot(x, cbind(v, l, g, c), t="l", lty=c(1,2,2,1), xlab="x", ylab="")
-legend("topleft", legend = c("Voigt", "Lorentz", "Gauss", "Convolution"), bty="n",
-      lty=c(1,2,2,1), col=1:4)
+In this example we mix a few grobs and plots
+```{r basic}
+library(gridExtra)
+library(grid)
+library(ggplot2)
+library(lattice)
+p <- qplot(1,1)
+p2 <- xyplot(1~1)
+r <- rectGrob(gp=gpar(fill="grey90"))
+t <- textGrob("text")
+grid.arrange(t, p, p2, r, ncol=2)
 ```
 
-We also check that the prefactors are correct; the three distributions should integrate to unity (note that if `x0` is too far from the origin and/or the distribution is too narrow, `integrate()` may fail to sample the center of mass and give an erroneous answer).
-
-```{r integrals}
-integrate(Lorentz, -Inf, Inf, x0=200, gamma=100)
-integrate(Gauss, -Inf, Inf, x0=200, sigma=50)
-integrate(Voigt, -Inf, Inf, x0=200, sigma=50, gamma=100)
+```{r annotations}
+gs <- lapply(1:9, function(ii) 
+  grobTree(rectGrob(gp=gpar(fill=ii, alpha=0.5)), textGrob(ii)))
+grid.arrange(grobs=gs, ncol=4, 
+               top="top label", bottom="bottom\nlabel", 
+               left="left label", right="right label")
+grid.rect(gp=gpar(fill=NA))
 ```
 
-An interesting side-effect of obtaining the Voigt lineshape via the imaginary part of the complex Faddeeva function is the direct access to its harmonic conjugate in the real part. This can be useful in modelling optical response functions connected by a Hilbert transform.
+We can also provide more complex layouts,
 
-```{r complex}
-x <- seq(-1000, 1000)
-x0 <- 200
-v <- Voigt(x, x0, 100, 30, real = FALSE)
-matplot(x, cbind(Re(v), Im(v)), t="l", lty=c(1,2), xlab="x", ylab="", col=1)
-legend("topleft", legend = c("Imaginary part", "Real part"), bty="n",
-      lty=c(1,2), col=1)
+```{r layout}
+lay <- rbind(c(1,1,1,2,3),
+             c(1,1,1,4,5),
+             c(6,7,8,9,9))
+grid.arrange(grobs = gs, layout_matrix = lay)
 ```
+
+The `grid.arrange()` function draws on the device; for more complex layouts, we may want to store the gtable and combine it with other objects, e.g. forming nested layouts. To this end, use `arrangeGrob()`,
+
+```{r grob}
+g1 <- arrangeGrob(r,r,r,r)
+g2 <- arrangeGrob(grobs = gs, layout_matrix = lay)
+grid.arrange(g1, g2, ncol=2)
+```
+
+Finally, we may want to place grobs on multiple pages; the `marrangeGrob()` function provides a convenient interface for this, also compatible with `ggsave()`.
+
+
+```{r marrange}
+pl <- lapply(1:11, function(.x) 
+             qplot(1:10, rnorm(10), main=paste("plot",.x)))
+ml <- marrangeGrob(pl, nrow=2, ncol=2)
+## interactive use; open new devices
+ml
+## non-interactive use, multipage pdf
+## ggsave("multipage.pdf", ml)
+```
+
+
+
