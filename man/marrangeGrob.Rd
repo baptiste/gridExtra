@@ -34,7 +34,7 @@ devices such as pdf call grid.newpage() between the drawings.
 \dontrun{
 library(ggplot2)
 pl <- lapply(1:11, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
-ml <- marrangeGrob(pl, nrow=2, ncol=2, 4)
+ml <- marrangeGrob(pl, nrow=2, ncol=2)
 ## interactive use; open new devices
 ml
 ## non-interactive use, multipage pdf
