@@ -21,7 +21,7 @@ grid.table(d)
 
 The spacing of each row/column is automatic, and will adjust to bigger cell contents. Plotmath notation may be used, with the `parse=TRUE` argument. Note that this is applied to individual strings of text, and reverts to standard text if parsing fails (this is useful when mixing multiline text with plotmath in different cells).
 
-```{r annotations}
+```{r annotations, fig.height=3}
 d[2,3] <- "this is very wwwwwide"
 d[1,2] <- "this\nis\ntall"
 colnames(d) <- c("alpha*integral(xdx,a,infinity)", 
