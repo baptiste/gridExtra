@@ -7,7 +7,7 @@ Arranging multiple grobs on a page
 
 ```{r setup, echo=FALSE, results='hide'}
 library(knitr)
-opts_chunk$set(message=FALSE, fig.width=4, fig.height=4)
+opts_chunk$set(message=FALSE, fig.width=4, fig.height=3)
 ```
 
 The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
@@ -45,7 +45,7 @@ grid.arrange(grobs = gs, layout_matrix = lay)
 
 All cells are of equal size by default, but users may pass explicity `widths` and/or `heights` in any valid grid units,
 
-```{r sizes}
+```{r sizes, fig.height=2}
 grid.arrange(grobs=gs[1:3], ncol=2, widths = unit(1:2, "null"), 
              heights=unit(c(1,10), c("in", "mm")))
 ```
