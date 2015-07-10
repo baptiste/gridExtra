@@ -1,4 +1,4 @@
-Diplaying tables as grid graphics
+Displaying tables as grid graphics
 =================================
 <!-- 
 %\VignetteEngine{knitr::rmarkdown}
