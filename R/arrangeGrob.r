@@ -9,10 +9,12 @@
 ##' @param bottom optional string, or grob
 ##' @param left optional string, or grob
 ##' @param right optional string, or grob
+##' @param padding unit of length one, margin around annotations
 ##' @param as.table logical: bottom-left to top-right or top-left to bottom-right
 ##' @param layout_matrix optional layout
 ##' @param name argument of gtable
 ##' @param respect argument of gtable
+##' @param clip argument of gtable
 ##' @param nrow argument of gtable
 ##' @param ncol argument of gtable
 ##' @param widths argument of gtable
@@ -29,11 +31,13 @@
 arrangeGrob <- function(..., grobs=list(...), 
                         layout_matrix, 
                         vp=NULL, name = "arrange",
-                        as.table=TRUE, respect = FALSE,
+                        as.table=TRUE, 
+                        respect = FALSE, clip = "off",
                         nrow=NULL, ncol=NULL, 
                         widths = NULL, heights = NULL,
                         top = NULL, bottom = NULL, 
-                        left = NULL, right = NULL){
+                        left = NULL, right = NULL,
+                        padding = unit(0.5,"line")){
   
   ## figure out the layout
   n <- length(grobs)
@@ -93,6 +97,13 @@ arrangeGrob <- function(..., grobs=list(...),
   if(is.null(widths)) widths <- unit(rep(1, ncol), "null")
   if(is.null(heights)) heights <- unit(rep(1,nrow), "null")
   
+  stopifnot(length(widths) == ncol)
+  stopifnot(length(heights) == nrow)
+  
+  ## lazy specification as relative numbers
+  if (!is.unit(widths))  widths <- unit(widths, "null")
+  if (!is.unit(heights)) heights <- unit(heights, "null")
+  
   ## build the gtable, similar steps to gtable_matrix
   gt <- gtable(name=name, 
                respect = respect,
@@ -106,48 +117,48 @@ arrangeGrob <- function(..., grobs=list(...),
                         l = positions$l,
                         r = positions$r, 
                         z = seq_along(grobs),
-                        clip = "off")
+                        clip = clip)
   
   ## titles given as strings are converted to text grobs
   if(is.character(top)){
     top <- textGrob(top)
   }
   if(is.grob(top)){
-    h <- grobHeight(top) + unit(0.5,"line")
+    h <- grobHeight(top) + padding
     gt <- gtable_add_rows(gt, heights=h, 0)
     gt <- gtable_add_grob(gt, top, t=1, l=1, r=ncol(gt), z=Inf,
-                          clip = "off")
+                          clip = clip)
   }
   if(is.character(bottom)){    
     bottom <- textGrob(bottom)
   }
   if(is.grob(bottom)){
-    h <- grobHeight(bottom) + unit(0.5,"line")
+    h <- grobHeight(bottom) + padding
     gt <- gtable_add_rows(gt, heights = h, -1)
     gt <- gtable_add_grob(gt, bottom, 
                           t=nrow(gt), l=1, r=ncol(gt), z=Inf,
-                          clip = "off")
+                          clip = clip)
   }
   if(is.character(left)){
     left <- textGrob(left, rot = 90)
   }
   if(is.grob(left)){
-    w <- grobWidth(left) + unit(0.5,"line")
+    w <- grobWidth(left) + padding
     gt <- gtable_add_cols(gt, widths=w, 0)
     gt <- gtable_add_grob(gt, left, t=1, b=nrow(gt), 
                           l=1, r=1, z=Inf,
-                          clip = "off")
+                          clip = clip)
   }
   if(is.character(right)){
     right <- textGrob(right, rot = -90)
   }
   if(is.grob(right)){
-    w <- grobWidth(right) + unit(0.5,"line")
+    w <- grobWidth(right) + padding
     gt <- gtable_add_cols(gt, widths=w, -1)
     gt <- gtable_add_grob(gt, right, 
                           t=1, b=nrow(gt), 
                           l=ncol(gt), r=ncol(gt), z=Inf,
-                          clip = "off")
+                          clip = clip)
   }
   
   gt

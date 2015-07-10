@@ -6,9 +6,9 @@
 \title{arrangeGrob}
 \usage{
 arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
-  name = "arrange", as.table = TRUE, respect = FALSE, nrow = NULL,
-  ncol = NULL, widths = NULL, heights = NULL, top = NULL,
-  bottom = NULL, left = NULL, right = NULL)
+  name = "arrange", as.table = TRUE, respect = FALSE, clip = "off",
+  nrow = NULL, ncol = NULL, widths = NULL, heights = NULL, top = NULL,
+  bottom = NULL, left = NULL, right = NULL, padding = unit(0.5, "line"))
 
 grid.arrange(..., newpage = TRUE)
 }
@@ -27,6 +27,8 @@ grid.arrange(..., newpage = TRUE)
 
 \item{respect}{argument of gtable}
 
+\item{clip}{argument of gtable}
+
 \item{nrow}{argument of gtable}
 
 \item{ncol}{argument of gtable}
@@ -42,6 +44,8 @@ grid.arrange(..., newpage = TRUE)
 \item{left}{optional string, or grob}
 
 \item{right}{optional string, or grob}
+
+\item{padding}{unit of length one, margin around annotations}
 
 \item{newpage}{open a new page}
 }
