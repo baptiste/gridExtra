@@ -3,12 +3,11 @@ Authors@R: person("Baptiste", "Auguie",
     email = "baptiste.auguie@gmail.com",
     role = c("aut", "cre"))
 License: GPL (>= 2)
-Title: Miscellaneous functions for "grid" graphics
+Title: Miscellaneous Functions for "Grid" Graphics
 Type: Package
 Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
 Version: 2.0.0
 URL: https://github.com/baptiste/gridextra
-DOI: http://dx.doi.org/10.5281/zenodo.11422
 VignetteBuilder: knitr
 Imports:
     gtable, 
