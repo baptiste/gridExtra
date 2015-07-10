@@ -43,6 +43,13 @@ lay <- rbind(c(1,1,1,2,3),
 grid.arrange(grobs = gs, layout_matrix = lay)
 ```
 
+All cells are of equal size by default, but users may pass explicity `widths` and/or `heights` in any valid grid units,
+
+```{r sizes}
+grid.arrange(grobs=gs[1:3], ncol=2, widths = unit(1:2, "null"), 
+             heights=unit(c(1,10), c("in", "mm")))
+```
+
 The `grid.arrange()` function draws on the device; for more complex layouts, we may want to store the gtable and combine it with other objects, e.g. forming nested layouts. To this end, use `arrangeGrob()`,
 
 ```{r grob}
