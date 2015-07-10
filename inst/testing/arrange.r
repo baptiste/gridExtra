@@ -12,6 +12,8 @@ p2 <- xyplot(1~1)
 grid.arrange(p,p2,p,p2)
 grid.arrange(p,p2)
 
+grid.arrange(r,r, widths=1:2, ncol=2)
+
 grid.arrange(r,r,r,r,ncol=3,nrow=3)
 grid.arrange(r,r,r,r,ncol=3,nrow=3,as.table=FALSE)
 
