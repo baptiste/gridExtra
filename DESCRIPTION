@@ -11,11 +11,13 @@ URL: https://github.com/baptiste/gridextra
 VignetteBuilder: knitr
 Imports:
     gtable, 
-    grid
+    grid,
+    grDevices
 Suggests: 
     ggplot2, 
     lattice,
-    knitr
+    knitr,
+    testthat
 Collate:   
   grob-utils.r
   arrangeGrob.r

@@ -23,6 +23,7 @@
 ##' @return return a gtable
 ##' @import gtable
 ##' @import grid
+##' @importFrom grDevices n2mfrow
 ##' @export
 ##' 
 ##' @examples
@@ -39,18 +40,51 @@ arrangeGrob <- function(..., grobs=list(...),
                         left = NULL, right = NULL,
                         padding = unit(0.5,"line")){
   
-  ## figure out the layout
   n <- length(grobs)
   
-  if(is.null(nrow) && is.null(ncol)) 
+  ## logic for the layout
+  # if nrow/ncol supplied, honour this
+  # if not, use length of widths/heights, if supplied
+  # if nothing supplied, work out sensible defaults
+  
+  ## nothing to be done but check inconsistency
+  if (!is.null(ncol) && !is.null(widths)){
+    stopifnot(length(widths) == ncol)
+  }
+  if (!is.null(nrow) && !is.null(heights)){
+    stopifnot(length(heights) == nrow)
+  }
+  ## use widths/heights if supplied
+  if (is.null(ncol) && !is.null(widths)){
+    ncol <- length(widths)
+  }
+  if (is.null(nrow) && !is.null(heights)){
+    nrow <- length(heights)
+  }
+  ## work out the missing one
+  if(is.null(nrow) && !is.null(ncol)) {
+    nrow <- ceiling(n/ncol)
+  }
+  if(is.null(ncol) && !is.null(nrow)) {
+    ncol <- ceiling(n/nrow)
+  }
+  
+  ## it may happen that sufficient info was passed,
+  ## but incompatible with number of grobs (fewer cells)
+  stopifnot(nrow*ncol >= n)
+  
+  ## last case: nothing exists
+  if(is.null(nrow) && is.null(ncol) && 
+     is.null(widths) && is.null(heights)) 
   {
-    nm <- n2mfrow(n)
+    nm <- grDevices::n2mfrow(n)
     nrow = nm[1]
     ncol = nm[2]
   }
-  if(is.null(nrow)) nrow <- ceiling(n/ncol)
-  if(is.null(ncol)) ncol <- ceiling(n/nrow)
-     
+  
+  ## debugging
+  # message("nrow:", nrow, " ncol:", ncol)
+  
   ## conversions
   inherit.ggplot <-  unlist(lapply(grobs, inherits, what="ggplot"))
   inherit.trellis <- unlist(lapply(grobs, inherits, what="trellis"))
@@ -97,10 +131,7 @@ arrangeGrob <- function(..., grobs=list(...),
   if(is.null(widths)) widths <- unit(rep(1, ncol), "null")
   if(is.null(heights)) heights <- unit(rep(1,nrow), "null")
   
-  stopifnot(length(widths) == ncol)
-  stopifnot(length(heights) == nrow)
-  
-  ## lazy specification as relative numbers
+  ## lazy size specification as relative numbers
   if (!is.unit(widths))  widths <- unit(widths, "null")
   if (!is.unit(heights)) heights <- unit(heights, "null")
   
