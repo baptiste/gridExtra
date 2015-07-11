@@ -1,4 +1,8 @@
 ## compute vertices of a convex polygon
+
+#' @describeIn ngonGrob
+#' @inheritParams ngonGrob
+##' @export
 polygon_regular <- function(n = 5, phase = 0){
   stopifnot(n > 2)
   cc <- exp(seq(0, n)*2i*pi/n) * exp(1i*(phase+pi/2))
@@ -23,37 +27,35 @@ polygon_regular <- function(n = 5, phase = 0){
 ##' @return grob
 ##' @export
 ##' @examples
-##' N <- 10
+##' N <- 8
 ##' xy <- polygon_regular(N)*2
-##' test <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
-##'                  unit(xy[,2],"cm") + unit(0.5,"npc"),
-##'                  n = seq_len(N) + 2)
+##' 
+##' # draw multiple polygons
+##' g <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
+##'               unit(xy[,2],"cm") + unit(0.5,"npc"),
+##'               n = seq_len(N) + 2)
 ##' 
 ##' grid.newpage()
-##' grid.draw(test)
+##' grid.draw(g)
 ##' 
-##' 
-##' N <- 5
-##' xy <- polygon_regular(N)*2
-##' test <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
-##'                  unit(xy[,2],"cm") + unit(0.5,"npc"),
-##'                  n = seq_len(N) + 2,
-##'                  phase = pi/2, angle=pi/(seq_len(N)+2),
-##'                  size=1:N+5)
+##' # rotated and stretched
+##' g2 <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
+##'               unit(xy[,2],"cm") + unit(0.5,"npc"),
+##'               n = seq_len(N) + 2,
+##'               phase = pi/2, angle=pi/(seq_len(N)+2),
+##'               size=1:N+5)
 ##' 
 ##' grid.newpage()
-##' grid.draw(test)
+##' grid.draw(g2)
 ##' 
-##' N <- 5
-##' xy <- polygon_regular(N)*2
-##' test <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
-##'                  unit(xy[,2],"cm") + unit(0.5,"npc"),
-##'                  n = 50,
-##'                  phase = 0, angle=seq_len(N)* pi/N,
-##'                  size=1:N+5, rho=1:N)
+##' # ellipse
+##' g3 <- ellipseGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
+##'                   unit(xy[,2],"cm") + unit(0.5,"npc"),
+##'                   angle=seq_len(N)* pi/N,
+##'                   size=1:N+5, rho=1:N)
 ##' 
 ##' grid.newpage()
-##' grid.draw(test)
+##' grid.draw(g3)
 ngonGrob <- function (x, y, n = 5, size = 5, phase = pi/2, 
                       angle = pi/4, rho = 1,
                       gp = gpar(colour = "black", fill = NA, 
