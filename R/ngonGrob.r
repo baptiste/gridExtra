@@ -1,15 +1,3 @@
-## compute vertices of a convex polygon
-
-#' @describeIn ngonGrob
-#' @inheritParams ngonGrob
-##' @export
-polygon_regular <- function(n = 5, phase = 0){
-  stopifnot(n > 2)
-  cc <- exp(seq(0, n)*2i*pi/n) * exp(1i*(phase+pi/2))
-  cbind(Re(cc), Im(cc))
-}
-
-
 ##' Regular polygon grob
 ##'
 ##' @aliases ngonGrob grid.ngon ellipseGrob grid.ellipse
@@ -18,15 +6,17 @@ polygon_regular <- function(n = 5, phase = 0){
 ##' @param y y unit
 ##' @param n number of vertices
 ##' @param size radius of circumscribing circle
-##' @param phase angle of first point relative to x axis
+##' @param phase angle in radians of first point relative to x axis
 ##' @param rho aspect ratio
-##' @param default.units default units for the positions
+##' @param angle angle of polygon in radians
+##' @param position.units default units for the positions
 ##' @param size.units grid units for the sizes
 ##' @param gp gpar
 ##' @param ... further parameters passed to polygonGrob
 ##' @return grob
 ##' @export
 ##' @examples
+##' library(grid)
 ##' N <- 8
 ##' xy <- polygon_regular(N)*2
 ##' 
@@ -144,4 +134,14 @@ ellipseGrob <- function(x, y, size = 5,
 grid.ellipse <- function(...)
 {
   grid.draw(ellipseGrob(...))
+}
+
+
+#' @describeIn ngonGrob
+#' @inheritParams ngonGrob
+##' @export
+polygon_regular <- function(n = 5, phase = 0){
+  stopifnot(n > 2)
+  cc <- exp(seq(0, n)*2i*pi/n) * exp(1i*(phase+pi/2))
+  cbind(Re(cc), Im(cc))
 }
