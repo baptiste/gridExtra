@@ -12,7 +12,9 @@ VignetteBuilder: knitr
 Imports:
     gtable, 
     grid,
-    grDevices
+    grDevices,
+    graphics,
+    utils
 Suggests: 
     ggplot2, 
     lattice,

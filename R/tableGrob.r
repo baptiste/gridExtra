@@ -84,6 +84,8 @@ ttheme_default <- function(...){
 
 #' @describeIn tableGrob
 #' @inheritParams tableGrob
+#' @importFrom utils modifyList
+#' @importFrom grDevices dev.interactive dev.new
 ##' @export
 ttheme_minimal <- function(...){
   

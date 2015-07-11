@@ -2,6 +2,8 @@ latticeGrob <- function(p, ...){
   grob(p=p, ..., cl="lattice")
 }
 
+
+#' @importFrom graphics plot
 #' @export
 drawDetails.lattice <- function(x, recording=FALSE){
   stopifnot(requireNamespace("lattice", quietly = TRUE)) 
