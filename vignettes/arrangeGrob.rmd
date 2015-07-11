@@ -12,7 +12,7 @@ opts_chunk$set(message=FALSE, fig.width=4, fig.height=3)
 
 The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
 
-In this example we mix a few grobs and plots
+In this example we mix a few grobs and plots,
 ```{r basic}
 library(gridExtra)
 library(grid)
@@ -62,8 +62,9 @@ Finally, we may want to place grobs on multiple pages; the `marrangeGrob()` func
 
 
 ```{r marrange}
+set.seed(123)
 pl <- lapply(1:11, function(.x) 
-             qplot(1:10, rnorm(10), main=paste("plot",.x)))
+             qplot(1:10, rnorm(10), main=paste("plot", .x)))
 ml <- marrangeGrob(pl, nrow=2, ncol=2)
 ## interactive use; open new devices
 ml
