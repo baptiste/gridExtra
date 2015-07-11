@@ -25,3 +25,4 @@ Collate:
   arrangeGrob.r
   gridExtra-package.r
   tableGrob.r
+  ngonGrob.r
