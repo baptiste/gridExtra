@@ -1,9 +1,14 @@
-Displaying tables as grid graphics
-=================================
-<!-- 
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{tableGrob}
--->
+---
+title: "Displaying tables as grid graphics"
+author: "Baptiste Auguie"
+date: '`r Sys.Date()`'
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{tableGrob: displaying tables as grid graphics}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
 
 ```{r setup, echo=FALSE, results='hide'}
 library(knitr)
@@ -12,12 +17,16 @@ opts_chunk$set(message=FALSE, fig.width=4, fig.height=2)
 
 Tabular data is usually formatted outside the graphics device, e.g via LaTeX, or html tables. However, in some cases it may be convenient to display *small* tables alongside graphics. A couple of packages offer this possibility with base graphics (`plotrix` for instance); the `gridExtra` provides the pair of `tableGrob/grid.table` functions for this purpose. Note that the tables are quite inefficient, each cell containing two individual grobs.
 
+## Basic usage
+
 ```{r basic}
 library(gridExtra)
 library(grid)
 d <- head(iris[,1:3])
 grid.table(d)
 ```
+
+## Spacing
 
 The spacing of each row/column is automatic, and will adjust to bigger cell contents. Plotmath notation may be used, with the `parse=TRUE` argument. Note that this is applied to individual strings of text, and reverts to standard text if parsing fails (this is useful when mixing multiline text with plotmath in different cells).
 
@@ -32,6 +41,8 @@ grid.table(d, theme=tt)
 
 ```
 
+## Aesthetic formatting
+
 The formatting is controlled by *themes*, which are nested lists of graphical parameters. See `ttheme_default` and `ttheme_minimal` for two built-in examples. Changing a few parameters at a time amounts to modifying the list with the new values.
 
 ```{r theme, fig.width=8}
@@ -44,6 +55,8 @@ grid.arrange(
   tableGrob(iris[1:4, 1:2], theme=tt3),
   nrow=1)
 ```
+
+## Text justification
 
 The text labels can be justified; the default is "centre" for the core, header, and row names. These settings can be adjusted by passing the relevant parameters of `textGrob` via the theme nested lists,
 
@@ -60,6 +73,7 @@ grid.arrange(
   nrow=1)
 ```
 
+## Further gtable processing and integration
 
 Being based on `gtable`, the table can be further processed. In particular, we may edit the cell sizes to align with other content on the page.
 

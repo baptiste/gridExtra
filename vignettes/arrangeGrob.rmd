@@ -1,9 +1,14 @@
-Arranging multiple grobs on a page
-===================================
-<!-- 
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{arrangeGrob}
--->
+---
+title: "Arranging multiple grobs on a page"
+author: "Baptiste Auguie"
+date: '`r Sys.Date()`'
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{arrangeGrob: arranging multiple grobs on a page}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
 
 ```{r setup, echo=FALSE, results='hide'}
 library(knitr)
@@ -11,6 +16,8 @@ opts_chunk$set(message=FALSE, fig.width=4, fig.height=3)
 ```
 
 The `grid` package provides low-level functions to create graphical objects (`grobs`), and position them on a page in specific `viewports`. The `gtable` package introduced a higher-level layout scheme, arguably more amenable to user-level interaction. With the `arrangeGrob/grid.arrange()` pair of functions, `gridExtra` builds upon `gtable` to arrange multiple grobs on a page.
+
+## Basic usage
 
 In this example we mix a few grobs and plots,
 ```{r basic}
@@ -25,6 +32,8 @@ t <- textGrob("text")
 grid.arrange(t, p, p2, r, ncol=2)
 ```
 
+## Title and/or annotations
+
 ```{r annotations}
 gs <- lapply(1:9, function(ii) 
   grobTree(rectGrob(gp=gpar(fill=ii, alpha=0.5)), textGrob(ii)))
@@ -34,7 +43,9 @@ grid.arrange(grobs=gs, ncol=4,
 grid.rect(gp=gpar(fill=NA))
 ```
 
-We can also provide more complex layouts,
+## Complex layouts
+
+We can provide a matrix defining the layout,
 
 ```{r layout}
 lay <- rbind(c(1,1,1,2,3),
@@ -50,6 +61,8 @@ grid.arrange(grobs=gs[1:3], ncol=2, widths = 1:2,
              heights=unit(c(1,10), c("in", "mm")))
 ```
 
+## Nested layouts with `arrangeGrob`
+
 The `grid.arrange()` function draws on the device; for more complex layouts, we may want to store the gtable and combine it with other objects, e.g. forming nested layouts. To this end, use `arrangeGrob()`,
 
 ```{r grob}
@@ -57,6 +70,8 @@ g1 <- arrangeGrob(grobs = gs, layout_matrix = t(lay))
 g2 <- arrangeGrob(grobs = gs, layout_matrix = lay)
 grid.arrange(g1, g2, ncol=2)
 ```
+
+## Multipe pages output
 
 Finally, we may want to place grobs on multiple pages; the `marrangeGrob()` function provides a convenient interface for this, also compatible with `ggsave()`.
 

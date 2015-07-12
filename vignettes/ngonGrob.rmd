@@ -1,9 +1,14 @@
-Regular polygons and ellipses in grid graphics
-=============================================
-<!-- 
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{ngonGrob}
--->
+---
+title: "Regular polygons and ellipses in grid graphics"
+author: "Baptiste Auguie"
+date: '`r Sys.Date()`'
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{ngonGrob: regular polygons and ellipses in grid graphics}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
 
 ```{r setup, echo=FALSE, results='hide'}
 library(knitr)
@@ -11,6 +16,8 @@ opts_chunk$set(message=FALSE, fig.width=4, fig.height=3)
 ```
 
 The `gridExtra` package provides a basic implementation of regular polygons, `ngonGrob()/grid.ngon`, and a convenience function to draw ellipses, `ellipseGrob()/grid.ellipse()`. We illustrate below the basic usage of these vectorised functions.
+
+## Basic usage
 
 ```{r basic}
 library(gridExtra)
