@@ -39,11 +39,27 @@ tt1 <- ttheme_default()
 tt2 <- ttheme_minimal()
 tt3 <- ttheme_minimal(core=list(bg.par = list(fill = blues9, col=NA)), colhead=list(fg.par=list(col="navyblue")))
 grid.arrange(
-tableGrob(iris[1:4, 1:2], theme=tt1),
-tableGrob(iris[1:4, 1:2], theme=tt2),
-tableGrob(iris[1:4, 1:2], theme=tt3),
-nrow=1)
+  tableGrob(iris[1:4, 1:2], theme=tt1),
+  tableGrob(iris[1:4, 1:2], theme=tt2),
+  tableGrob(iris[1:4, 1:2], theme=tt3),
+  nrow=1)
 ```
+
+The text labels can be justified; the default is "centre" for the core, header, and row names. These settings can be adjusted by passing the relevant parameters of `textGrob` via the theme nested lists,
+
+```{r justify, fig.width=8}
+tt1 <- ttheme_default()
+tt2 <- ttheme_default(core=list(fg.par=list(hjust=1, x=0.9)),
+                      rowhead=list(fg.par=list(hjust=1, x=0.95)))
+tt3 <- ttheme_default(core=list(fg.par=list(hjust=0, x=0.1)),
+                      rowhead=list(fg.par=list(hjust=0, x=0)))
+grid.arrange(
+  tableGrob(mtcars[1:4, 1:2], theme=tt1),
+  tableGrob(mtcars[1:4, 1:2], theme=tt2),
+  tableGrob(mtcars[1:4, 1:2], theme=tt3),
+  nrow=1)
+```
+
 
 Being based on `gtable`, the table can be further processed. In particular, we may edit the cell sizes to align with other content on the page.
 
@@ -56,19 +72,66 @@ grid.arrange(g, g2, nrow=1, newpage = FALSE)
 
 We may also access individual cells, e.g. to highlight a value.
 
-
 ```{r highlight}
 g <- tableGrob(iris[1:4, 1:3])
 find_cell <- function(table, row, col, name="core-fg"){
   l <- table$layout
   which(l$t==row & l$l==col & l$name == name)
 }
-  
+
 ind <- find_cell(g, 3, 2, "core-fg")
 ind2 <- find_cell(g, 3, 2, "core-bg")
 g$grobs[ind][[1]][["gp"]] <- gpar(fontsize=15, fontface="bold")
 g$grobs[ind2][[1]][["gp"]] <- gpar(fill="darkolivegreen1")
 grid.draw(g)
+```
+
+## Faster tables: an alternative grid function
+
+The `tableGrob` function can be very slow; unfortunately this is the price to pay for its versatility and easier implementation. We use individual `textGrob` and `rectGrob` elements for each cell, instead of relying on the vectorised implementation of these functions. The reason is practical: it is much easier to place, measure, and customise individual grobs, than modify the graphical parameters and positions of a single vectorised grob. An alternative function is presented below, using this vectorised approach, but lacking many of the customisations of `tableGrob`.
+
+
+```{r ftable, fig.width=6}
+grid.ftable <- function(d, padding = unit(4, "mm"), ...) {
+  
+  nc <- ncol(d)
+  nr <- nrow(d)
+  
+  ## character table with added row and column names
+  extended_matrix <- cbind(c("", rownames(d)),   
+                           rbind(colnames(d),
+                                 as.matrix(d)))
+  
+  ## string width and height. 
+  w <- apply(extended_matrix, 2, strwidth, "inch")
+  h <- apply(extended_matrix, 2, strheight, "inch")
+  
+  widths <- apply(w, 2, max)
+  heights <- apply(h, 1, max)
+  
+  padding <- convertUnit(padding, unitTo = "in", valueOnly = TRUE)
+  
+  x <- cumsum(widths + padding) - 0.5 * padding
+  y <- cumsum(heights + padding) - padding
+  
+  rg <- rectGrob(x = unit(x - widths/2, "in"), 
+                 y = unit(1, "npc") - unit(rep(y, each = nc + 1), "in"), 
+                 width = unit(widths + padding, "in"), 
+                 height = unit(heights + padding, "in"))
+  
+  tg <- textGrob(c(t(extended_matrix)), x = unit(x - widths/2, "in"), 
+                 y = unit(1, "npc") - unit(rep(y, each = nc + 1), "in"), 
+                 just = "center")
+  
+  g <- gTree(children = gList(rg, tg), ..., 
+             x = x, y = y, widths = widths, heights = heights)
+  
+  grid.draw(g)
+  invisible(g)
+}
+
+grid.newpage()
+grid.ftable(head(iris, 4), gp = gpar(fill = rep(c("grey90", "grey95"), each = 6)))
 ```
 
 
