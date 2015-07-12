@@ -60,8 +60,8 @@ ngonGrob <- function (x, y, n = 5, size = 5, phase = pi/2,
   if (!is.unit(y)) 
     y <- unit(y, position.units)
   
-  xv <- convertX(x, "npc", TRUE)
-  yv <- convertY(y, "npc", TRUE)
+  xv <- convertX(x, position.units, TRUE)
+  yv <- convertY(y, position.units, TRUE)
   
   if (length(n) < N) 
     n <- rep(n, length.out = N)
