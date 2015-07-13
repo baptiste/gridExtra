@@ -91,7 +91,7 @@ We may also access individual cells, e.g. to highlight a value.
 g <- tableGrob(iris[1:4, 1:3])
 find_cell <- function(table, row, col, name="core-fg"){
   l <- table$layout
-  which(l$t==row & l$l==col & l$name == name)
+  which(l$t==row & l$l==col & l$name==name)
 }
 
 ind <- find_cell(g, 3, 2, "core-fg")
