@@ -163,8 +163,8 @@ rect_grob <- function(fill = "white",
                       linejoin = "round", 
                       linemitre = 10, lex = 1){
   
-  rectGrob(width = unit(1,"npc") - unit(4, "pt"), 
-           height = unit(1,"npc") - unit(4, "pt"),
+  rectGrob(width = unit(1,"npc") - unit(2, "scaledpts"), 
+           height = unit(1,"npc") - unit(2, "scaledpts"),
            gp = gpar(col = col, 
                      fill = fill, 
                      lty = lty, 
