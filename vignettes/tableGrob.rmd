@@ -117,7 +117,7 @@ grid.ftable <- function(d, padding = unit(4, "mm"), ...) {
                            rbind(colnames(d),
                                  as.matrix(d)))
   
-  ## string width and height. 
+  ## string width and height
   w <- apply(extended_matrix, 2, strwidth, "inch")
   h <- apply(extended_matrix, 2, strheight, "inch")
   
