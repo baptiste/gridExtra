@@ -87,6 +87,42 @@ ttheme_default <- function(...){
 }
 
 
+
+#' @describeIn tableGrob
+#' @inheritParams tableGrob
+##' @export
+ttheme_minimal <- function(...){
+  
+  core <- list(fg_fun = text_grob, 
+               fg_params = list(parse=TRUE, col="black"),
+               bg_fun = rect_grob, 
+               bg_params = list(fill = NA, col=NA),
+               padding = unit(c(4, 4), "mm"))
+  
+  colhead <- list(fg_fun = text_grob, 
+                  fg_params = list(parse=TRUE, fontface="bold"),
+                  bg_fun = rect_grob, 
+                  bg_params = list(fill = NA, col=NA),
+                  padding = unit(c(4, 4), "mm"))
+  
+  rowhead <- list(fg_fun = text_grob, 
+                  fg_params = list(parse=TRUE, fontface="italic", 
+                                   hjust = 1, x = 0.95),
+                  bg_fun = rect_grob, 
+                  bg_params = list(fill=NA, col=NA),
+                  padding = unit(c(4, 4), "mm"))
+  
+  default <- list(
+    core = core,
+    colhead = colhead,
+    rowhead= rowhead
+  )
+  
+  modifyList(default, list(...))
+  
+}
+
+
 #' @export
 text_grob <- function(label, 
                       parse=FALSE, 
