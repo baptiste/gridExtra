@@ -52,10 +52,6 @@ marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
 \item{padding}{unit of length one, margin around annotations}
 
 \item{newpage}{open a new page}
-
-\item{ncol}{number of columns per page}
-
-\item{nrow}{number of rows per page}
 }
 \value{
 return a gtable
