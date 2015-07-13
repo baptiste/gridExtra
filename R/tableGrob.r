@@ -18,6 +18,7 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                       theme = ttheme_default(),
                       ...){
   
+  
   g <- gtable_table(d, name="core",
                     fg_params = theme$core$fg_params, 
                     bg_params = theme$core$bg_params, 
@@ -56,21 +57,21 @@ grid.table <- function(...)
 ttheme_default <- function(...){
   
   core <- list(fg_fun = text_grob, 
-               fg_params = list(parse=TRUE, col="black"),
+               fg_params = list(parse=FALSE, col="black"),
                bg_fun = rect_grob, 
                bg_params = list(fill = c("grey95","grey90"), 
                                 lwd=1.5, col="white"),
                padding = unit(c(4, 4), "mm"))
   
   colhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=TRUE, fontface="bold"),
+                  fg_params = list(parse=FALSE, fontface=2L),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = c("grey80"), 
                                    lwd=1.5, col="white"),
                   padding = unit(c(4, 4), "mm"))
   
   rowhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=TRUE, fontface="italic", 
+                  fg_params = list(parse=FALSE, fontface=3L, 
                                    hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, col=NA),
@@ -94,19 +95,19 @@ ttheme_default <- function(...){
 ttheme_minimal <- function(...){
   
   core <- list(fg_fun = text_grob, 
-               fg_params = list(parse=TRUE, col="black"),
+               fg_params = list(parse=FALSE, col="black"),
                bg_fun = rect_grob, 
                bg_params = list(fill = NA, col=NA),
                padding = unit(c(4, 4), "mm"))
   
   colhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=TRUE, fontface="bold"),
+                  fg_params = list(parse=FALSE, fontface=2L),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = NA, col=NA),
                   padding = unit(c(4, 4), "mm"))
   
   rowhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=TRUE, fontface="italic", 
+                  fg_params = list(parse=FALSE, fontface=3L, 
                                    hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, col=NA),
@@ -130,7 +131,7 @@ text_grob <- function(label,
                       fontsize = 12, 
                       cex = 1, 
                       fontfamily = "",
-                      fontface = "plain",
+                      fontface = 1L,
                       lineheight = 1.2, 
                       alpha = 1, 
                       rot = 0,
@@ -198,12 +199,11 @@ gtable_table <- function(d, widths, heights,
                           label = as.vector(label_matrix), 
                           stringsAsFactors=FALSE)
   bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
-
   labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
                                               SIMPLIFY=FALSE)))
   bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
                                              SIMPLIFY=FALSE)))
-  
+
   label_grobs <- matrix(labels, ncol = nc)
   
   ## some calculations of cell sizes
