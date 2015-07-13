@@ -71,8 +71,7 @@ ttheme_default <- function(...){
                   padding = unit(c(4, 4), "mm"))
   
   rowhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=FALSE, fontface=3L, 
-                                   hjust = 1, x = 0.95),
+                  fg_params = list(parse=FALSE, fontface=3L),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, col=NA),
                   padding = unit(c(4, 4), "mm"))
