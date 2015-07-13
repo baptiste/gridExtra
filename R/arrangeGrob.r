@@ -220,6 +220,7 @@ grid.arrange <- function(..., newpage=TRUE){
 ##' @param nrow number of rows per page
 ##' @param top see \link{arrangeGrob}
 ##' @return list of class arrangelist
+##' @importFrom grDevices dev.interactive dev.new
 ##' @author baptiste Auguie
 ##' @export
 ##' @examples
