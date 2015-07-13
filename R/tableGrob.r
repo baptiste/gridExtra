@@ -122,8 +122,6 @@ ttheme_minimal <- function(...){
   
 }
 
-
-#' @export
 text_grob <- function(label, 
                       parse=FALSE, 
                       col = "black",
@@ -164,7 +162,10 @@ rect_grob <- function(fill = "white",
                       lineend = "round", 
                       linejoin = "round", 
                       linemitre = 10, lex = 1){
-  rectGrob(gp = gpar(col = col, 
+  
+  rectGrob(width = unit(1,"npc") - unit(4, "pt"), 
+           height = unit(1,"npc") - unit(4, "pt"),
+           gp = gpar(col = col, 
                      fill = fill, 
                      lty = lty, 
                      lwd = lwd, cex = cex, 
