@@ -18,17 +18,16 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                       theme = ttheme_default(),
                       ...){
   
+  
   g <- gtable_table(d, name="core",
-                    fg.par = theme$core$fg.par, 
-                    bg.par = theme$core$bg.par, 
-                    parse=theme$core$parse, 
+                    fg_params = theme$core$fg_params, 
+                    bg_params = theme$core$bg_params, 
                     padding=theme$core$padding, ...)
   
   if(!is.null(cols)){
     gc <- gtable_table(t(cols), name="colhead",
-                       fg.par = theme$colhead$fg.par, 
-                       bg.par = theme$colhead$bg.par, 
-                       parse=theme$colhead$parse, 
+                       fg_params = theme$colhead$fg_params, 
+                       bg_params = theme$colhead$bg_params, 
                        padding=theme$colhead$padding)
     g <- rbind_gtable(gc, g)
   }
@@ -36,9 +35,8 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
     if(!is.null(cols)) # need to add dummy cell
       rows <- c("", rows)
     gr <- gtable_table(rows, name="rowhead",
-                       fg.par = theme$rowhead$fg.par, 
-                       bg.par = theme$rowhead$bg.par, 
-                       parse=theme$rowhead$parse, 
+                       fg_params = theme$rowhead$fg_params, 
+                       bg_params = theme$rowhead$bg_params,
                        padding=theme$rowhead$padding)
     g <- cbind_gtable(gr, g)
   }
@@ -53,58 +51,30 @@ grid.table <- function(...)
   grid.draw(tableGrob(...))
 
 
-
 #' @describeIn tableGrob
 #' @inheritParams tableGrob
 ##' @export
 ttheme_default <- function(...){
   
-  core <- list(bg.par = list(fill = c("grey95","grey90"), lwd=1.5, col="white"),
-               fg.par = list(col="black"),
-               parse = FALSE, padding = unit(c(4, 4), "mm"))
+  core <- list(fg_fun = text_grob, 
+               fg_params = list(parse=FALSE, col="black"),
+               bg_fun = rect_grob, 
+               bg_params = list(fill = c("grey95","grey90"), 
+                                lwd=1.5, col="white"),
+               padding = unit(c(4, 4), "mm"))
   
-  colhead <- list(bg.par = list(fill = c("grey80"), lwd=1.5, col="white"),
-               fg.par = list(fontface="bold"),
-               parse = FALSE, padding = unit(c(4, 6), "mm"))
+  colhead <- list(fg_fun = text_grob, 
+                  fg_params = list(parse=FALSE, fontface=2L),
+                  bg_fun = rect_grob, 
+                  bg_params = list(fill = c("grey80"), 
+                                   lwd=1.5, col="white"),
+                  padding = unit(c(4, 4), "mm"))
   
-  rowhead <- list(bg.par = list(fill = NA, col=NA),
-                  fg.par = list(fontface="italic"),
-                  parse = FALSE, padding = unit(c(4, 4), "mm"))
-  
-  default <- list(
-    core = core,
-    colhead = colhead,
-    rowhead= rowhead
-    )
-  
-  modifyList(default, list(...))
-  
-}
-
-
-
-
-
-#' @describeIn tableGrob
-#' @inheritParams tableGrob
-#' @importFrom utils modifyList
-#' @importFrom grDevices dev.interactive dev.new
-#' @details 
-#' themes consist of a nested list with three top-level elements, core, colhead, and rowhead. Each of these is in turn a list of four parameters: parse, padding, bg.par
-##' @export
-ttheme_minimal <- function(...){
-  
-  core <- list(bg.par = list(fill = NA, col=NA),
-               fg.par = list(col="black"),
-               parse = FALSE, padding = unit(c(4, 4), "mm"))
-  
-  colhead <- list(bg.par = list(fill = NA, lwd=1.5, col=NA),
-                  fg.par = list(fontface="bold"),
-                  parse = FALSE, padding = unit(c(4, 6), "mm"))
-  
-  rowhead <- list(bg.par = list(fill = NA, col=NA),
-                  fg.par = list(fontface="italic"),
-                  parse = FALSE, padding = unit(c(4, 4), "mm"))
+  rowhead <- list(fg_fun = text_grob, 
+                  fg_params = list(parse=FALSE, fontface=3L),
+                  bg_fun = rect_grob, 
+                  bg_params = list(fill=NA, col=NA),
+                  padding = unit(c(4, 4), "mm"))
   
   default <- list(
     core = core,
@@ -117,13 +87,103 @@ ttheme_minimal <- function(...){
 }
 
 
-## unexported helper functions
 
+#' @describeIn tableGrob
+#' @inheritParams tableGrob
+##' @export
+ttheme_minimal <- function(...){
+  
+  core <- list(fg_fun = text_grob, 
+               fg_params = list(parse=FALSE, col="black"),
+               bg_fun = rect_grob, 
+               bg_params = list(fill = NA, col=NA),
+               padding = unit(c(4, 4), "mm"))
+  
+  colhead <- list(fg_fun = text_grob, 
+                  fg_params = list(parse=FALSE, fontface=2L),
+                  bg_fun = rect_grob, 
+                  bg_params = list(fill = NA, col=NA),
+                  padding = unit(c(4, 4), "mm"))
+  
+  rowhead <- list(fg_fun = text_grob, 
+                  fg_params = list(parse=FALSE, fontface=3L, 
+                                   hjust = 1, x = 0.95),
+                  bg_fun = rect_grob, 
+                  bg_params = list(fill=NA, col=NA),
+                  padding = unit(c(4, 4), "mm"))
+  
+  default <- list(
+    core = core,
+    colhead = colhead,
+    rowhead= rowhead
+  )
+  
+  modifyList(default, list(...))
+  
+}
+
+text_grob <- function(label, 
+                      parse=FALSE, 
+                      col = "black",
+                      fontsize = 12, 
+                      cex = 1, 
+                      fontfamily = "",
+                      fontface = 1L,
+                      lineheight = 1.2, 
+                      alpha = 1, 
+                      rot = 0,
+                      just = "centre",
+                      hjust = 0.5,
+                      vjust = 0.5, 
+                      x = 0.5, 
+                      y = 0.5){
+  if(parse){
+    label <- tryCatch(parse(text=label), 
+                      error = function(e) label)
+  }
+  textGrob(label = label, x = x, y = y, 
+           just = just, hjust = hjust, vjust = vjust, 
+           rot = rot, 
+           gp = gpar(col = col, 
+                     fontsize = fontsize, 
+                     cex = cex, 
+                     fontfamily = fontfamily,
+                     fontface = fontface,
+                     lineheight = lineheight, 
+                     alpha = alpha))
+}
+
+
+rect_grob <- function(fill = "white", 
+                      col = "black", 
+                      lty = "solid", 
+                      lwd = 1, cex = 1, 
+                      alpha = 1, 
+                      lineend = "round", 
+                      linejoin = "round", 
+                      linemitre = 10, lex = 1){
+  
+  rectGrob(width = unit(1,"npc") - unit(2, "scaledpts"), 
+           height = unit(1,"npc") - unit(2, "scaledpts"),
+           gp = gpar(col = col, 
+                     fill = fill, 
+                     lty = lty, 
+                     lwd = lwd, cex = cex, 
+                     alpha = alpha, 
+                     lineend = lineend, 
+                     linejoin = linejoin, 
+                     linemitre = linemitre, lex = lex,
+                     alpha = alpha))
+}
+
+
+##
+## unexported helper functions
+##
 gtable_table <- function(d, widths, heights,
-                         fg.par = list(col = "black"),
-                         bg.par = list(fill = "grey98", col = NA),
-                         padding = unit(c(4, 4), "mm"), 
-                         parse = FALSE,
+                         fg_fun = text_grob, fg_params = list(),
+                         bg_fun = rect_grob, bg_params = list(),
+                         padding = unit(c(4, 4), "mm"),
                          name = "table", vp = NULL){
   
   label_matrix <- as.matrix(d)
@@ -132,25 +192,18 @@ gtable_table <- function(d, widths, heights,
   nr <- nrow(label_matrix)
   n <- nc*nr
   
-  fg.par <- lapply(fg.par, rep, length.out = n, each = nc)
-  bg.par <- lapply(bg.par, rep, length.out = n, each = nc)
+  fg_params <- lapply(fg_params, rep, length.out = n, each = nc)
+  bg_params <- lapply(bg_params, rep, length.out = n, each = nc)
   
-  fg.param <- data.frame(fg.par, label = as.vector(label_matrix), 
-                         stringsAsFactors=FALSE)
-  bg.param <- data.frame(bg.par, id = seq_len(n),
-                         stringsAsFactors=FALSE)
-  
-  # labels <- plyr::mlply(fg.param, cell_content, parse = parse)
-  # backgrounds <- plyr::mlply(bg.param, cell_background)
-  labels <- do.call(mapply, c(fg.param, 
-                              list(MoreArgs = list(parse=parse), 
-                                   FUN = cell_content, 
-                                   SIMPLIFY=FALSE)))
-  backgrounds <- do.call(mapply, c(bg.param, 
-                                   list(MoreArgs = list(parse=parse), 
-                                        FUN = cell_background, 
-                                        SIMPLIFY=FALSE)))
-  
+  fg_params <- data.frame(fg_params, 
+                          label = as.vector(label_matrix), 
+                          stringsAsFactors=FALSE)
+  bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
+  labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
+                                              SIMPLIFY=FALSE)))
+  bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
+                                             SIMPLIFY=FALSE)))
+
   label_grobs <- matrix(labels, ncol = nc)
   
   ## some calculations of cell sizes
@@ -166,40 +219,10 @@ gtable_table <- function(d, widths, heights,
                      heights = heights, vp=vp)
   
   ## add the background
-  g <- gtable_add_grob(g, backgrounds, 
+  g <- gtable_add_grob(g, bkgds, 
                        t=rep(seq_len(nr), each=nc), 
                        l=rep(seq_len(nc), nr), z=0, 
                        name=paste0(name, "-bg"))
   
   g
-}
-
-
-cell_content <- function(..., parse=FALSE){
-  dots <- list(...)
-  gpar.names <- c("col", "cex", "fontsize", "lineheight", 
-                  "font", "fontfamily", "fontface", "alpha")
-  other.names <- c("label", "hjust", "vjust", "rot", "x", "y")
-  gpar.args <- dots[intersect(names(dots), gpar.names)]
-  gp <- do.call(gpar, gpar.args)
-  other.args <- dots[intersect(names(dots), other.names)]
-  if(parse){
-    label <- other.args[["label"]]
-    label <- tryCatch(parse(text=label), error = function(e) label)
-    other.args[["label"]] <- label
-  }
-  do.call(textGrob, c(other.args, list(gp = gp)))
-  
-}
-
-cell_background <- function(...){
-  
-  dots <- list(...)
-  gpar.names <- c("fill", "col", "lty", "lwd", "cex", "alpha",
-                  "lineend", "linejoin", "linemitre", 
-                  "lex")
-  gpar.args <- dots[intersect(names(dots), gpar.names)]
-  gp <- do.call(gpar, gpar.args)
-  do.call(rectGrob, list(gp = gp))
-  
 }
