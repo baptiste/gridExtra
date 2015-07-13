@@ -48,7 +48,8 @@ The formatting is controlled by *themes*, which are nested lists of graphical pa
 ```{r theme, fig.width=8}
 tt1 <- ttheme_default()
 tt2 <- ttheme_minimal()
-tt3 <- ttheme_minimal(core=list(bg.par = list(fill = blues9, col=NA)), colhead=list(fg.par=list(col="navyblue")))
+tt3 <- ttheme_minimal(core=list(bg.par = list(fill = blues9, col=NA)), 
+                      colhead=list(fg.par=list(col="navyblue")))
 grid.arrange(
   tableGrob(iris[1:4, 1:2], theme=tt1),
   tableGrob(iris[1:4, 1:2], theme=tt2),
@@ -90,11 +91,11 @@ We may also access individual cells, e.g. to highlight a value.
 g <- tableGrob(iris[1:4, 1:3])
 find_cell <- function(table, row, col, name="core-fg"){
   l <- table$layout
-  which(l$t==row & l$l==col & l$name == name)
+  which(l$t==row & l$l==col & l$name==name)
 }
 
 ind <- find_cell(g, 3, 2, "core-fg")
-ind2 <- find_cell(g, 3, 2, "core-bg")
+ind2 <- find_cell(g, 2, 3, "core-bg")
 g$grobs[ind][[1]][["gp"]] <- gpar(fontsize=15, fontface="bold")
 g$grobs[ind2][[1]][["gp"]] <- gpar(fill="darkolivegreen1")
 grid.draw(g)
@@ -116,7 +117,7 @@ grid.ftable <- function(d, padding = unit(4, "mm"), ...) {
                            rbind(colnames(d),
                                  as.matrix(d)))
   
-  ## string width and height. 
+  ## string width and height
   w <- apply(extended_matrix, 2, strwidth, "inch")
   h <- apply(extended_matrix, 2, strheight, "inch")
   
