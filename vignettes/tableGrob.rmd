@@ -95,7 +95,7 @@ find_cell <- function(table, row, col, name="core-fg"){
 }
 
 ind <- find_cell(g, 3, 2, "core-fg")
-ind2 <- find_cell(g, 3, 2, "core-bg")
+ind2 <- find_cell(g, 2, 3, "core-bg")
 g$grobs[ind][[1]][["gp"]] <- gpar(fontsize=15, fontface="bold")
 g$grobs[ind2][[1]][["gp"]] <- gpar(fill="darkolivegreen1")
 grid.draw(g)
