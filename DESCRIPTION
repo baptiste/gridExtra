@@ -1,7 +1,9 @@
 Package: gridExtra
-Authors@R: person("Baptiste", "Auguie",
+Authors@R: c(person("Baptiste", "Auguie",
     email = "baptiste.auguie@gmail.com",
-    role = c("aut", "cre"))
+    role = c("aut", "cre")), person("Anton", "Antonov",
+    email = "tonytonov@gmail.com",
+    role = c("ctb")))
 License: GPL (>= 2)
 Title: Miscellaneous Functions for "Grid" Graphics
 Type: Package
