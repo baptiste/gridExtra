@@ -53,6 +53,7 @@ grid.table <- function(...)
 
 #' @describeIn tableGrob
 #' @inheritParams tableGrob
+#' @importFrom utils modifyList
 ##' @export
 ttheme_default <- function(...){
   
