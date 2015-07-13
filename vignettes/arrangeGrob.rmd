@@ -71,7 +71,7 @@ g2 <- arrangeGrob(grobs = gs, layout_matrix = lay)
 grid.arrange(g1, g2, ncol=2)
 ```
 
-## Multipe pages output
+## Multiple pages output
 
 Finally, we may want to place grobs on multiple pages; the `marrangeGrob()` function provides a convenient interface for this, also compatible with `ggsave()`.
 
