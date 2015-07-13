@@ -1,7 +1,7 @@
-##' Regular polygon grob
-##'
 ##' @aliases ngonGrob grid.ngon ellipseGrob grid.ellipse
-##' @title ngonGrob
+##' @title Regular polygon grob
+##' @description Regular polygons with optional rotation, stretching, and aesthetic attributes
+##' @describeIn ngonGrob return a polygon grob  
 ##' @param x x unit
 ##' @param y y unit
 ##' @param n number of vertices
@@ -103,18 +103,18 @@ ngonGrob <- function (x, y, n = 5, size = 5, phase = pi/2,
 }
 
 
-#' @describeIn ngonGrob
+#' @describeIn ngonGrob draw a polygon grob on the current device
 #' @inheritParams ngonGrob
-##' @export
+#' @export
 grid.ngon <- function(...)
 {
   grid.draw(ngonGrob(...))
 }
 
 
-#' @describeIn ngonGrob
+#' @describeIn ngonGrob return an ellipse grob
 #' @inheritParams ngonGrob
-##' @export
+#' @export
 ellipseGrob <- function(x, y, size = 5, 
                         angle = pi/4, rho = 1, n = 50, 
                         gp = gpar(colour = "black", fill = NA, 
@@ -128,18 +128,18 @@ ellipseGrob <- function(x, y, size = 5,
 }
 
 
-#' @describeIn ngonGrob
+#' @describeIn ngonGrob draw an ellipse grob
 #' @inheritParams ngonGrob
-##' @export
+#' @export
 grid.ellipse <- function(...)
 {
   grid.draw(ellipseGrob(...))
 }
 
 
-#' @describeIn ngonGrob
+#' @describeIn ngonGrob return the x,y coordinates of a regular polygon inscribed in the unit circle
 #' @inheritParams ngonGrob
-##' @export
+#' @export
 polygon_regular <- function(n = 5, phase = 0){
   stopifnot(n > 2)
   cc <- exp(seq(0, n)*2i*pi/n) * exp(1i*(phase+pi/2))

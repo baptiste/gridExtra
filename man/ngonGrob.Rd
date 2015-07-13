@@ -6,7 +6,7 @@
 \alias{grid.ngon}
 \alias{ngonGrob}
 \alias{polygon_regular}
-\title{ngonGrob}
+\title{Regular polygon grob}
 \usage{
 ngonGrob(x, y, n = 5, size = 5, phase = pi/2, angle = 0, rho = 1,
   gp = gpar(colour = "black", fill = NA, linejoin = "mitre"), ...,
@@ -49,17 +49,19 @@ polygon_regular(n = 5, phase = 0)
 grob
 }
 \description{
-Regular polygon grob
+Regular polygons with optional rotation, stretching, and aesthetic attributes
 }
 \section{Functions}{
 \itemize{
-\item \code{grid.ngon}: 
+\item \code{ngonGrob}: return a polygon grob
 
-\item \code{ellipseGrob}: 
+\item \code{grid.ngon}: draw a polygon grob on the current device
 
-\item \code{grid.ellipse}: 
+\item \code{ellipseGrob}: return an ellipse grob
 
-\item \code{polygon_regular}: 
+\item \code{grid.ellipse}: draw an ellipse grob
+
+\item \code{polygon_regular}: return the x,y coordinates of a regular polygon inscribed in the unit circle
 }}
 \examples{
 library(grid)

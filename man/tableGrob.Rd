@@ -4,8 +4,9 @@
 \alias{grid.table}
 \alias{tableGrob}
 \alias{ttheme_default}
+\alias{ttheme_default,}
 \alias{ttheme_minimal}
-\title{Graphical display of a textual table.}
+\title{Graphical display of a textual table}
 \usage{
 tableGrob(d, rows = rownames(d), cols = colnames(d),
   theme = ttheme_default(), ...)
@@ -31,15 +32,15 @@ ttheme_minimal(...)
 a gtable
 }
 \description{
-Graphical display of a textual table.
+Create a gtable containing text grobs representing a character matrix
 }
 \section{Functions}{
 \itemize{
-\item \code{grid.table}: 
+\item \code{grid.table}: draw a text table
 
-\item \code{ttheme_default}: 
+\item \code{ttheme_default}: default theme for text tables
 
-\item \code{ttheme_minimal}: 
+\item \code{ttheme_minimal}: minimalist theme for text tables
 }}
 \examples{
 \donttest{

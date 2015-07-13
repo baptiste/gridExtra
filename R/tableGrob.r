@@ -1,5 +1,6 @@
-#' Graphical display of a textual table.
-#'
+##' @aliases grid.table tableGrob ttheme_default, ttheme_minimal
+##' @title Graphical display of a textual table
+##' @description Create a gtable containing text grobs representing a character matrix
 #' @param d data.frame or matrix
 #' @param rows optional vector to specify row names
 #' @param cols optional vector to specify column names
@@ -44,14 +45,14 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
   g
 }
 
-#' @describeIn tableGrob
+#' @describeIn tableGrob draw a text table
 #' @inheritParams tableGrob
 #' @export
 grid.table <- function(...)
   grid.draw(tableGrob(...))
 
 
-#' @describeIn tableGrob
+#' @describeIn tableGrob default theme for text tables
 #' @inheritParams tableGrob
 #' @importFrom utils modifyList
 ##' @export
@@ -89,7 +90,7 @@ ttheme_default <- function(...){
 
 
 
-#' @describeIn tableGrob
+#' @describeIn tableGrob minimalist theme for text tables
 #' @inheritParams tableGrob
 ##' @export
 ttheme_minimal <- function(...){

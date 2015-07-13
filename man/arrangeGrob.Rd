@@ -3,7 +3,8 @@
 \name{arrangeGrob}
 \alias{arrangeGrob}
 \alias{grid.arrange}
-\title{arrangeGrob}
+\alias{marrangeGrob}
+\title{Arrange multiple grobs on a page}
 \usage{
 arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
   name = "arrange", as.table = TRUE, respect = FALSE, clip = "off",
@@ -11,6 +12,9 @@ arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
   bottom = NULL, left = NULL, right = NULL, padding = unit(0.5, "line"))
 
 grid.arrange(..., newpage = TRUE)
+
+marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
+  pages)))
 }
 \arguments{
 \item{...}{grobs, and valid arguments to grid.layout}
@@ -48,19 +52,41 @@ grid.arrange(..., newpage = TRUE)
 \item{padding}{unit of length one, margin around annotations}
 
 \item{newpage}{open a new page}
+
+\item{ncol}{number of columns per page}
+
+\item{nrow}{number of rows per page}
 }
 \value{
 return a gtable
+
+list of class arrangelist
 }
 \description{
-Arrange multiple grobs on a page
+Set up a gtable layout to place multiple grobs on a page
+}
+\details{
+Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. Interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
 }
 \section{Functions}{
 \itemize{
-\item \code{grid.arrange}: 
+\item \code{arrangeGrob}: return a grob without drawing
+
+\item \code{grid.arrange}: draw on the current device
+
+\item \code{marrangeGrob}: interface to arrangeGrob that can dispatch on multiple pages
 }}
 \examples{
 library(grid)
 grid.arrange(rectGrob(), rectGrob())
+\dontrun{
+library(ggplot2)
+pl <- lapply(1:11, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
+ml <- marrangeGrob(pl, nrow=2, ncol=2)
+## interactive use; open new devices
+ml
+## non-interactive use, multipage pdf
+ggsave("multipage.pdf", ml)
+}
 }
 

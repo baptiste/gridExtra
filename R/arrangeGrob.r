@@ -1,8 +1,7 @@
-##' Arrange multiple grobs on a page
-##'
-##' @aliases grid.arrange arrangeGrob
-##' @title arrangeGrob
-##'
+##' @aliases grid.arrange arrangeGrob marrangeGrob
+##' @title Arrange multiple grobs on a page
+##' @description Set up a gtable layout to place multiple grobs on a page
+##' @describeIn arrangeGrob return a grob without drawing
 ##' @param ...  grobs, and valid arguments to grid.layout
 ##' @param grobs list of grobs
 ##' @param top optional string, or grob
@@ -195,7 +194,7 @@ arrangeGrob <- function(..., grobs=list(...),
   gt
 }
 
-##' @describeIn arrangeGrob
+##' @describeIn arrangeGrob draw on the current device
 ##' @param newpage open a new page
 ##' @inheritParams arrangeGrob
 ##' @export
@@ -206,22 +205,13 @@ grid.arrange <- function(..., newpage=TRUE){
     invisible(g)
 }
 
-##' Interface to arrangeGrob that can dispatch on multiple pages
-##'
-##' If the layout specifies both nrow and ncol, the list of grobs can be split
-##' in multiple pages. Interactive devices print open new windows, whilst non-interactive
-##' devices such as pdf call grid.newpage() between the drawings.
-##' @title marrangeGrob
-##' @aliases marrangeGrob print.arrangelist
-##'
-##' @param ... args to \link{arrangeGrob}
-##' @param grobs list of grobs
+
+##' @describeIn arrangeGrob interface to arrangeGrob that can dispatch on multiple pages
+##' @details Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. Interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
 ##' @param ncol number of columns per page
 ##' @param nrow number of rows per page
-##' @param top see \link{arrangeGrob}
 ##' @return list of class arrangelist
 ##' @importFrom grDevices dev.interactive dev.new
-##' @author baptiste Auguie
 ##' @export
 ##' @examples
 ##' \dontrun{ 
@@ -257,13 +247,11 @@ marrangeGrob <- function(grobs, ncol, nrow, ...,
 
 }
 
-##' @export
 grid.draw.arrangelist = function(x, ...) lapply(x, function(.x) {
   if(dev.interactive()) dev.new() else grid.newpage()
   grid.draw(.x)
 }, ...)
 
-##' @export
 print.arrangelist = function(x, ...) lapply(x, function(.x) {
   if(dev.interactive()) dev.new() else grid.newpage()
   grid.draw(.x)
