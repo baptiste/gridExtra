@@ -4,7 +4,6 @@
 \alias{grid.table}
 \alias{tableGrob}
 \alias{ttheme_default}
-\alias{ttheme_minimal}
 \title{Graphical display of a textual table.}
 \usage{
 tableGrob(d, rows = rownames(d), cols = colnames(d),
@@ -13,8 +12,6 @@ tableGrob(d, rows = rownames(d), cols = colnames(d),
 grid.table(...)
 
 ttheme_default(...)
-
-ttheme_minimal(...)
 }
 \arguments{
 \item{d}{data.frame or matrix}
@@ -38,8 +35,6 @@ Graphical display of a textual table.
 \item \code{grid.table}: 
 
 \item \code{ttheme_default}: 
-
-\item \code{ttheme_minimal}: 
 }}
 \examples{
 \donttest{

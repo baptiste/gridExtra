@@ -56,22 +56,22 @@ grid.table <- function(...)
 ttheme_default <- function(...){
   
   core <- list(fg_fun = text_grob, 
-               fg_params = list(),
+               fg_params = list(parse=TRUE, col="black"),
                bg_fun = rect_grob, 
                bg_params = list(fill = c("grey95","grey90"), 
                                 lwd=1.5, col="white"),
                padding = unit(c(4, 4), "mm"))
   
   colhead <- list(fg_fun = text_grob, 
-                  fg_params = list(fontface="bold"),
+                  fg_params = list(parse=TRUE, fontface="bold"),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = c("grey80"), 
                                    lwd=1.5, col="white"),
                   padding = unit(c(4, 4), "mm"))
   
   rowhead <- list(fg_fun = text_grob, 
-                  fg_params = list(fontface="italic", 
-                                   hjust = 1, x=0.95),
+                  fg_params = list(parse=TRUE, fontface="italic", 
+                                   hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, col=NA),
                   padding = unit(c(4, 4), "mm"))
@@ -93,27 +93,26 @@ text_grob <- function(label,
                       col = "black",
                       fontsize = 12, 
                       cex = 1, 
-                      font = 1L,
                       fontfamily = "",
                       fontface = "plain",
                       lineheight = 1.2, 
                       alpha = 1, 
                       rot = 0,
                       just = "centre",
-                      hjust = "centre",
-                      vjust = "centre", 
+                      hjust = 0.5,
+                      vjust = 0.5, 
                       x = 0.5, 
                       y = 0.5){
   if(parse){
     label <- tryCatch(parse(text=label), 
                       error = function(e) label)
   }
-  textGrob(x = x, y = y, label = label, 
+  textGrob(label = label, x = x, y = y, 
            just = just, hjust = hjust, vjust = vjust, 
            rot = rot, 
            gp = gpar(col = col, 
                      fontsize = fontsize, 
-                     cex = cex, font = font,
+                     cex = cex, 
                      fontfamily = fontfamily,
                      fontface = fontface,
                      lineheight = lineheight, 
@@ -162,9 +161,8 @@ gtable_table <- function(d, widths, heights,
   fg_params <- data.frame(fg_params, 
                           label = as.vector(label_matrix), 
                           stringsAsFactors=FALSE)
-  bg_params <- data.frame(bg_params, id = seq_len(n),
-                          stringsAsFactors=FALSE)
-  
+  bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
+
   labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
                                               SIMPLIFY=FALSE)))
   bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 

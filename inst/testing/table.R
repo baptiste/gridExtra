@@ -8,6 +8,5 @@ colnames(d) <- c("alpha*integral(xdx,a,infinity)",
                  "this text\nis high", 'alpha/beta')
 
 grid.newpage()
-tt <- ttheme_default(colhead=list(parse=TRUE))
+tt <- ttheme_default()
 grid.table(d, theme=tt)
-
