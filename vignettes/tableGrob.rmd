@@ -48,7 +48,8 @@ The formatting is controlled by *themes*, which are nested lists of graphical pa
 ```{r theme, fig.width=8}
 tt1 <- ttheme_default()
 tt2 <- ttheme_minimal()
-tt3 <- ttheme_minimal(core=list(bg.par = list(fill = blues9, col=NA)), colhead=list(fg.par=list(col="navyblue")))
+tt3 <- ttheme_minimal(core=list(bg.par = list(fill = blues9, col=NA)), 
+                      colhead=list(fg.par=list(col="navyblue")))
 grid.arrange(
   tableGrob(iris[1:4, 1:2], theme=tt1),
   tableGrob(iris[1:4, 1:2], theme=tt2),
