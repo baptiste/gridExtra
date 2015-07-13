@@ -82,10 +82,15 @@ ttheme_default <- function(...){
 }
 
 
+
+
+
 #' @describeIn tableGrob
 #' @inheritParams tableGrob
 #' @importFrom utils modifyList
 #' @importFrom grDevices dev.interactive dev.new
+#' @details 
+#' themes consist of a nested list with three top-level elements, core, colhead, and rowhead. Each of these is in turn a list of four parameters: parse, padding, bg.par
 ##' @export
 ttheme_minimal <- function(...){
   
@@ -117,7 +122,8 @@ ttheme_minimal <- function(...){
 gtable_table <- function(d, widths, heights,
                          fg.par = list(col = "black"),
                          bg.par = list(fill = "grey98", col = NA),
-                         padding = unit(c(4, 4), "mm"), parse = FALSE,
+                         padding = unit(c(4, 4), "mm"), 
+                         parse = FALSE,
                          name = "table", vp = NULL){
   
   label_matrix <- as.matrix(d)
@@ -160,7 +166,8 @@ gtable_table <- function(d, widths, heights,
                      heights = heights, vp=vp)
   
   ## add the background
-  g <- gtable_add_grob(g, backgrounds, t=rep(seq_len(nr), each=nc), 
+  g <- gtable_add_grob(g, backgrounds, 
+                       t=rep(seq_len(nr), each=nc), 
                        l=rep(seq_len(nc), nr), z=0, 
                        name=paste0(name, "-bg"))
   
