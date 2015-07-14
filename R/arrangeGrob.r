@@ -2,7 +2,7 @@
 ##' @title Arrange multiple grobs on a page
 ##' @description Set up a gtable layout to place multiple grobs on a page
 ##' @describeIn arrangeGrob return a grob without drawing
-##' @param ...  grobs, and valid arguments to grid.layout
+##' @param ...  grobs, gtables, ggplot or trellis objects
 ##' @param grobs list of grobs
 ##' @param top optional string, or grob
 ##' @param bottom optional string, or grob
@@ -19,7 +19,7 @@
 ##' @param widths argument of gtable
 ##' @param heights argument of gtable
 ##' @param vp viewport
-##' @return return a gtable
+##' @return arrangeGrob returns a gtable
 ##' @import gtable
 ##' @import grid
 ##' @importFrom grDevices n2mfrow
@@ -207,8 +207,8 @@ grid.arrange <- function(..., newpage=TRUE){
 
 
 ##' @describeIn arrangeGrob interface to arrangeGrob that can dispatch on multiple pages
-##' @details Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. Interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
-##' @return list of class arrangelist
+##' @details Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. On interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
+##' @return marrangeGrobm returns a list of class arrangelist
 ##' @export
 ##' @examples
 ##' \dontrun{ 

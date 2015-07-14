@@ -17,7 +17,7 @@ marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
   pages)))
 }
 \arguments{
-\item{...}{grobs, and valid arguments to grid.layout}
+\item{...}{grobs, gtables, ggplot or trellis objects}
 
 \item{grobs}{list of grobs}
 
@@ -54,15 +54,15 @@ marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
 \item{newpage}{open a new page}
 }
 \value{
-return a gtable
+arrangeGrob returns a gtable
 
-list of class arrangelist
+marrangeGrobm returns a list of class arrangelist
 }
 \description{
 Set up a gtable layout to place multiple grobs on a page
 }
 \details{
-Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. Interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
+Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. On interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
 }
 \section{Functions}{
 \itemize{

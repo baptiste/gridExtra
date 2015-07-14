@@ -1,6 +1,7 @@
-##' @aliases grid.table tableGrob ttheme_default, ttheme_minimal
-##' @title Graphical display of a textual table
-##' @description Create a gtable containing text grobs representing a character matrix
+#' @aliases grid.table tableGrob ttheme_default, ttheme_minimal
+#' @title Graphical display of a textual table
+#' @describeIn tableGrob return a grob
+#' @description Create a gtable containing text grobs representing a character matrix
 #' @param d data.frame or matrix
 #' @param rows optional vector to specify row names
 #' @param cols optional vector to specify column names
@@ -9,12 +10,11 @@
 #' @return a gtable
 #' @export
 #' @examples
-#' \donttest{
+#' library(grid)
 #' d <- head(iris, 3)
 #' g <- tableGrob(d)
 #' grid.newpage()
 #' grid.draw(g)
-#' }
 tableGrob <- function(d, rows=rownames(d), cols=colnames(d), 
                       theme = ttheme_default(),
                       ...){

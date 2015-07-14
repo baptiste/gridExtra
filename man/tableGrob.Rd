@@ -36,6 +36,8 @@ Create a gtable containing text grobs representing a character matrix
 }
 \section{Functions}{
 \itemize{
+\item \code{tableGrob}: return a grob
+
 \item \code{grid.table}: draw a text table
 
 \item \code{ttheme_default}: default theme for text tables
@@ -43,11 +45,10 @@ Create a gtable containing text grobs representing a character matrix
 \item \code{ttheme_minimal}: minimalist theme for text tables
 }}
 \examples{
-\donttest{
+library(grid)
 d <- head(iris, 3)
 g <- tableGrob(d)
 grid.newpage()
 grid.draw(g)
-}
 }
 
