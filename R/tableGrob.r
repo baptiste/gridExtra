@@ -1,13 +1,13 @@
 #' @aliases grid.table tableGrob ttheme_default, ttheme_minimal
 #' @title Graphical display of a textual table
 #' @describeIn tableGrob return a grob
-#' @description Create a gtable containing text grobs representing a character matrix
+#' @description Create a gtable containing text grobs representing a character matrix.
 #' @param d data.frame or matrix
 #' @param rows optional vector to specify row names
 #' @param cols optional vector to specify column names
 #' @param theme list of theme parameters
 #' @param ... further arguments to control the gtable
-#' @return a gtable
+#' @return A gtable.
 #' @export
 #' @examples
 #' library(grid)

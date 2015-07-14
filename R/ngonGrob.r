@@ -1,6 +1,6 @@
 ##' @aliases ngonGrob grid.ngon ellipseGrob grid.ellipse
 ##' @title Regular polygon grob
-##' @description Regular polygons with optional rotation, stretching, and aesthetic attributes
+##' @description Regular polygons with optional rotation, stretching, and aesthetic attributes.
 ##' @describeIn ngonGrob return a polygon grob  
 ##' @param x x unit
 ##' @param y y unit
@@ -13,7 +13,7 @@
 ##' @param size.units grid units for the sizes
 ##' @param gp gpar
 ##' @param ... further parameters passed to polygonGrob
-##' @return grob
+##' @return A grob.
 ##' @export
 ##' @examples
 ##' library(grid)
@@ -23,7 +23,7 @@
 ##' # draw multiple polygons
 ##' g <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
 ##'               unit(xy[,2],"cm") + unit(0.5,"npc"),
-##'               n = seq_len(N) + 2, gp=gpar(fill=1:N))
+##'               n = seq_len(N) + 2, gp = gpar(fill=1:N))
 ##' 
 ##' grid.newpage()
 ##' grid.draw(g)
@@ -32,8 +32,8 @@
 ##' g2 <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
 ##'               unit(xy[,2],"cm") + unit(0.5,"npc"),
 ##'               n = seq_len(N) + 2, rho = seq_len(N),
-##'               phase = 0, angle=pi/(seq_len(N)+2),
-##'               size=1:N+5)
+##'               phase = 0, angle = pi/(seq_len(N) + 2),
+##'               size = 1:N + 5)
 ##' 
 ##' grid.newpage()
 ##' grid.draw(g2)
@@ -41,8 +41,8 @@
 ##' # ellipse
 ##' g3 <- ellipseGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
 ##'                   unit(xy[,2],"cm") + unit(0.5,"npc"),
-##'                   angle=-2*seq(0,N-1)*pi/5+pi/2,
-##'                   size=5, rho=1/3)
+##'                   angle = -2*seq(0,N-1)*pi/5 + pi/2,
+##'                   size = 5, rho = 1/3)
 ##' 
 ##' grid.newpage()
 ##' grid.draw(g3)
