@@ -4,9 +4,9 @@
 \name{gridExtra-package}
 \alias{gridExtra}
 \alias{gridExtra-package}
-\title{Misc. high-level functions for grid graphics}
+\title{Miscellaneous Functions for "Grid" Graphics}
 \description{
-Misc. high-level functions for grid graphics
+Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
 }
 \author{
 baptiste Auguie \email{baptiste.auguie@gmail.com}

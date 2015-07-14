@@ -1,9 +1,8 @@
-#' Misc. high-level functions for grid graphics
-#' 
+#' @title Miscellaneous Functions for "Grid" Graphics
+#' @description Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
 #' @name gridExtra-package
 #' @aliases gridExtra
 #' @docType package
-#' @title Misc. high-level functions for grid graphics
 #' @author baptiste Auguie \email{baptiste.auguie@@gmail.com}
 #' @import gtable 
 #' @import grid 
