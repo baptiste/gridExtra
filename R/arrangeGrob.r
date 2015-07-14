@@ -209,7 +209,6 @@ grid.arrange <- function(..., newpage=TRUE){
 ##' @describeIn arrangeGrob interface to arrangeGrob that can dispatch on multiple pages
 ##' @details Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. Interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
 ##' @return list of class arrangelist
-##' @importFrom grDevices dev.interactive dev.new
 ##' @export
 ##' @examples
 ##' \dontrun{ 
@@ -245,11 +244,17 @@ marrangeGrob <- function(grobs, ncol, nrow, ...,
 
 }
 
+##' @noRd
+##' @importFrom grDevices dev.interactive dev.new
+##' @export
 grid.draw.arrangelist = function(x, ...) lapply(x, function(.x) {
   if(dev.interactive()) dev.new() else grid.newpage()
   grid.draw(.x)
 }, ...)
 
+##' @noRd
+##' @importFrom grDevices dev.interactive dev.new
+##' @export
 print.arrangelist = function(x, ...) lapply(x, function(.x) {
   if(dev.interactive()) dev.new() else grid.newpage()
   grid.draw(.x)
