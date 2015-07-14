@@ -1,6 +1,6 @@
 ##' @aliases grid.arrange arrangeGrob marrangeGrob
 ##' @title Arrange multiple grobs on a page
-##' @description Set up a gtable layout to place multiple grobs on a page
+##' @description Set up a gtable layout to place multiple grobs on a page.
 ##' @describeIn arrangeGrob return a grob without drawing
 ##' @param ...  grobs, gtables, ggplot or trellis objects
 ##' @param grobs list of grobs
@@ -9,7 +9,7 @@
 ##' @param left optional string, or grob
 ##' @param right optional string, or grob
 ##' @param padding unit of length one, margin around annotations
-##' @param as.table logical: bottom-left to top-right or top-left to bottom-right
+##' @param as.table logical: bottom-left to top-right (TRUE) or top-left to bottom-right (FALSE)
 ##' @param layout_matrix optional layout
 ##' @param name argument of gtable
 ##' @param respect argument of gtable
@@ -19,7 +19,7 @@
 ##' @param widths argument of gtable
 ##' @param heights argument of gtable
 ##' @param vp viewport
-##' @return arrangeGrob returns a gtable
+##' @return arrangeGrob returns a gtable.
 ##' @import gtable
 ##' @import grid
 ##' @importFrom grDevices n2mfrow
@@ -207,18 +207,18 @@ grid.arrange <- function(..., newpage=TRUE){
 
 
 ##' @describeIn arrangeGrob interface to arrangeGrob that can dispatch on multiple pages
-##' @details Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. On interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
-##' @return marrangeGrobm returns a list of class arrangelist
+##' @details Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. On interactive devices print opens new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
+##' @return marrangeGrob returns a list of class arrangelist
 ##' @export
 ##' @examples
 ##' \dontrun{ 
 ##' library(ggplot2)
-##' pl <- lapply(1:11, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
+##' pl <- lapply(1:11, function(.x) qplot(1:10, rnorm(10), main=paste("plot", .x)))
 ##' ml <- marrangeGrob(pl, nrow=2, ncol=2)
-##' ## interactive use; open new devices
-##' ml
 ##' ## non-interactive use, multipage pdf
 ##' ggsave("multipage.pdf", ml)
+##' ## interactive use; open new devices
+##' ml
 ##' }
 marrangeGrob <- function(grobs, ncol, nrow, ...,
                          top = quote(paste("page", g, "of", pages))){
