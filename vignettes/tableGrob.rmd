@@ -91,20 +91,17 @@ grid.arrange(g, g2, nrow=1, newpage = FALSE)
 
 The alignment of several tables can be achieved with the `gtable_join` function (internal copy adapted from `gtable`),
 
-```{r align, fig.width=8, fig.height=8}
-d1 <- PlantGrowth[1:5,1, drop=FALSE]
-d2 <- PlantGrowth[1:3,1:2]
+```{r align, fig.width=6, fig.height=3}
+d1 <- PlantGrowth[1:3,1, drop=FALSE]
+d2 <- PlantGrowth[1:2,1:2]
 
 g1 <- tableGrob(d1)
 g2 <- tableGrob(d2)
 
-nothaligned <- arrangeGrob(g1,g2,ncol=2)
-notvaligned <- arrangeGrob(g1,g2,ncol=1)
 haligned <- gtable_join(g1,g2, along=1)
 valigned <- gtable_join(g1,g2, along=2)
 grid.newpage()
-grid.arrange(nothaligned, haligned, 
-             notvaligned, valigned, ncol=2)
+grid.arrange(haligned, valigned, ncol=2)
 ```
 
 Other grobs such as separating lines may be added.
