@@ -112,14 +112,7 @@ cbind_gtable <- function(x, y, size = "max") {
 #' @export
 #'  @param along dimension to align along, \code{1} = rows,
 #'   \code{2} = cols. Join will occur perpendicular to this direction.
-#'  @examples
-#'  rect <- rectGrob(gp = gpar(fill = "black"))
-#'  circ <- circleGrob(gp = gpar(fill = "red"))
-#'  a <- gtable_col("a", list(rect, circ), width = unit(5, "cm"))
-#'  rownames(a) <- c("top", "mid")
-#'  b <- gtable_col("b", list(circ, rect), width = unit(5, "cm"))
-#'  rownames(b) <- c("mid", "bot")
-gtable_join <- function(x, y, along = 1L, join = "left") {
+gtable_join <- function(x, y, along = 1L, join = "outer") {
   aligned <- gtable_align(x, y, along = along, join = join)
   switch(along,
          gridExtra:::cbind.gtable(aligned$x, aligned$y, 
