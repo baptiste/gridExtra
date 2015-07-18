@@ -98,8 +98,8 @@ d2 <- PlantGrowth[1:2,1:2]
 g1 <- tableGrob(d1)
 g2 <- tableGrob(d2)
 
-haligned <- gtable_join(g1,g2, along=1)
-valigned <- gtable_join(g1,g2, along=2)
+haligned <- join(g1,g2,g1, along=1)
+valigned <- join(g1,g2, along=2)
 grid.newpage()
 grid.arrange(haligned, valigned, ncol=2)
 ```

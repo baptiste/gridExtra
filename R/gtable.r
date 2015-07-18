@@ -1,4 +1,24 @@
 
+#'  Join gtables together based on row/column names.
+#'  @param ... gtables
+#'  @param along dimension to align along, \code{1} = rows,
+#'   \code{2} = cols. 
+#'  @param join when x and y have different names, how should the d'ifference be resolved? 
+#'  \code{inner} keep names that appear in both, 
+#'  \code{outer} keep names that appear in either, 
+#'  \code{left} keep names from \code{x}, 
+#'  and \code{right} keep names from \code{y}.
+#' @export
+join <- function (..., along = 1L, join = "outer") 
+{
+  gtables <- list(...)
+  Reduce(function(x, y) gtable_join(x, y, 
+                                    along = along, 
+                                    join = join),
+         gtables)
+}
+
+
 insert.unit <- function (x, values, after = length(x)) {
   lengx <- length(x)
   if (lengx == 0) return(values)
@@ -36,12 +56,38 @@ z_arrange_gtables <- function (gtables, z)
   gtables
 }
 
+#'  rbind gtables
+#'  @param ... gtables
+#'  @param size how should the widths be calculated?
+#'  \code{max} maximum of all widths
+#'  \code{min} minimum of all widths
+#'  \code{first} widths of first gtable
+#'  \code{last} widths of last gtable
+#'  @param z optional z level
+#' @export
 rbind.gtable <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
     gtables <- z_arrange_gtables(gtables, z)
   }
   Reduce(function(x, y) rbind_gtable(x, y, size = size), gtables)
+}
+
+#'  cbind gtables
+#'  @param ... gtables
+#'  @param size how should the heights be calculated?
+#'  \code{max} maximum of all heights
+#'  \code{min} minimum of all heights
+#'  \code{first} heights of first gtable
+#'  \code{last} heights of last gtable
+#'  @param z optional z level
+#' @export
+cbind.gtable <- function(..., size = "max", z = NULL) {
+  gtables <- list(...)
+  if (!is.null(z)) {
+    gtables <- z_arrange_gtables(gtables, z)
+  }
+  Reduce(function(x, y) cbind_gtable(x, y, size = size), gtables)
 }
 
 rbind_gtable <- function(x, y, size = "max") {
@@ -68,14 +114,6 @@ rbind_gtable <- function(x, y, size = "max") {
   x$grobs <- append(x$grobs, y$grobs)
   
   x
-}
-
-cbind.gtable <- function(..., size = "max", z = NULL) {
-  gtables <- list(...)
-  if (!is.null(z)) {
-    gtables <- z_arrange_gtables(gtables, z)
-  }
-  Reduce(function(x, y) cbind_gtable(x, y, size = size), gtables)
 }
 
 cbind_gtable <- function(x, y, size = "max") {
@@ -105,38 +143,18 @@ cbind_gtable <- function(x, y, size = "max") {
 }
 
 
-
-#'  Join two gtables together based on row/column names.
-#'
-#'  @inheritParams gtable_align
-#' @export
-#'  @param along dimension to align along, \code{1} = rows,
-#'   \code{2} = cols. Join will occur perpendicular to this direction.
 gtable_join <- function(x, y, along = 1L, join = "outer") {
   aligned <- gtable_align(x, y, along = along, join = join)
   switch(along,
-         gridExtra:::cbind.gtable(aligned$x, aligned$y, 
+         cbind_gtable(aligned$x, aligned$y, 
                                   size="max"), 
-         gridExtra:::rbind.gtable(aligned$x, aligned$y, 
+         rbind_gtable(aligned$x, aligned$y, 
                                   size="max"),
          stop("along > 2 no implemented"))
 }
 
-#'  Align two gtables based on their row/col names.
-#'
-#' @export
-#'  @param x \code{\link{gtable}}
-#'  @param y \code{\link{gtable}}
-#'  @param along dimension to align along, \code{1} = rows, \code{2} =' cols.
-#'  @param join when x and y have different names, how should the d'ifference be resolved? 
-#'  \code{inner} keep names that appear in both, 
-#'  \code{outer} keep names that appear in either, 
-#'  \code{left} keep names from \code{x}, 
-#'  and \code{right} keep names from \code{y}.
-#'  @seealso \code{\link{gtable_join}} to return the two gtables
-#'   combined into a single gtable.
-#'  @return a list with elements \code{x} and \code{y} 
-#'  corresponding to the input gtables with extra rows/columns so that they now align.
+
+
 gtable_align <- function(x, y, along = 1L, join = "outer") {
   join <- match.arg(join, c("left", "right", "inner", "outer"))
   
@@ -160,15 +178,7 @@ gtable_align <- function(x, y, along = 1L, join = "outer") {
   )
 }
 
-#  Reindex a gtable.
-#
-#  @keywords internal
-#  @examples
-#  gt <- gtable(heights = unit(rep(1, 3), "cm"), rownames = c("a", "b", "c"))
-#  rownames(gtable:::gtable_reindex(gt, c("a", "b", "c")))
-#  rownames(gtable:::gtable_reindex(gt, c("a", "b")))
-#  rownames(gtable:::gtable_reindex(gt, c("a")))
-#  rownames(gtable:::gtable_reindex(gt, c("a", "d", "e")))
+
 gtable_reindex <- function(x, index, along = 1L) {
   stopifnot(is.character(index))
   if (length(dim(x)) > 2L || along > 2L) {
