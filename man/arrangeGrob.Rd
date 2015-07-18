@@ -27,7 +27,7 @@ marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
 
 \item{name}{argument of gtable}
 
-\item{as.table}{logical: bottom-left to top-right or top-left to bottom-right}
+\item{as.table}{logical: bottom-left to top-right (TRUE) or top-left to bottom-right (FALSE)}
 
 \item{respect}{argument of gtable}
 
@@ -54,15 +54,15 @@ marrangeGrob(grobs, ncol, nrow, ..., top = quote(paste("page", g, "of",
 \item{newpage}{open a new page}
 }
 \value{
-arrangeGrob returns a gtable
+arrangeGrob returns a gtable.
 
-marrangeGrobm returns a list of class arrangelist
+marrangeGrob returns a list of class arrangelist
 }
 \description{
-Set up a gtable layout to place multiple grobs on a page
+Set up a gtable layout to place multiple grobs on a page.
 }
 \details{
-Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. On interactive devices print open new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
+Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grobs can be split into multiple pages. On interactive devices print opens new windows, whilst non-interactive devices such as pdf call grid.newpage() between the drawings.
 }
 \section{Functions}{
 \itemize{
@@ -77,12 +77,12 @@ library(grid)
 grid.arrange(rectGrob(), rectGrob())
 \dontrun{
 library(ggplot2)
-pl <- lapply(1:11, function(.x) qplot(1:10,rnorm(10), main=paste("plot",.x)))
+pl <- lapply(1:11, function(.x) qplot(1:10, rnorm(10), main=paste("plot", .x)))
 ml <- marrangeGrob(pl, nrow=2, ncol=2)
-## interactive use; open new devices
-ml
 ## non-interactive use, multipage pdf
 ggsave("multipage.pdf", ml)
+## interactive use; open new devices
+ml
 }
 }
 

@@ -23,6 +23,7 @@ Suggests:
     knitr,
     testthat
 Collate:   
+  gtable.r
   grob-utils.r
   arrangeGrob.r
   gridExtra-package.r

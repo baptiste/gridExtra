@@ -30,7 +30,7 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                        fg_params = theme$colhead$fg_params, 
                        bg_params = theme$colhead$bg_params, 
                        padding=theme$colhead$padding)
-    g <- rbind_gtable(gc, g)
+    g <- rbind_gtable(gc, g, "max")
   }
   if(!is.null(rows)){
     if(!is.null(cols)) # need to add dummy cell
@@ -39,9 +39,11 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                        fg_params = theme$rowhead$fg_params, 
                        bg_params = theme$rowhead$bg_params,
                        padding=theme$rowhead$padding)
-    g <- cbind_gtable(gr, g)
+    g <- cbind_gtable(gr, g, "max")
   }
   
+  colnames(g) <- paste0("c", seq_len(ncol(g)))
+  rownames(g) <- paste0("r", seq_len(nrow(g)))
   g
 }
 

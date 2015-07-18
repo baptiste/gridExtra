@@ -29,10 +29,10 @@ ttheme_minimal(...)
 \item{...}{further arguments to control the gtable}
 }
 \value{
-a gtable
+A gtable.
 }
 \description{
-Create a gtable containing text grobs representing a character matrix
+Create a gtable containing text grobs representing a character matrix.
 }
 \section{Functions}{
 \itemize{
