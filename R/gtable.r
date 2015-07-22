@@ -1,4 +1,26 @@
 
+#'  Prints summary information on gtable objects
+#'  @param object a gtable
+#'  @param ... unused
+#'  @importFrom utils str
+#'  @export
+str.gtable <- function(object, ...){
+  cat(c("gtable, containing \ngrobs (", 
+        length(object[["grobs"]]), ") :"), sep="")
+  utils::str(vapply(object$grobs, as.character, character(1)))
+  cat("layout :\n")
+  utils::str(object[["layout"]])
+  cat("widths :\nunit vector of length", 
+      length(object[["widths"]]), "\n")
+  cat("heights :\nunit vector of length", 
+      length(object[["heights"]]), "\n")
+  for(element in c("respect", "rownames", 
+                   "name", "gp", "vp")){
+    cat(element, ":\n")
+    utils::str(object[[element]])
+  }
+}
+
 #'  Join gtables together based on row/column names.
 #'  @param ... gtables
 #'  @param along dimension to align along, \code{1} = rows,
