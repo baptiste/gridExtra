@@ -5,3 +5,5 @@
 
 
 Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables. Earlier versions of the package contained more experimental graphical objects (grobs), that have now been removed.
+
+See the [gridExtra wiki](https://github.com/baptiste/gridextra/wiki) for additional information and the latest vignettes.
