@@ -17,6 +17,8 @@ opts_chunk$set(message=FALSE, fig.width=4, fig.height=2)
 
 Tabular data is usually formatted outside the graphics device, e.g via LaTeX, or html tables. However, in some cases it may be convenient to display *small* tables alongside graphics. A couple of packages offer this possibility with base graphics (`plotrix` for instance); the `gridExtra` provides the pair of `tableGrob/grid.table` functions for this purpose.
 
+*Note:* This vignette uses the development version of `gridExtra`, some features may not be yet available in the released version.
+
 ## Basic usage
 
 ```{r basic}
@@ -106,7 +108,7 @@ grid.arrange(haligned, valigned, ncol=2)
 
 ### Borders and separators
 
-Other grobs such as separating lines and rectangles (borders, boxes) may be added.  In this case, keep in mind that row, column and cell numbering includes the column of row labels and the row of column labels *if they are present.*  We'll can illustrate this by adding some borders (using `rectGrob`) to a simple table without row numbers.  We'll add two actually, to give a nice effect of a heavy line under the row of column headers.
+Other grobs such as separating lines and rectangles (borders, boxes) may be added.  In this case, keep in mind that row, column and cell numbering includes the column of row labels and the row of column labels *if they are present.*  Let us illustrate this by adding some borders (using `rectGrob`) to a simple table without row numbers.  We'll add two actually, to give a nice effect of a heavy line under the row of column headers.
 
 ```{r numberingDemo1}
 library(gtable)
@@ -187,18 +189,20 @@ grid.draw(g)
 
 If you have many cells to decorate you can use `replicate` to create create the segments.  Just keep the `tableGrob` numbering scheme in mind.
 
-```{r separators}
-g <- tableGrob(iris[1:4, 1:3], theme = ttheme_minimal())
+```{r separators, fig.width=8}
+g <- tableGrob(head(iris), theme = ttheme_minimal())
 separators <- replicate(ncol(g) - 2,
-                     segmentsGrob(x1 = unit(0, "npc")),
+                     segmentsGrob(x1 = unit(0, "npc"), gp=gpar(lty=2)),
                      simplify=FALSE)
 ## add vertical lines on the left side of columns (after 2nd)
 g <- gtable::gtable_add_grob(g, grobs = separators,
-                     t = 1, b = nrow(g), l = seq_len(ncol(g)-2)+2)
+                     t = 2, b = nrow(g), l = seq_len(ncol(g)-2)+2)
 grid.draw(g)
 ```
 
-We may also access and modify individual cells, e.g. to highlight a value.
+### Accessing existing grobs in the table
+
+We may also access and modify the original content of individual cells, e.g. to highlight a value.
 
 ```{r highlight}
 g <- tableGrob(iris[1:4, 1:3])
@@ -261,3 +265,12 @@ grid.ftable <- function(d, padding = unit(4, "mm"), ...) {
 grid.newpage()
 grid.ftable(head(iris, 4), gp = gpar(fill = rep(c("grey90", "grey95"), each = 6)))
 ```
+
+## Session Info
+
+```{r info, echo=FALSE}
+print(sessionInfo())
+```
+
+
+
