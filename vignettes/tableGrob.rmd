@@ -15,7 +15,7 @@ library(knitr)
 opts_chunk$set(message=FALSE, fig.width=4, fig.height=2)
 ```
 
-Tabular data is usually formatted outside the graphics device, e.g via LaTeX, or html tables. However, in some cases it may be convenient to display *small* tables alongside graphics. A couple of packages offer this possibility with base graphics (`plotrix` for instance); the `gridExtra` provides the pair of `tableGrob/grid.table` functions for this purpose. 
+Tabular data is usually formatted outside the graphics device, e.g via LaTeX, or html tables. However, in some cases it may be convenient to display *small* tables alongside graphics. A couple of packages offer this possibility with base graphics (`plotrix` for instance); the `gridExtra` provides the pair of `tableGrob/grid.table` functions for this purpose.
 
 ## Basic usage
 
@@ -33,7 +33,7 @@ The spacing of each row/column is automatic, and will adjust to bigger cell cont
 ```{r annotations, fig.height=3}
 d[2,3] <- "this is very wwwwwide"
 d[1,2] <- "this\nis\ntall"
-colnames(d) <- c("alpha*integral(xdx,a,infinity)", 
+colnames(d) <- c("alpha*integral(xdx,a,infinity)",
                  "this text\nis high", 'alpha/beta')
 
 tt <- ttheme_default(colhead=list(fg_params = list(parse=TRUE)))
@@ -50,7 +50,7 @@ tt1 <- ttheme_default()
 tt2 <- ttheme_minimal()
 tt3 <- ttheme_minimal(
   core=list(bg_params = list(fill = blues9, col=NA),
-            fg_params=list(fontface=3)), 
+            fg_params=list(fontface=3)),
   colhead=list(fg_params=list(col="navyblue")),
   rowhead=list(fg_params=list(col="navyblue", fontface=2L)))
 
@@ -106,20 +106,95 @@ grid.arrange(haligned, valigned, ncol=2)
 
 ### Borders and separators
 
-Other grobs such as separating lines may be added.
+Other grobs such as separating lines and rectangles (borders, boxes) may be added.  In this case, keep in mind that row, column and cell numbering includes the column of row labels and the row of column labels *if they are present.*  We'll can illustrate this by adding some borders (using `rectGrob`) to a simple table without row numbers.  We'll add two actually, to give a nice effect of a heavy line under the row of column headers.
+
+```{r numberingDemo1}
+library(gtable)
+g <- tableGrob(iris[1:4, 1:3], rows = NULL)
+g <- gtable_add_grob(g,
+		grobs = rectGrob(gp = gpar(fill = NA, lwd = 2)),
+		t = 2, b = nrow(g), l = 1, r = ncol(g))
+g <- gtable_add_grob(g,
+		grobs = rectGrob(gp = gpar(fill = NA, lwd = 2)),
+		t = 1, l = 1, r = ncol(g))
+grid.draw(g)
+```
+
+Note that when using `rectGrob` the top, bottom, left and right arguments (`t, b, l, r`) are the rows and columns which will be *inside* the rectangle.  If we repeat the above code almost exactly, but don't suppress the column of row labels, we see that column 1 is now the column of row labels (and it doesn't look that good either, but that's not our point).
+
+```{r numberingDemo2}
+g <- tableGrob(iris[1:4, 1:3])
+g <- gtable_add_grob(g,
+		grobs = rectGrob(gp = gpar(fill = NA, lwd = 2)),
+		t = 2, b = nrow(g), l = 1, r = ncol(g))
+g <- gtable_add_grob(g,
+		grobs = rectGrob(gp = gpar(fill = NA, lwd = 2)),
+		t = 1, l = 1, r = ncol(g))
+grid.draw(g)
+```
+
+When adding line segments to separate rows and columns using `segmentsGrob`, the row and column numbering scheme is the same (it includes any row or column labels).  When working with line segments, you should keep in mind the default coordinate values for `segmentsGrob`.  They are x0 = 0, y0 = 0, x1 = 1, y1 = 1, all in npc, relative to the cell(s) you are modifying, with the lower left corner being 0,0.  For clarity, we show all the arguments in these examples.  With this in mind, to add a line across the bottom of a single cell, use:
+
+```{r segments1 }
+g <- tableGrob(iris[1:4, 1:3])
+g <- gtable_add_grob(g,
+		grobs = segmentsGrob( # line across the bottom
+			x0 = unit(0,"npc"),
+			y0 = unit(0,"npc"),
+			x1 = unit(1,"npc"),
+			y1 = unit(0,"npc"),
+			gp = gpar(lwd = 2.0)),
+		t = 3, b = 3, l = 3, r = 3)
+grid.draw(g)
+```
+
+and to add a line to the left side:
+
+```{r segments2 }
+g <- tableGrob(iris[1:4, 1:3])
+g <- gtable_add_grob(g,
+		grobs = segmentsGrob( # line across the bottom
+      x0 = unit(0,"npc"),
+			y0 = unit(0,"npc"),
+			x1 = unit(0,"npc"),
+			y1 = unit(1,"npc"),
+			gp = gpar(lwd = 2.0)),
+		t = 3, b = 3, l = 3, r = 3)
+grid.draw(g)
+```
+
+Perhaps you'd like to cross out a cell.  This can be done with two diagonal lines combined via a `grobTree`:
+
+```{r segments3}
+g <- tableGrob(iris[1:4, 1:3])
+g <- gtable_add_grob(g,
+		grobs = grobTree(
+			segmentsGrob( # diagonal line ul -> lr
+				x0 = unit(0,"npc"),
+				y0 = unit(1,"npc"),
+				x1 = unit(1,"npc"),
+				y1 = unit(0,"npc"),
+				gp = gpar(lwd = 2.0)),
+			segmentsGrob( # diagonal line ll -> ur
+				x0 = unit(0,"npc"),
+				y0 = unit(0,"npc"),
+				x1 = unit(1,"npc"),
+				y1 = unit(1,"npc"),
+				gp = gpar(lwd = 2.0))),
+		t = 3, b = 3, l = 3, r = 3)
+grid.draw(g)
+```
+
+If you have many cells to decorate you can use `replicate` to create create the segments.  Just keep the `tableGrob` numbering scheme in mind.
 
 ```{r separators}
-g <- tableGrob(iris[1:4, 1:3], theme=ttheme_minimal())
-separators <- replicate(ncol(g) - 2, 
-                     segmentsGrob(x1 = unit(0, "npc")), 
+g <- tableGrob(iris[1:4, 1:3], theme = ttheme_minimal())
+separators <- replicate(ncol(g) - 2,
+                     segmentsGrob(x1 = unit(0, "npc")),
                      simplify=FALSE)
 ## add vertical lines on the left side of columns (after 2nd)
-g <- gtable::gtable_add_grob(g, grobs = separators, 
+g <- gtable::gtable_add_grob(g, grobs = separators,
                      t = 1, b = nrow(g), l = seq_len(ncol(g)-2)+2)
-## add rectangular box around table core
-g <- gtable::gtable_add_grob(g, 
-                             grobs = rectGrob(gp=gpar(fill=NA)), 
-                     t = 2, b = nrow(g), l = 2, r=ncol(g))
 grid.draw(g)
 ```
 
@@ -146,39 +221,39 @@ The `tableGrob` function can be very slow; unfortunately this is the price to pa
 
 ```{r ftable, fig.width=6}
 grid.ftable <- function(d, padding = unit(4, "mm"), ...) {
-  
+
   nc <- ncol(d)
   nr <- nrow(d)
-  
+
   ## character table with added row and column names
-  extended_matrix <- cbind(c("", rownames(d)),   
+  extended_matrix <- cbind(c("", rownames(d)),
                            rbind(colnames(d),
                                  as.matrix(d)))
-  
+
   ## string width and height
   w <- apply(extended_matrix, 2, strwidth, "inch")
   h <- apply(extended_matrix, 2, strheight, "inch")
-  
+
   widths <- apply(w, 2, max)
   heights <- apply(h, 1, max)
-  
+
   padding <- convertUnit(padding, unitTo = "in", valueOnly = TRUE)
-  
+
   x <- cumsum(widths + padding) - 0.5 * padding
   y <- cumsum(heights + padding) - padding
-  
-  rg <- rectGrob(x = unit(x - widths/2, "in"), 
-                 y = unit(1, "npc") - unit(rep(y, each = nc + 1), "in"), 
-                 width = unit(widths + padding, "in"), 
+
+  rg <- rectGrob(x = unit(x - widths/2, "in"),
+                 y = unit(1, "npc") - unit(rep(y, each = nc + 1), "in"),
+                 width = unit(widths + padding, "in"),
                  height = unit(heights + padding, "in"))
-  
-  tg <- textGrob(c(t(extended_matrix)), x = unit(x - widths/2, "in"), 
-                 y = unit(1, "npc") - unit(rep(y, each = nc + 1), "in"), 
+
+  tg <- textGrob(c(t(extended_matrix)), x = unit(x - widths/2, "in"),
+                 y = unit(1, "npc") - unit(rep(y, each = nc + 1), "in"),
                  just = "center")
-  
-  g <- gTree(children = gList(rg, tg), ..., 
+
+  g <- gTree(children = gList(rg, tg), ...,
              x = x, y = y, widths = widths, heights = heights)
-  
+
   grid.draw(g)
   invisible(g)
 }
@@ -186,5 +261,3 @@ grid.ftable <- function(d, padding = unit(4, "mm"), ...) {
 grid.newpage()
 grid.ftable(head(iris, 4), gp = gpar(fill = rep(c("grey90", "grey95"), each = 6)))
 ```
-
-
