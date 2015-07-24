@@ -13,9 +13,9 @@ tableGrob(d, rows = rownames(d), cols = colnames(d),
 
 grid.table(...)
 
-ttheme_default(base_size = 12, ...)
+ttheme_default(base_size = 12, base_colour = "black", ...)
 
-ttheme_minimal(base_size = 12, ...)
+ttheme_minimal(base_size = 12, base_colour = "black", ...)
 }
 \arguments{
 \item{d}{data.frame or matrix}
@@ -29,6 +29,8 @@ ttheme_minimal(base_size = 12, ...)
 \item{...}{further arguments to control the gtable}
 
 \item{base_size}{default font size}
+
+\item{base_colour}{default font colour}
 }
 \value{
 A gtable.

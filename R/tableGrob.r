@@ -57,12 +57,13 @@ grid.table <- function(...)
 #' @describeIn tableGrob default theme for text tables
 #' @inheritParams tableGrob
 #' @param base_size default font size
+#' @param base_colour default font colour
 #' @importFrom utils modifyList
 ##' @export
-ttheme_default <- function(base_size=12, ...){
+ttheme_default <- function(base_size=12, base_colour="black", ...){
   
   core <- list(fg_fun = text_grob, 
-               fg_params = list(parse=FALSE, col="black",
+               fg_params = list(parse=FALSE, col=base_colour,
                                 fontsize = base_size),
                bg_fun = rect_grob, 
                bg_params = list(fill = c("grey95","grey90"), 
@@ -70,7 +71,8 @@ ttheme_default <- function(base_size=12, ...){
                padding = unit(c(4, 4), "mm"))
   
   colhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=FALSE, fontface=2L,
+                  fg_params = list(parse=FALSE, col=base_colour,
+                                   fontface=2L,
                                    fontsize = base_size),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = c("grey80"), 
@@ -78,7 +80,8 @@ ttheme_default <- function(base_size=12, ...){
                   padding = unit(c(4, 4), "mm"))
   
   rowhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=FALSE, fontface=3L,
+                  fg_params = list(parse=FALSE, col=base_colour,
+                                   fontface=3L,
                                    fontsize = base_size),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, col=NA),
@@ -99,24 +102,28 @@ ttheme_default <- function(base_size=12, ...){
 #' @describeIn tableGrob minimalist theme for text tables
 #' @inheritParams tableGrob
 ##' @export
-ttheme_minimal <- function(base_size=12, ...){
+ttheme_minimal <- function(base_size=12, 
+                           base_colour = "black",
+                           ...){
   
   core <- list(fg_fun = text_grob, 
-               fg_params = list(parse=FALSE, col="black",
+               fg_params = list(parse=FALSE, col=base_colour,
                                 fontsize = base_size),
                bg_fun = rect_grob, 
                bg_params = list(fill = NA, col=NA),
                padding = unit(c(4, 4), "mm"))
   
   colhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=FALSE, fontface=2L,
+                  fg_params = list(parse=FALSE, col=base_colour,
+                                   fontface=2L,
                                    fontsize = base_size),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = NA, col=NA),
                   padding = unit(c(4, 4), "mm"))
   
   rowhead <- list(fg_fun = text_grob, 
-                  fg_params = list(parse=FALSE, fontface=3L,
+                  fg_params = list(parse=FALSE, col=base_colour,
+                                   fontface=3L,
                                    fontsize = base_size, 
                                    hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
