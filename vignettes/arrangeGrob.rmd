@@ -54,6 +54,19 @@ lay <- rbind(c(1,1,1,2,3),
 grid.arrange(grobs = gs, layout_matrix = lay)
 ```
 
+The layout itself may contain holes, but note that for any given grob index the region must be simply connected (no hole),
+
+```{r holes}
+hlay <- rbind(c(1,1,NA,2,3),
+              c(1,1,NA,4,NA),
+              c(NA,7,8,9,NA))
+select_grobs <- function(lay) {
+  id <- unique(c(t(lay))) 
+  id[!is.na(id)]
+} 
+grid.arrange(grobs=gs[select_grobs(hlay)], layout_matrix=hlay)
+```
+
 All cells are of equal size by default, but users may pass explicity `widths` and/or `heights` in any valid grid units, or as relative numbers (interpreted as `null`),
 
 ```{r sizes, fig.height=2}

@@ -115,10 +115,10 @@ arrangeGrob <- function(..., grobs=list(...),
     ## left/right/top/bottom borders for given id
     range_cell <- function(ii){
       ind <- which(layout_matrix == ii, arr.ind=TRUE)
-      c(l=min(ind[,"col"]),
-        r=max(ind[,"col"]),
-        t=min(ind[,"row"]),
-        b=max(ind[,"row"]))
+      c(l=min(ind[,"col"], na.rm = TRUE),
+        r=max(ind[,"col"], na.rm = TRUE),
+        t=min(ind[,"row"], na.rm = TRUE),
+        b=max(ind[,"row"], na.rm = TRUE))
     }
     positions <- data.frame(do.call(rbind, lapply(cells, range_cell)))
 
