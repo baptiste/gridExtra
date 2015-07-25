@@ -21,12 +21,16 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
   
   
   g <- gtable_table(d, name="core",
+                    fg_fun = theme$core$fg_fun, 
+                    bg_fun = theme$core$bg_fun, 
                     fg_params = theme$core$fg_params, 
                     bg_params = theme$core$bg_params, 
                     padding=theme$core$padding, ...)
   
   if(!is.null(cols)){
     gc <- gtable_table(t(cols), name="colhead",
+                       fg_fun = theme$colhead$fg_fun, 
+                       bg_fun = theme$colhead$bg_fun, 
                        fg_params = theme$colhead$fg_params, 
                        bg_params = theme$colhead$bg_params, 
                        padding=theme$colhead$padding)
@@ -36,6 +40,8 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
     if(!is.null(cols)) # need to add dummy cell
       rows <- c("", rows)
     gr <- gtable_table(rows, name="rowhead",
+                       fg_fun = theme$rowhead$fg_fun, 
+                       bg_fun = theme$rowhead$bg_fun, 
                        fg_params = theme$rowhead$fg_params, 
                        bg_params = theme$rowhead$bg_params,
                        padding=theme$rowhead$padding)
