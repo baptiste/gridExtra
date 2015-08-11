@@ -13,9 +13,9 @@ tableGrob(d, rows = rownames(d), cols = colnames(d),
 
 grid.table(...)
 
-ttheme_default(base_size = 12, base_colour = "black", ...)
+ttheme_default(base_size = 12, base_colour = "black", parse = FALSE, ...)
 
-ttheme_minimal(base_size = 12, base_colour = "black", ...)
+ttheme_minimal(base_size = 12, base_colour = "black", parse = FALSE, ...)
 }
 \arguments{
 \item{d}{data.frame or matrix}
@@ -31,6 +31,8 @@ ttheme_minimal(base_size = 12, base_colour = "black", ...)
 \item{base_size}{default font size}
 
 \item{base_colour}{default font colour}
+
+\item{parse}{logical, default behaviour for parsing text as plotmath}
 }
 \value{
 A gtable.
