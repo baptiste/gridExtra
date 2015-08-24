@@ -220,19 +220,30 @@ gtable_table <- function(d, widths, heights,
   nr <- nrow(label_matrix)
   n <- nc*nr
   
-  fg_params <- lapply(fg_params, rep, length.out = n, each = nc)
-  bg_params <- lapply(bg_params, rep, length.out = n, each = nc)
+  ## formatting parameters will be recycled iff 
+  ## there are fewer elements than needed
+  rep_ifshort <- function(x, n, nc, nr){
+      if(length(x) >= n)
+        return(x[1:n]) else # recycle rowwise
+            return(rep(x, length.out = n)) 
+  }
+  
+  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr=nr)
+  bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr=nr)
   
   fg_params <- data.frame(fg_params, 
-                          label = as.vector(label_matrix), 
+                          label = as.vector(label_matrix), # colwise
                           stringsAsFactors=FALSE)
+  
   bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
+  
   labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
                                               SIMPLIFY=FALSE)))
   bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
                                              SIMPLIFY=FALSE)))
 
-  label_grobs <- matrix(labels, ncol = nc)
+  label_grobs <- matrix(labels, ncol = nc, byrow = FALSE)
+  bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
   
   ## some calculations of cell sizes
   
@@ -242,14 +253,15 @@ gtable_table <- function(d, widths, heights,
     heights <- row_heights(label_grobs) + padding[2]
   
   ## place labels in a gtable
-  g <- gtable_matrix(paste0(name, "-fg"), grobs=label_grobs, 
+  g <- gtable_matrix(paste0(name, "-fg"), 
+                     grobs = label_grobs, 
                      widths = widths, 
                      heights = heights, vp=vp)
   
   ## add the background
-  g <- gtable_add_grob(g, bkgds, 
-                       t=rep(seq_len(nr), each=nc), 
-                       l=rep(seq_len(nc), nr), z=0, 
+  g <- gtable_add_grob(g, bkgds_grobs, 
+                       t=rep(seq_len(nr), length.out = n), 
+                       l=rep(seq_len(nc), each = nr), z=0, 
                        name=paste0(name, "-bg"))
   
   g
