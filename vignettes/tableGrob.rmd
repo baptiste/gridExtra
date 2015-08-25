@@ -51,10 +51,10 @@ The formatting is controlled by *themes*, which are nested lists of graphical pa
 tt1 <- ttheme_default()
 tt2 <- ttheme_minimal()
 tt3 <- ttheme_minimal(
-  core=list(bg_params = list(fill = blues9, col=NA),
+  core=list(bg_params = list(fill = blues9[1:4], col=NA),
             fg_params=list(fontface=3)),
-  colhead=list(fg_params=list(col="navyblue")),
-  rowhead=list(fg_params=list(col="navyblue", fontface=2L)))
+  colhead=list(fg_params=list(col="navyblue", fontface=4L)),
+  rowhead=list(fg_params=list(col="orange", fontface=3L)))
 
 grid.arrange(
   tableGrob(iris[1:4, 1:2], theme=tt1),
@@ -63,7 +63,7 @@ grid.arrange(
   nrow=1)
 ```
 
-If the formatting parameters are shorter than the number of cells, they are recycled along columns,
+If the formatting values are fewer than the number of cells, they are recycled along columns,
 ```{r recycling}
 t1 <- ttheme_default(core=list(
         fg_params=list(fontface=c(rep("plain", 4), "bold.italic")),
@@ -76,7 +76,7 @@ grid.table(iris[1:5, 1:3], theme = t1)
 
 ## Text justification
 
-The text labels can be justified; the default is "centre" for the core, header, and row names. These settings can be adjusted by passing the relevant parameters of `textGrob` via the theme nested lists,
+The text labels can be justified; the default is "centre" for the core and header, and "right" for the row names. These settings can be adjusted by passing the relevant parameters of `textGrob` via the theme nested lists,
 
 ```{r justify, fig.width=8}
 tt1 <- ttheme_default()
