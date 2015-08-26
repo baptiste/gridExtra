@@ -8,13 +8,13 @@
 \alias{polygon_regular}
 \title{Regular polygon grob}
 \usage{
-ngonGrob(x, y, n = 5, size = 5, phase = pi/2, angle = 0, rho = 1,
+ngonGrob(x, y, n = 5, size = 5, phase = pi/2, angle = 0, ar = 1,
   gp = gpar(colour = "black", fill = NA, linejoin = "mitre"), ...,
   position.units = "npc", size.units = "mm")
 
 grid.ngon(...)
 
-ellipseGrob(x, y, size = 5, angle = pi/4, rho = 1, n = 50,
+ellipseGrob(x, y, size = 5, angle = pi/4, ar = 1, n = 50,
   gp = gpar(colour = "black", fill = NA, linejoin = "mitre"), ...,
   position.units = "npc", size.units = "mm")
 
@@ -35,7 +35,7 @@ polygon_regular(n = 5, phase = 0)
 
 \item{angle}{angle of polygon in radians}
 
-\item{rho}{aspect ratio}
+\item{ar}{aspect ratio}
 
 \item{gp}{gpar}
 
@@ -79,7 +79,7 @@ grid.draw(g)
 # rotated and stretched
 g2 <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"),
               unit(xy[,2],"cm") + unit(0.5,"npc"),
-              n = seq_len(N) + 2, rho = seq_len(N),
+              n = seq_len(N) + 2, ar = seq_len(N),
               phase = 0, angle = pi/(seq_len(N) + 2),
               size = 1:N + 5)
 
@@ -90,7 +90,7 @@ grid.draw(g2)
 g3 <- ellipseGrob(unit(xy[,1],"cm") + unit(0.5,"npc"),
                   unit(xy[,2],"cm") + unit(0.5,"npc"),
                   angle = -2*seq(0,N-1)*pi/5 + pi/2,
-                  size = 5, rho = 1/3)
+                  size = 5, ar = 1/3)
 
 grid.newpage()
 grid.draw(g3)

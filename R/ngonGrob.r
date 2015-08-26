@@ -7,7 +7,7 @@
 ##' @param n number of vertices
 ##' @param size radius of circumscribing circle
 ##' @param phase angle in radians of first point relative to x axis
-##' @param rho aspect ratio
+##' @param ar aspect ratio
 ##' @param angle angle of polygon in radians
 ##' @param position.units default units for the positions
 ##' @param size.units grid units for the sizes
@@ -31,7 +31,7 @@
 ##' # rotated and stretched
 ##' g2 <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
 ##'               unit(xy[,2],"cm") + unit(0.5,"npc"),
-##'               n = seq_len(N) + 2, rho = seq_len(N),
+##'               n = seq_len(N) + 2, ar = seq_len(N),
 ##'               phase = 0, angle = pi/(seq_len(N) + 2),
 ##'               size = 1:N + 5)
 ##' 
@@ -42,12 +42,12 @@
 ##' g3 <- ellipseGrob(unit(xy[,1],"cm") + unit(0.5,"npc"), 
 ##'                   unit(xy[,2],"cm") + unit(0.5,"npc"),
 ##'                   angle = -2*seq(0,N-1)*pi/5 + pi/2,
-##'                   size = 5, rho = 1/3)
+##'                   size = 5, ar = 1/3)
 ##' 
 ##' grid.newpage()
 ##' grid.draw(g3)
 ngonGrob <- function (x, y, n = 5, size = 5, phase = pi/2, 
-                      angle = 0, rho = 1,
+                      angle = 0, ar = 1,
                       gp = gpar(colour = "black", fill = NA, 
                                 linejoin = "mitre"), ..., 
                       position.units = "npc", size.units="mm") 
@@ -71,17 +71,16 @@ ngonGrob <- function (x, y, n = 5, size = 5, phase = pi/2,
     phase <- rep(phase, length.out = N)
   if (length(angle) < N) 
     angle <- rep(angle, length.out = N)
-  if (length(rho) < N) 
-    rho <- rep(rho, length.out = N)
+  if (length(ar) < N) 
+    ar <- rep(ar, length.out = N)
   
   lngon <- mapply(polygon_regular, n = n, phase = phase,
                   SIMPLIFY = FALSE)
   vertices <- sapply(lngon, nrow)
   
-  # browser()
-  stretch_rotate_move <- function(p, size, rho, angle, x, y){
+  stretch_rotate_move <- function(p, size, ar, angle, x, y){
     central <- size * p %*% 
-      diag(c(1/sqrt(rho), sqrt(rho))) %*%
+      diag(c(sqrt(ar), 1/sqrt(ar))) %*%
       rbind(c(cos(angle), -sin(angle)), 
             c(sin(angle),  cos(angle)))
     
@@ -91,7 +90,7 @@ ngonGrob <- function (x, y, n = 5, size = 5, phase = pi/2,
   }
   
   lxy <- mapply(stretch_rotate_move, p=lngon,
-                size=size, rho=rho, angle=angle, 
+                size=size, ar=ar, angle=angle, 
                 x=xv, y=yv,
                 SIMPLIFY = FALSE)
   
@@ -116,13 +115,13 @@ grid.ngon <- function(...)
 #' @inheritParams ngonGrob
 #' @export
 ellipseGrob <- function(x, y, size = 5, 
-                        angle = pi/4, rho = 1, n = 50, 
+                        angle = pi/4, ar = 1, n = 50, 
                         gp = gpar(colour = "black", fill = NA, 
                                   linejoin = "mitre"), ..., 
                         position.units = "npc", size.units="mm")  {
   
   ngonGrob(x, y, n = n , phase = 0, 
-           size = size, angle = angle, rho = rho,
+           size = size, angle = angle, ar = ar,
            gp = gp, position.units = position.units, 
            size.units = size.units, ...)
 }

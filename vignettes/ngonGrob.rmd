@@ -40,7 +40,7 @@ grid.draw(g)
 ```{r rotated}
 g2 <- ngonGrob(unit(xy[,1],"cm") + unit(0.5,"npc"),
               unit(xy[,2],"cm") + unit(0.5,"npc"),
-              n=seq_len(N)+2, rho=seq_len(N),
+              n=seq_len(N)+2, ar=seq_len(N),
               phase=0, angle=pi/(seq_len(N)+2),
               size=1:N+5, gp=gpar(fill=1:N))
 
@@ -54,7 +54,7 @@ grid.draw(g2)
 g3 <- ellipseGrob(unit(xy[,1],"cm") + unit(0.5,"npc"),
                   unit(xy[,2],"cm") + unit(0.5,"npc"),
                   angle=-2*seq(0,N-1)*pi/N+pi/2,
-                  size=5, rho=1/3, gp=gpar(fill=1:N))
+                  size=5, ar=3, gp=gpar(fill=1:N))
 
 grid.newpage()
 grid.draw(g3)
