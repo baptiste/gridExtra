@@ -226,13 +226,13 @@ gtable_table <- function(d, widths, heights,
   ## formatting parameters will be recycled iff 
   ## there are fewer elements than needed
   rep_ifshort <- function(x, n, nc, nr){
-      if(length(x) >= n)
-        return(x[1:n]) else # recycle rowwise
-            return(rep(x, length.out = n)) 
+      if(length(x) >= n){
+        return(x[1:n]) } else # recycle 
+            return(rep(rep(x, length.out = nr), length.out= n)) 
   }
   
-  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr=nr)
-  bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr=nr)
+  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr)
+  bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr)
   
   fg_params <- data.frame(fg_params, 
                           label = as.vector(label_matrix), # colwise
