@@ -9,7 +9,7 @@
 \title{Graphical display of a textual table}
 \usage{
 tableGrob(d, rows = rownames(d), cols = colnames(d),
-  theme = ttheme_default(), ...)
+  theme = ttheme_default(), vp = NULL, ...)
 
 grid.table(...)
 
@@ -25,6 +25,8 @@ ttheme_minimal(base_size = 12, base_colour = "black", parse = FALSE, ...)
 \item{cols}{optional vector to specify column names}
 
 \item{theme}{list of theme parameters}
+
+\item{vp}{optional viewport}
 
 \item{...}{further arguments to control the gtable}
 

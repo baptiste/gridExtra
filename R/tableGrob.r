@@ -6,6 +6,7 @@
 #' @param rows optional vector to specify row names
 #' @param cols optional vector to specify column names
 #' @param theme list of theme parameters
+#' @param vp optional viewport
 #' @param ... further arguments to control the gtable
 #' @return A gtable.
 #' @export
@@ -16,7 +17,7 @@
 #' grid.newpage()
 #' grid.draw(g)
 tableGrob <- function(d, rows=rownames(d), cols=colnames(d), 
-                      theme = ttheme_default(),
+                      theme = ttheme_default(), vp = NULL,
                       ...){
   
   
@@ -50,6 +51,8 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
   
   colnames(g) <- paste0("c", seq_len(ncol(g)))
   rownames(g) <- paste0("r", seq_len(nrow(g)))
+  
+  if(!is.null(vp)) g$vp <- vp
   g
 }
 
@@ -106,7 +109,6 @@ ttheme_default <- function(base_size=12,
   modifyList(default, list(...))
   
 }
-
 
 
 #' @describeIn tableGrob minimalist theme for text tables
