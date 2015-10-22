@@ -13,9 +13,11 @@ tableGrob(d, rows = rownames(d), cols = colnames(d),
 
 grid.table(...)
 
-ttheme_default(base_size = 12, base_colour = "black", parse = FALSE, ...)
+ttheme_default(base_size = 12, base_colour = "black", parse = FALSE,
+  padding = unit(c(4, 4), "mm"), ...)
 
-ttheme_minimal(base_size = 12, base_colour = "black", parse = FALSE, ...)
+ttheme_minimal(base_size = 12, base_colour = "black", parse = FALSE,
+  padding = unit(c(4, 4), "mm"), ...)
 }
 \arguments{
 \item{d}{data.frame or matrix}
