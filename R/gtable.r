@@ -25,7 +25,7 @@ str.gtable <- function(object, ...){
 #'  @param ... gtables
 #'  @param along dimension to align along, \code{1} = rows,
 #'   \code{2} = cols. 
-#'  @param join when x and y have different names, how should the d'ifference be resolved? 
+#'  @param join when x and y have different names, how should the difference be resolved? 
 #'  \code{inner} keep names that appear in both, 
 #'  \code{outer} keep names that appear in either, 
 #'  \code{left} keep names from \code{x}, 
