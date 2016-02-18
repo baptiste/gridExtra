@@ -98,7 +98,7 @@ ttheme_default <- function(base_size=12,
                                    fontsize = base_size,
                                    hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
-                  bg_params = list(fill=NA, col=NA),
+                  bg_params = list(fill=NA, lwd=1.5, col="white"),
                   padding = padding)
   
   default <- list(

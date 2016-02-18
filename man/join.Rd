@@ -12,7 +12,7 @@ join(..., along = 1L, join = "outer")
 \item{along}{dimension to align along, \code{1} = rows,
  \code{2} = cols.}
 
-\item{join}{when x and y have different names, how should the d'ifference be resolved?
+\item{join}{when x and y have different names, how should the difference be resolved?
 \code{inner} keep names that appear in both,
 \code{outer} keep names that appear in either,
 \code{left} keep names from \code{x},
