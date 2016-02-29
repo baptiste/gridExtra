@@ -103,7 +103,7 @@ grid.arrange(rectGrob(), rectGrob(), nrow=1)
 grid.arrange(g, g2, nrow=1, newpage = FALSE)
 ```
 
-The alignment of several tables can be achieved with the `gtable_join` function (internal copy adapted from `gtable`),
+The alignment of several tables can be achieved with the `combine` function (adapted from `gtable:::join`),
 
 ```{r align, fig.width=6, fig.height=3}
 d1 <- PlantGrowth[1:3,1, drop=FALSE]
@@ -112,8 +112,8 @@ d2 <- PlantGrowth[1:2,1:2]
 g1 <- tableGrob(d1)
 g2 <- tableGrob(d2)
 
-haligned <- join(g1,g2,g1, along=1)
-valigned <- join(g1,g2, along=2)
+haligned <- combine(g1,g2,g1, along=1)
+valigned <- combine(g1,g2, along=2)
 grid.newpage()
 grid.arrange(haligned, valigned, ncol=2)
 ```

@@ -1,3 +1,8 @@
+## Misc. gtable functions
+## Note: some functions were copied from the gtable package with 
+## minor modifications (rbind/cbind/join). In the future it would be nice to
+## get them included in the original gtable package, but its development 
+## cycle is not very regular.
 
 #'  Prints summary information on gtable objects
 #'  @param object a gtable
@@ -21,7 +26,8 @@ str.gtable <- function(object, ...){
   }
 }
 
-#'  Join gtables together based on row/column names.
+
+#'  Combine gtables based on row/column names.
 #'  @param ... gtables
 #'  @param along dimension to align along, \code{1} = rows,
 #'   \code{2} = cols. 
@@ -30,11 +36,11 @@ str.gtable <- function(object, ...){
 #'  \code{outer} keep names that appear in either, 
 #'  \code{left} keep names from \code{x}, 
 #'  and \code{right} keep names from \code{y}.
-#' @export
-join <- function (..., along = 1L, join = "outer") 
+#'  @export
+combine <- function (..., along = 1L, join = "outer") 
 {
   gtables <- list(...)
-  Reduce(function(x, y) gtable_join(x, y, 
+  Reduce(function(x, y) gtable_combine(x, y, 
                                     along = along, 
                                     join = join),
          gtables)
@@ -165,7 +171,7 @@ cbind_gtable <- function(x, y, size = "max") {
 }
 
 
-gtable_join <- function(x, y, along = 1L, join = "outer") {
+gtable_combine <- function(x, y, along = 1L, join = "outer") {
   aligned <- gtable_align(x, y, along = along, join = join)
   switch(along,
          cbind_gtable(aligned$x, aligned$y, 
