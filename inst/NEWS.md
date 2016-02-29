@@ -1,3 +1,14 @@
+# gridExtra 2.2.0 (2016-02-27)
+ 
+## NEW FEATURES
+
+* added padding argument to table themes
+* simplified a few theme arguments
+
+## BUG FIX
+
+* recycling logic was flawed for aesthetics in table cells
+
 # gridExtra 2.1.0 (2015-07-27) 
 
 ## DOCUMENTATION

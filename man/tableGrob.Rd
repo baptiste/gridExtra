@@ -37,6 +37,8 @@ ttheme_minimal(base_size = 12, base_colour = "black", parse = FALSE,
 \item{base_colour}{default font colour}
 
 \item{parse}{logical, default behaviour for parsing text as plotmath}
+
+\item{padding}{length-2 unit vector specifying the horizontal and vertical padding of text within each cell}
 }
 \value{
 A gtable.

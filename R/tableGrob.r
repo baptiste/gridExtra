@@ -68,6 +68,7 @@ grid.table <- function(...)
 #' @param base_size default font size
 #' @param base_colour default font colour
 #' @param parse logical, default behaviour for parsing text as plotmath
+#' @param padding length-2 unit vector specifying the horizontal and vertical padding of text within each cell
 #' @importFrom utils modifyList
 ##' @export
 ttheme_default <- function(base_size=12, 
