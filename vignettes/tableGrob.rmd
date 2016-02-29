@@ -112,7 +112,7 @@ d2 <- PlantGrowth[1:2,1:2]
 g1 <- tableGrob(d1)
 g2 <- tableGrob(d2)
 
-haligned <- combine(g1,g2,g1, along=1)
+haligned <- combine(g1,g2, along=1)
 valigned <- combine(g1,g2, along=2)
 grid.newpage()
 grid.arrange(haligned, valigned, ncol=2)
