@@ -24,11 +24,4 @@ Suggests:
     lattice,
     knitr,
     testthat
-Collate:
-    gtable.r
-    grob-utils.r
-    arrangeGrob.r
-    gridExtra-package.r
-    tableGrob.r
-    ngonGrob.r
 RoxygenNote: 5.0.1.9000
