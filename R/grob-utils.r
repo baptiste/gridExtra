@@ -3,6 +3,7 @@ latticeGrob <- function(p, ...){
 }
 
 
+
 #' @importFrom graphics plot
 #' @export
 drawDetails.lattice <- function(x, recording=FALSE){
