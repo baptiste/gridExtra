@@ -124,6 +124,7 @@ arrangeGrob <- function(..., grobs=list(...),
 
     ncol <- max(positions$r)
     nrow <- max(positions$b)
+    positions <- positions[seq_along(grobs),] # layout might define more cells 
   }
   
   ## sizes
@@ -220,29 +221,30 @@ grid.arrange <- function(..., newpage=TRUE){
 ##' ## interactive use; open new devices
 ##' ml
 ##' }
-marrangeGrob <- function(grobs, ncol, nrow, ...,
-                         top = quote(paste("page", g, "of", pages))){
-   
+marrangeGrob <- function(grobs, 
+                         ..., ncol, nrow,
+                         layout_matrix = matrix(seq_len(nrow*ncol), 
+                                                nrow = nrow, ncol=ncol),
+                         top = quote(paste("page", g, "of", npages))){
+  
   n <- length(grobs)
-  nlay <- nrow*ncol
-  pages <- n %/% nlay + as.logical(n %% nlay)
+  nlay <-  max(m, na.rm=TRUE)
+  npages <-  n %/% nlay + as.logical(n %% nlay)
+  groups <- split(grobs, rep(seq_len(npages), each=nlay, length.out=n))
   
-  groups <- split(seq_along(grobs), 
-                  gl(pages, nlay, n))
+  pl <- vector(mode = "list", length = npages)
   
-  pl <- vector(mode = "list", length = pages)
-  
-  for(page in seq_along(groups)){
-    g <- page
-    params <- modifyList(list(...), list(top=eval(top), 
-                                         nrow=nrow, ncol=ncol))
-    pl[[g]] <- do.call(arrangeGrob, c(grobs[groups[[g]]], params))
+  for(g in seq_along(groups)){
+    params <- modifyList(list(...), 
+                         list(top=eval(top), layout_matrix = layout_matrix))
+    pl[[g]] <- do.call(arrangeGrob, c(list(grobs=groups[[g]]), params))
   }
   
   class(pl) <- c("arrangelist", class(pl))
   pl
-
+  
 }
+
 
 ##' @noRd
 ##' @importFrom grDevices dev.interactive dev.new
