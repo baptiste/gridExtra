@@ -228,7 +228,7 @@ marrangeGrob <- function(grobs,
                          top = quote(paste("page", g, "of", npages))){
   
   n <- length(grobs)
-  nlay <-  max(m, na.rm=TRUE)
+  nlay <-  max(layout_matrix, na.rm=TRUE)
   npages <-  n %/% nlay + as.logical(n %% nlay)
   groups <- split(grobs, rep(seq_len(npages), each=nlay, length.out=n))
   
