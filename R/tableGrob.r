@@ -156,59 +156,6 @@ ttheme_minimal <- function(base_size=12,
   
 }
 
-text_grob <- function(label, 
-                      parse=FALSE, 
-                      col = "black",
-                      fontsize = 12, 
-                      cex = 1, 
-                      fontfamily = "",
-                      fontface = 1L,
-                      lineheight = 1.2, 
-                      alpha = 1, 
-                      rot = 0,
-                      just = "centre",
-                      hjust = 0.5,
-                      vjust = 0.5, 
-                      x = 0.5, 
-                      y = 0.5){
-  if(parse){
-    label <- tryCatch(parse(text=label), 
-                      error = function(e) label)
-  }
-  textGrob(label = label, x = x, y = y, 
-           just = just, hjust = hjust, vjust = vjust, 
-           rot = rot, 
-           gp = gpar(col = col, 
-                     fontsize = fontsize, 
-                     cex = cex, 
-                     fontfamily = fontfamily,
-                     fontface = fontface,
-                     lineheight = lineheight, 
-                     alpha = alpha))
-}
-
-
-rect_grob <- function(fill = "white", 
-                      col = "black", 
-                      lty = "solid", 
-                      lwd = 1, cex = 1, 
-                      alpha = 1, 
-                      lineend = "round", 
-                      linejoin = "round", 
-                      linemitre = 10, lex = 1){
-  
-  rectGrob(width = unit(1,"npc") - unit(2, "scaledpts"), 
-           height = unit(1,"npc") - unit(2, "scaledpts"),
-           gp = gpar(col = col, 
-                     fill = fill, 
-                     lty = lty, 
-                     lwd = lwd, cex = cex, 
-                     alpha = alpha, 
-                     lineend = lineend, 
-                     linejoin = linejoin, 
-                     linemitre = linemitre, lex = lex,
-                     alpha = alpha))
-}
 
 
 ##
