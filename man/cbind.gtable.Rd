@@ -2,25 +2,22 @@
 % Please edit documentation in R/gtable.r
 \name{cbind.gtable}
 \alias{cbind.gtable}
-\title{cbind gtables
- @param ... gtables
- @param size how should the heights be calculated?
- \code{max} maximum of all heights
- \code{min} minimum of all heights
- \code{first} heights of first gtable
- \code{last} heights of last gtable
- @param z optional z level}
+\title{cbind gtables}
 \usage{
 cbind.gtable(..., size = "max", z = NULL)
 }
+\arguments{
+\item{...}{gtables}
+
+\item{size}{how should the heights be calculated?
+\code{max} maximum of all heights
+\code{min} minimum of all heights
+\code{first} heights of first gtable
+\code{last} heights of last gtable}
+
+\item{z}{optional z level}
+}
 \description{
 cbind gtables
- @param ... gtables
- @param size how should the heights be calculated?
- \code{max} maximum of all heights
- \code{min} minimum of all heights
- \code{first} heights of first gtable
- \code{last} heights of last gtable
- @param z optional z level
 }
 

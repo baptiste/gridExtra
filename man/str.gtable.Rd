@@ -2,19 +2,16 @@
 % Please edit documentation in R/gtable.r
 \name{str.gtable}
 \alias{str.gtable}
-\title{Prints summary information on gtable objects
- @param object a gtable
- @param ... unused
- @importFrom utils str
- @export}
+\title{Prints summary information on gtable objects}
 \usage{
 \method{str}{gtable}(object, ...)
 }
+\arguments{
+\item{object}{a gtable}
+
+\item{...}{unused}
+}
 \description{
 Prints summary information on gtable objects
- @param object a gtable
- @param ... unused
- @importFrom utils str
- @export
 }
 

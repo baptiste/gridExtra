@@ -4,11 +4,11 @@
 ## get them included in the original gtable package, but its development 
 ## cycle is not very regular.
 
-#'  Prints summary information on gtable objects
-#'  @param object a gtable
-#'  @param ... unused
-#'  @importFrom utils str
-#'  @export
+##'Prints summary information on gtable objects
+##'@param object a gtable
+##'@param ... unused
+##'@importFrom utils str
+##'@export
 str.gtable <- function(object, ...){
   cat(c("gtable, containing \ngrobs (", 
         length(object[["grobs"]]), ") :"), sep="")
@@ -27,16 +27,16 @@ str.gtable <- function(object, ...){
 }
 
 
-#'  Combine gtables based on row/column names.
-#'  @param ... gtables
-#'  @param along dimension to align along, \code{1} = rows,
-#'   \code{2} = cols. 
-#'  @param join when x and y have different names, how should the difference be resolved? 
-#'  \code{inner} keep names that appear in both, 
-#'  \code{outer} keep names that appear in either, 
-#'  \code{left} keep names from \code{x}, 
-#'  and \code{right} keep names from \code{y}.
-#'  @export
+##'Combine gtables based on row/column names.
+##'@param ... gtables
+##'@param along dimension to align along, \code{1} = rows,
+##'\code{2} = cols. 
+##'@param join when x and y have different names, how should the difference be resolved? 
+##'\code{inner} keep names that appear in both, 
+##'\code{outer} keep names that appear in either, 
+##'\code{left} keep names from \code{x}, 
+##'and \code{right} keep names from \code{y}.
+##'@export
 combine <- function (..., along = 1L, join = "outer") 
 {
   gtables <- list(...)
@@ -84,15 +84,15 @@ z_arrange_gtables <- function (gtables, z)
   gtables
 }
 
-#'  rbind gtables
-#'  @param ... gtables
-#'  @param size how should the widths be calculated?
-#'  \code{max} maximum of all widths
-#'  \code{min} minimum of all widths
-#'  \code{first} widths of first gtable
-#'  \code{last} widths of last gtable
-#'  @param z optional z level
-#' @export
+##'rbind gtables
+##'@param ... gtables
+##'@param size how should the widths be calculated?
+##'\code{max} maximum of all widths
+##'\code{min} minimum of all widths
+##'\code{first} widths of first gtable
+##'\code{last} widths of last gtable
+##'@param z optional z level
+##'@export
 rbind.gtable <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
@@ -101,15 +101,15 @@ rbind.gtable <- function(..., size = "max", z = NULL) {
   Reduce(function(x, y) rbind_gtable(x, y, size = size), gtables)
 }
 
-#'  cbind gtables
-#'  @param ... gtables
-#'  @param size how should the heights be calculated?
-#'  \code{max} maximum of all heights
-#'  \code{min} minimum of all heights
-#'  \code{first} heights of first gtable
-#'  \code{last} heights of last gtable
-#'  @param z optional z level
-#' @export
+##'cbind gtables
+##'@param ... gtables
+##'@param size how should the heights be calculated?
+##'\code{max} maximum of all heights
+##'\code{min} minimum of all heights
+##'\code{first} heights of first gtable
+##'\code{last} heights of last gtable
+##'@param z optional z level
+##'@export
 cbind.gtable <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {

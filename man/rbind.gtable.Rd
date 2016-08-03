@@ -2,25 +2,22 @@
 % Please edit documentation in R/gtable.r
 \name{rbind.gtable}
 \alias{rbind.gtable}
-\title{rbind gtables
- @param ... gtables
- @param size how should the widths be calculated?
- \code{max} maximum of all widths
- \code{min} minimum of all widths
- \code{first} widths of first gtable
- \code{last} widths of last gtable
- @param z optional z level}
+\title{rbind gtables}
 \usage{
 rbind.gtable(..., size = "max", z = NULL)
 }
+\arguments{
+\item{...}{gtables}
+
+\item{size}{how should the widths be calculated?
+\code{max} maximum of all widths
+\code{min} minimum of all widths
+\code{first} widths of first gtable
+\code{last} widths of last gtable}
+
+\item{z}{optional z level}
+}
 \description{
 rbind gtables
- @param ... gtables
- @param size how should the widths be calculated?
- \code{max} maximum of all widths
- \code{min} minimum of all widths
- \code{first} widths of first gtable
- \code{last} widths of last gtable
- @param z optional z level
 }
 
