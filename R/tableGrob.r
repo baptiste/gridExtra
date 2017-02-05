@@ -1,4 +1,4 @@
-#' @aliases grid.table tableGrob ttheme_default, ttheme_minimal
+#' @aliases grid.table tableGrob ttheme_default ttheme_minimal
 #' @title Graphical display of a textual table
 #' @describeIn tableGrob return a grob
 #' @description Create a gtable containing text grobs representing a character matrix.
@@ -67,18 +67,21 @@ grid.table <- function(...)
 #' @inheritParams tableGrob
 #' @param base_size default font size
 #' @param base_colour default font colour
+#' @param base_family default font family
 #' @param parse logical, default behaviour for parsing text as plotmath
 #' @param padding length-2 unit vector specifying the horizontal and vertical padding of text within each cell
 #' @importFrom utils modifyList
 ##' @export
 ttheme_default <- function(base_size=12, 
                            base_colour="black", 
+                           base_family="",
                            parse=FALSE, 
                            padding = unit(c(4, 4), "mm"), ...){
   
   core <- list(fg_fun = text_grob, 
                fg_params = list(parse=parse, col=base_colour,
-                                fontsize = base_size),
+                                fontsize = base_size,
+                                fontfamily = base_family),
                bg_fun = rect_grob, 
                bg_params = list(fill = c("grey95","grey90"), 
                                 lwd=1.5, col="white"),
@@ -87,7 +90,8 @@ ttheme_default <- function(base_size=12,
   colhead <- list(fg_fun = text_grob, 
                   fg_params = list(parse=parse, col=base_colour,
                                    fontface=2L,
-                                   fontsize = base_size),
+                                   fontsize = base_size,
+                                   fontfamily = base_family),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = c("grey80"), 
                                    lwd=1.5, col="white"),
@@ -97,6 +101,7 @@ ttheme_default <- function(base_size=12,
                   fg_params = list(parse=parse, col=base_colour,
                                    fontface=3L,
                                    fontsize = base_size,
+                                   fontfamily = base_family,
                                    hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, lwd=1.5, col="white"),
@@ -118,13 +123,15 @@ ttheme_default <- function(base_size=12,
 ##' @export
 ttheme_minimal <- function(base_size=12, 
                            base_colour = "black", 
+                           base_family = "",
                            parse=FALSE,
                            padding = unit(c(4, 4), "mm"),
                            ...){
   
   core <- list(fg_fun = text_grob, 
                fg_params = list(parse=parse, col=base_colour,
-                                fontsize = base_size),
+                                fontsize = base_size,
+                                fontfamily = base_family),
                bg_fun = rect_grob, 
                bg_params = list(fill = NA, col=NA),
                padding = padding)
@@ -132,7 +139,8 @@ ttheme_minimal <- function(base_size=12,
   colhead <- list(fg_fun = text_grob, 
                   fg_params = list(parse=parse, col=base_colour,
                                    fontface=2L,
-                                   fontsize = base_size),
+                                   fontsize = base_size,
+                                   fontfamily = base_family),
                   bg_fun = rect_grob, 
                   bg_params = list(fill = NA, col=NA),
                   padding = padding)
@@ -141,6 +149,7 @@ ttheme_minimal <- function(base_size=12,
                   fg_params = list(parse=parse, col=base_colour,
                                    fontface=3L,
                                    fontsize = base_size, 
+                                   fontfamily = base_family,
                                    hjust = 1, x = 0.95),
                   bg_fun = rect_grob, 
                   bg_params = list(fill=NA, col=NA),
