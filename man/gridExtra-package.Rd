@@ -2,14 +2,11 @@
 % Please edit documentation in R/gridExtra-package.r
 \docType{package}
 \name{gridExtra-package}
-\alias{gridExtra}
 \alias{gridExtra-package}
+\alias{gridExtra}
 \title{Miscellaneous Functions for "Grid" Graphics}
 \description{
 Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
-}
-\author{
-baptiste Auguie \email{baptiste.auguie@gmail.com}
 }
 \references{
 R Graphics by Paul Murrell (Chapman & Hall/CRC, August 2005)
@@ -17,5 +14,7 @@ R Graphics by Paul Murrell (Chapman & Hall/CRC, August 2005)
 \seealso{
 \code{\link{Grid}}
 }
+\author{
+baptiste Auguie \email{baptiste.auguie@gmail.com}
+}
 \keyword{packagelibrary}
-

@@ -1,6 +1,6 @@
 ## Misc. gtable functions
 ## Note: some functions were copied from the gtable package with 
-## minor modifications (rbind/cbind/join). In the future it would be nice to
+## minor modifications (rbind/cbind). In the future it would be nice to
 ## get them included in the original gtable package, but its development 
 ## cycle is not very regular.
 
@@ -8,6 +8,8 @@
 ##'@param object a gtable
 ##'@param ... unused
 ##'@importFrom utils str
+##'@method str gtable
+##' @noRd
 ##'@export
 str.gtable <- function(object, ...){
   cat(c("gtable, containing \ngrobs (", 
@@ -29,6 +31,7 @@ str.gtable <- function(object, ...){
 
 ##'Combine gtables based on row/column names.
 ##'@param ... gtables
+##'@rdname combine
 ##'@param along dimension to align along, \code{1} = rows,
 ##'\code{2} = cols. 
 ##'@param join when x and y have different names, how should the difference be resolved? 
@@ -37,29 +40,16 @@ str.gtable <- function(object, ...){
 ##'\code{left} keep names from \code{x}, 
 ##'and \code{right} keep names from \code{y}.
 ##'@export
-combine <- function (..., along = 1L, join = "outer") 
+gtable_combine <- function (..., along = 1L, join = "outer") 
 {
   gtables <- list(...)
-  Reduce(function(x, y) gtable_combine(x, y, 
+  Reduce(function(x, y) combine_2(x, y, 
                                     along = along, 
                                     join = join),
          gtables)
 }
 
 
-insert.unit <- function (x, values, after = length(x)) {
-  lengx <- length(x)
-  if (lengx == 0) return(values)
-  if (length(values) == 0) return(x)
-  
-  if (after <= 0) {
-    unit.c(values, x)
-  } else if (after >= lengx) {
-    unit.c(x, values)
-  } else {
-    unit.c(x[1L:after], values, x[(after + 1L):lengx])
-  }
-}
 
 z_normalise <- function (x, i = 1) 
 {
@@ -84,41 +74,40 @@ z_arrange_gtables <- function (gtables, z)
   gtables
 }
 
+#' @rdname combine
+#' @export
+combine <- gtable_combine
+
 ##'rbind gtables
+##'@rdname bind
 ##'@param ... gtables
 ##'@param size how should the widths be calculated?
 ##'\code{max} maximum of all widths
 ##'\code{min} minimum of all widths
-##'\code{first} widths of first gtable
-##'\code{last} widths of last gtable
+##'\code{first} widths/heights of first gtable
+##'\code{last} widths/heights of last gtable
 ##'@param z optional z level
 ##'@export
-rbind.gtable <- function(..., size = "max", z = NULL) {
+gtable_rbind <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
     gtables <- z_arrange_gtables(gtables, z)
   }
-  Reduce(function(x, y) rbind_gtable(x, y, size = size), gtables)
+  Reduce(function(x, y) rbind_2(x, y, size = size), gtables)
 }
 
 ##'cbind gtables
-##'@param ... gtables
-##'@param size how should the heights be calculated?
-##'\code{max} maximum of all heights
-##'\code{min} minimum of all heights
-##'\code{first} heights of first gtable
-##'\code{last} heights of last gtable
-##'@param z optional z level
+##'@rdname bind
 ##'@export
-cbind.gtable <- function(..., size = "max", z = NULL) {
+gtable_cbind <- function(..., size = "max", z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
     gtables <- z_arrange_gtables(gtables, z)
   }
-  Reduce(function(x, y) cbind_gtable(x, y, size = size), gtables)
+  Reduce(function(x, y) cbind_2(x, y, size = size), gtables)
 }
 
-rbind_gtable <- function(x, y, size = "max") {
+rbind_2 <- function(x, y, size = "max") {
   stopifnot(ncol(x) == ncol(y))
   if (nrow(x) == 0) return(y)
   if (nrow(y) == 0) return(x)
@@ -144,7 +133,7 @@ rbind_gtable <- function(x, y, size = "max") {
   x
 }
 
-cbind_gtable <- function(x, y, size = "max") {
+cbind_2 <- function(x, y, size = "max") {
   stopifnot(nrow(x) == nrow(y))
   if (ncol(x) == 0) return(y)
   if (ncol(y) == 0) return(x)
@@ -171,19 +160,19 @@ cbind_gtable <- function(x, y, size = "max") {
 }
 
 
-gtable_combine <- function(x, y, along = 1L, join = "outer") {
-  aligned <- gtable_align(x, y, along = along, join = join)
+combine_2 <- function(x, y, along = 1L, join = "outer") {
+  aligned <- align_2(x, y, along = along, join = join)
   switch(along,
-         cbind_gtable(aligned$x, aligned$y, 
+         cbind_2(aligned$x, aligned$y, 
                                   size="max"), 
-         rbind_gtable(aligned$x, aligned$y, 
+         rbind_2(aligned$x, aligned$y, 
                                   size="max"),
          stop("along > 2 no implemented"))
 }
 
 
 
-gtable_align <- function(x, y, along = 1L, join = "outer") {
+align_2 <- function(x, y, along = 1L, join = "outer") {
   join <- match.arg(join, c("left", "right", "inner", "outer"))
   
   names_x <- dimnames(x)[[along]]
@@ -247,13 +236,6 @@ gtable_reindex <- function(x, index, along = 1L) {
          x[, index])
 }
 
-"%contains%" <- function(x, y) all(y %in% x)
-
-rep_along <- function(x, y) {
-  if (length(y) == 0) return(NULL)
-  rep(x, length(y))
-}
-
 
 gtable_remove_grob <- function(x, pattern, which = 1L, 
                                fixed = FALSE, trim=TRUE){
@@ -264,4 +246,29 @@ gtable_remove_grob <- function(x, pattern, which = 1L,
   if(trim)
     x <- gtable_trim(x)
   x
+}
+
+
+## misc utils
+
+"%contains%" <- function(x, y) all(y %in% x)
+
+rep_along <- function(x, y) {
+  if (length(y) == 0) return(NULL)
+  rep(x, length(y))
+}
+
+
+insert.unit <- function (x, values, after = length(x)) {
+  lengx <- length(x)
+  if (lengx == 0) return(values)
+  if (length(values) == 0) return(x)
+  
+  if (after <= 0) {
+    unit.c(values, x)
+  } else if (after >= lengx) {
+    unit.c(x, values)
+  } else {
+    unit.c(x[1L:after], values, x[(after + 1L):lengx])
+  }
 }

@@ -35,7 +35,7 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                        fg_params = theme$colhead$fg_params, 
                        bg_params = theme$colhead$bg_params, 
                        padding=theme$colhead$padding)
-    g <- rbind_gtable(gc, g, "max")
+    g <- rbind_2(gc, g, "max")
   }
   if(!is.null(rows)){
     if(!is.null(cols)) # need to add dummy cell
@@ -46,7 +46,7 @@ tableGrob <- function(d, rows=rownames(d), cols=colnames(d),
                        fg_params = theme$rowhead$fg_params, 
                        bg_params = theme$rowhead$bg_params,
                        padding=theme$rowhead$padding)
-    g <- cbind_gtable(gr, g, "max")
+    g <- cbind_2(gr, g, "max")
   }
   
   colnames(g) <- paste0("c", seq_len(ncol(g)))
@@ -64,14 +64,13 @@ grid.table <- function(...)
 
 
 #' @describeIn tableGrob default theme for text tables
-#' @inheritParams tableGrob
 #' @param base_size default font size
 #' @param base_colour default font colour
 #' @param base_family default font family
 #' @param parse logical, default behaviour for parsing text as plotmath
 #' @param padding length-2 unit vector specifying the horizontal and vertical padding of text within each cell
 #' @importFrom utils modifyList
-##' @export
+#' @export
 ttheme_default <- function(base_size=12, 
                            base_colour="black", 
                            base_family="",
@@ -119,7 +118,7 @@ ttheme_default <- function(base_size=12,
 
 
 #' @describeIn tableGrob minimalist theme for text tables
-#' @inheritParams tableGrob
+#' @inheritParams ttheme_default
 ##' @export
 ttheme_minimal <- function(base_size=12, 
                            base_colour = "black", 

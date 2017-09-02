@@ -1,8 +1,9 @@
 .gitignore
 .git
+README.Rmd
+README.md
 inst/testing
 .RS_Store
 .travis.yml
 ^.*\.Rproj$
 ^\.Rproj\.user$
-

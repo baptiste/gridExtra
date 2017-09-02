@@ -4,6 +4,8 @@
 \alias{arrangeGrob}
 \alias{grid.arrange}
 \alias{marrangeGrob}
+\alias{grid.arrange}
+\alias{marrangeGrob}
 \title{Arrange multiple grobs on a page}
 \usage{
 arrangeGrob(..., grobs = list(...), layout_matrix, vp = NULL,
@@ -73,6 +75,7 @@ Using marrangeGrob, if the layout specifies both nrow and ncol, the list of grob
 
 \item \code{marrangeGrob}: interface to arrangeGrob that can dispatch on multiple pages
 }}
+
 \examples{
 library(grid)
 grid.arrange(rectGrob(), rectGrob())
@@ -86,4 +89,3 @@ ggsave("multipage.pdf", ml)
 ml
 }
 }
-
