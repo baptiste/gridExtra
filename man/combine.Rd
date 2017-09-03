@@ -3,6 +3,7 @@
 \name{gtable_combine}
 \alias{gtable_combine}
 \alias{combine}
+\alias{combine}
 \title{Combine gtables based on row/column names.}
 \usage{
 gtable_combine(..., along = 1L, join = "outer")
