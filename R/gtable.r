@@ -31,6 +31,7 @@ str.gtable <- function(object, ...){
 
 ##'Combine gtables based on row/column names.
 ##'@param ... gtables
+#' @aliases combine
 ##'@rdname combine
 ##'@param along dimension to align along, \code{1} = rows,
 ##'\code{2} = cols. 
@@ -49,6 +50,13 @@ gtable_combine <- function (..., along = 1L, join = "outer")
          gtables)
 }
 
+
+#' @rdname combine
+#' @export
+combine <- function (..., along = 1L, join = "outer") {
+  .Deprecated("gtable_combine")
+  gtable_combine(..., along=along, join=join)
+}
 
 
 z_normalise <- function (x, i = 1) 
@@ -74,9 +82,6 @@ z_arrange_gtables <- function (gtables, z)
   gtables
 }
 
-#' @rdname combine
-#' @export
-combine <- gtable_combine
 
 ##'rbind gtables
 ##'@rdname bind
