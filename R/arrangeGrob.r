@@ -151,7 +151,7 @@ arrangeGrob <- function(..., grobs=list(...),
                         clip = clip)
   
   ## titles given as strings are converted to text grobs
-  if(is.character(top)){
+  if(is.annotation(top)){
     top <- textGrob(top)
   }
   if(is.grob(top)){
@@ -160,7 +160,7 @@ arrangeGrob <- function(..., grobs=list(...),
     gt <- gtable_add_grob(gt, top, t=1, l=1, r=ncol(gt), z=Inf,
                           clip = clip)
   }
-  if(is.character(bottom)){    
+  if(is.annotation(bottom)){    
     bottom <- textGrob(bottom)
   }
   if(is.grob(bottom)){
@@ -170,7 +170,7 @@ arrangeGrob <- function(..., grobs=list(...),
                           t=nrow(gt), l=1, r=ncol(gt), z=Inf,
                           clip = clip)
   }
-  if(is.character(left)){
+  if(is.annotation(left)){
     left <- textGrob(left, rot = 90)
   }
   if(is.grob(left)){
@@ -180,7 +180,7 @@ arrangeGrob <- function(..., grobs=list(...),
                           l=1, r=1, z=Inf,
                           clip = clip)
   }
-  if(is.character(right)){
+  if(is.annotation(right)){
     right <- textGrob(right, rot = -90)
   }
   if(is.grob(right)){
@@ -261,3 +261,7 @@ print.arrangelist = function(x, ...) lapply(x, function(.x) {
   if(dev.interactive()) dev.new() else grid.newpage()
   grid.draw(.x)
 }, ...)
+
+is.annotation <- function(x){
+  is.character(x) || is.expression(x) || is.call(x)
+}
