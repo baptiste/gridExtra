@@ -8,3 +8,4 @@ inst/testing
 ^.*\.Rproj$
 ^\.Rproj\.user$
 revdep/
+^\.github$
